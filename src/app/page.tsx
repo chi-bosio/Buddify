@@ -10,9 +10,9 @@ export default function Home() {
             <p className="text-lg mb-6">
               Da el primer paso hacia una nueva aventura
             </p>
-            <button className="bg-customPalette-orange text-white font-semibold py-2 px-4 rounded hover:bg-customPalette-orange">
+            <Link href="/register" className="bg-customPalette-orange text-white font-semibold py-2 px-4 rounded hover:bg-customPalette-orange">
               Registrate
-            </button>
+            </Link>
             <p className="mt-4 text-sm text-customPalette-gray">
               ¿Ya tienes tu cuenta?
               <Link

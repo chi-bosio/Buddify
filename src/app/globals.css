@@ -5,18 +5,18 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+        /* Nueva paleta de colores */
+  --custom-blue: #235789; /* Azul principal */
+  --custom-orange: #F9A03F; /* Naranja para hover y active */
+  --custom-white: #FDFFFC; /* Blanco para texto */
+  --custom-gray: #D9D9D9; /* Gris para elementos secundarios */
+  --custom-black:#020100 /* Negro no tan negro*/
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
-      /* Nueva paleta de colores */
-    --custom-blue: #235789; /* Azul principal */
-    --custom-orange: #F9A03F; /* Naranja para hover y active */
-    --custom-white: #FDFFFC; /* Blanco para texto */
-    --custom-gray: #D9D9D9; /* Gris para elementos secundarios */
-    --custom-black:#020100 /* Negro no tan negro*/
   }
 }
 
