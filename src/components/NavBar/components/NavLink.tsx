@@ -20,15 +20,15 @@ export default function NavLink({
     >
       {title}
       <span
-        className={`absolute bottom-[-4px] left-1/2 w-0 h-[3px] bg-customPalette-orange rounded-full transition-all duration-300 ease-in-out ${
+        className={`absolute bottom-[-4px] left-1/2 translate-x-[-50%] w-0 h-[3px] bg-customPalette-orange rounded-full transition-all duration-300 ease-in-out ${
           active
-            ? "left-0 w-full" 
-            : "group-hover:w-full group-hover:left-0" 
+            ? "w-full left-0 translate-x-0" 
+            : "group-hover:w-[60%] group-hover:left-1/2 group-hover:translate-x-[-50%]" 
         }`}
       ></span>
       {active && (
         <span
-          className={`absolute bottom-[-4px] left-0 w-full h-[3px] bg-customPalette-orange rounded-full`}
+          className={`absolute bottom-[-4px] left-0 w-0 h-[3px] bg-customPalette-orange rounded-full transition-all duration-300 ease-in-out`} 
         ></span>
       )}
     </Link>
