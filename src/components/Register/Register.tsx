@@ -6,11 +6,11 @@ const RegisterForm = () => {
           Registrarse
         </h1>
         <form className="grid grid-cols-2 gap-6">
-          <div className="space-y-4">
-            <div>
+          <div className="space-y-6">
+            <div className="relative">
               <label
                 htmlFor="name"
-                className="block text-sm font-medium text-[#235789]"
+                className="absolute -top-3 left-2 bg-[#FDFFFC] px-1 text-sm font-medium text-[#235789] mt-1"
               >
                 Nombre
               </label>
@@ -18,14 +18,14 @@ const RegisterForm = () => {
                 type="text"
                 name="name"
                 required
-                className="mt-1 block w-full p-2 border border-[#D9D9D9] rounded-md shadow-sm focus:ring-[#235789] focus:border-[#235789]"
+                className="block w-full p-2 border border-[#D9D9D9] rounded-md shadow-sm focus:ring-[#235789] focus:border-[#235789] text-[#333333]"
               />
             </div>
 
-            <div>
+            <div className="relative">
               <label
                 htmlFor="lastname"
-                className="block text-sm font-medium text-[#235789]"
+                className="absolute -top-3 left-2 bg-[#FDFFFC] px-1 text-sm font-medium text-[#235789] mt-1"
               >
                 Apellido
               </label>
@@ -33,14 +33,14 @@ const RegisterForm = () => {
                 type="text"
                 name="lastname"
                 required
-                className="mt-1 block w-full p-2 border border-[#D9D9D9] rounded-md shadow-sm focus:ring-[#235789] focus:border-[#235789]"
+                className="block w-full p-2 border border-[#D9D9D9] rounded-md shadow-sm focus:ring-[#235789] focus:border-[#235789] text-[#333333]"
               />
             </div>
 
-            <div>
+            <div className="relative">
               <label
                 htmlFor="birthdate"
-                className="block text-sm font-medium text-[#235789]"
+                className="absolute -top-3 left-2 bg-[#FDFFFC] px-1 text-sm font-medium text-[#235789] mt-1"
               >
                 Fecha de nacimiento
               </label>
@@ -48,14 +48,14 @@ const RegisterForm = () => {
                 type="date"
                 name="birthdate"
                 required
-                className="mt-1 block w-full p-2 border border-[#D9D9D9] rounded-md shadow-sm focus:ring-[#235789] focus:border-[#235789]"
+                className="block w-full p-2 border border-[#D9D9D9] rounded-md shadow-sm focus:ring-[#235789] focus:border-[#235789] text-[#333333]"
               />
             </div>
 
-            <div>
+            <div className="relative">
               <label
                 htmlFor="country"
-                className="block text-sm font-medium text-[#235789]"
+                className="absolute -top-3 left-2 bg-[#FDFFFC] px-1 text-sm font-medium text-[#235789] mt-1"
               >
                 País
               </label>
@@ -63,14 +63,14 @@ const RegisterForm = () => {
                 type="text"
                 name="country"
                 required
-                className="mt-1 block w-full p-2 border border-[#D9D9D9] rounded-md shadow-sm focus:ring-[#235789] focus:border-[#235789]"
+                className="block w-full p-2 border border-[#D9D9D9] rounded-md shadow-sm focus:ring-[#235789] focus:border-[#235789] text-[#333333]"
               />
             </div>
 
-            <div>
+            <div className="relative">
               <label
                 htmlFor="city"
-                className="block text-sm font-medium text-[#235789]"
+                className="absolute -top-3 left-2 bg-[#FDFFFC] px-1 text-sm font-medium text-[#235789] mt-1"
               >
                 Ciudad
               </label>
@@ -78,16 +78,16 @@ const RegisterForm = () => {
                 type="text"
                 name="city"
                 required
-                className="mt-1 block w-full p-2 border border-[#D9D9D9] rounded-md shadow-sm focus:ring-[#235789] focus:border-[#235789]"
+                className="block w-full p-2 border border-[#D9D9D9] rounded-md shadow-sm focus:ring-[#235789] focus:border-[#235789] text-[#333333]"
               />
             </div>
           </div>
 
-          <div className="space-y-4">
-            <div>
+          <div className="space-y-6">
+            <div className="relative">
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-[#235789]"
+                className="absolute -top-3 left-2 bg-[#FDFFFC] px-1 text-sm font-medium text-[#235789] mt-1"
               >
                 Correo electrónico
               </label>
@@ -95,14 +95,14 @@ const RegisterForm = () => {
                 type="email"
                 name="email"
                 required
-                className="mt-1 block w-full p-2 border border-[#D9D9D9] rounded-md shadow-sm focus:ring-[#235789] focus:border-[#235789]"
+                className="block w-full p-2 border border-[#D9D9D9] rounded-md shadow-sm focus:ring-[#235789] focus:border-[#235789] text-[#333333]"
               />
             </div>
 
-            <div>
+            <div className="relative">
               <label
                 htmlFor="username"
-                className="block text-sm font-medium text-[#235789]"
+                className="absolute -top-3 left-2 bg-[#FDFFFC] px-1 text-sm font-medium text-[#235789] mt-1"
               >
                 Username
               </label>
@@ -110,14 +110,14 @@ const RegisterForm = () => {
                 type="text"
                 name="username"
                 required
-                className="mt-1 block w-full p-2 border border-[#D9D9D9] rounded-md shadow-sm focus:ring-[#235789] focus:border-[#235789]"
+                className="block w-full p-2 border border-[#D9D9D9] rounded-md shadow-sm focus:ring-[#235789] focus:border-[#235789] text-[#333333]"
               />
             </div>
 
-            <div>
+            <div className="relative">
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-[#235789]"
+                className="absolute -top-3 left-2 bg-[#FDFFFC] px-1 text-sm font-medium text-[#235789] mt-1"
               >
                 Contraseña
               </label>
@@ -125,14 +125,14 @@ const RegisterForm = () => {
                 type="password"
                 name="password"
                 required
-                className="mt-1 block w-full p-2 border border-[#D9D9D9] rounded-md shadow-sm focus:ring-[#235789] focus:border-[#235789]"
+                className="block w-full p-2 border border-[#D9D9D9] rounded-md shadow-sm focus:ring-[#235789] focus:border-[#235789] text-[#333333]"
               />
             </div>
 
-            <div>
+            <div className="relative">
               <label
                 htmlFor="nDni"
-                className="block text-sm font-medium text-[#235789]"
+                className="absolute -top-3 left-2 bg-[#FDFFFC] px-1 text-sm font-medium text-[#235789] mt-1"
               >
                 DNI o pasaporte
               </label>
@@ -140,7 +140,7 @@ const RegisterForm = () => {
                 type="text"
                 name="nDni"
                 required
-                className="mt-1 block w-full p-2 border border-[#D9D9D9] rounded-md shadow-sm focus:ring-[#235789] focus:border-[#235789]"
+                className="block w-full p-2 border border-[#D9D9D9] rounded-md shadow-sm focus:ring-[#235789] focus:border-[#235789] text-[#333333]"
               />
             </div>
           </div>
