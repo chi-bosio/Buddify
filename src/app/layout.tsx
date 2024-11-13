@@ -1,5 +1,5 @@
-import Footer from "./components/Footer/Footer";
-import NavBar from "./components/NavBar/NavBar";
+import Footer from "../components/Footer/Footer";
+import NavBar from "../components/NavBar/NavBar";
 import "./globals.css";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
@@ -9,14 +9,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <header>
           <NavBar />
         </header>
-        <main>
-          {children} 
-        </main>
-          <Footer/>  
+        <main>{children}</main>
+        <Footer />
       </body>
     </html>
   );
 }
-
-
-
