@@ -37,7 +37,7 @@ export default function NavBar() {
   }
 
   return (
-    <nav className="flex items-center justify-between bg-customPalette-blue px-8 py-4 flex-col sm:flex-row">
+    <nav className="flex items-center justify-between bg-customPalette-black px-8 py-4 flex-col sm:flex-row">
 
       <Link className="flex h-auto items-center justify-center w-full sm:w-auto mb-4 sm:mb-0" href="/">
         <div className="w-auto h-auto md:w-40">
