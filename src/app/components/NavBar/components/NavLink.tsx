@@ -16,7 +16,7 @@ export default function NavLink({
     <Link
       onClick={onClick}
       href={href}
-      className={`hover:text-customPalette-orange text-customPalette-white relative inline-block font-medium ${roboto.className} group mb-4 sm:mb-0`}
+      className={`hover:text-customPalette-orange text-custom-white relative inline-block font-medium ${roboto.className} group mb-4 sm:mb-0`}
     >
       {title}
       <span
