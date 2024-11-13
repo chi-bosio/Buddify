@@ -11,6 +11,12 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        customPalette: {
+          blue: "var(--custom-blue)", // Azul principal
+          orange: "var(--custom-orange)", // Naranja para hover y active
+          white: "var(--custom-white)", // Blanco para texto
+          gray: "var(--custom-gray)", // Gris para contenido secundario
+        },
       },
     },
   },
