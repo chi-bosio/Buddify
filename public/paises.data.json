@@ -2,24 +2,36 @@
   "countries": [
     {
       "name": "Argentina",
-      "provinces": [
-        "Buenos Aires",
-        "Córdoba",
-        "Chaco",
-        "Ciudad de Buenos Aires",
-        "Corrientes",
-        "La Pampa",
-        "Mendoza",
-        "Misiones",
-        "Salta",
-        "San Juan",
-        "Santa Fe",
-        "Tucumán"
-      ]
+"city": [
+    "Buenos Aires",
+    "Catamarca",
+    "Chaco",
+    "Chubut",
+    "Ciudad de Buenos Aires",
+    "Córdoba",
+    "Corrientes",
+    "Entre Ríos",
+    "Formosa",
+    "Jujuy",
+    "La Pampa",
+    "La Rioja",
+    "Mendoza",
+    "Misiones",
+    "Neuquén",
+    "Río Negro",
+    "Salta",
+    "San Juan",
+    "San Luis",
+    "Santa Cruz",
+    "Santa Fe",
+    "Santiago del Estero",
+    "Tierra del Fuego",
+    "Tucumán"
+]
     },
     {
       "name": "Bolivia",
-      "provinces": [
+      "city": [
         "Beni",
         "Cochabamba",
         "Chuquisaca",
@@ -33,7 +45,7 @@
     },
     {
       "name": "Brasil",
-      "provinces": [
+      "city": [
         "Amazonas",
         "Bahía",
         "Ceará",
@@ -48,7 +60,7 @@
     },
     {
       "name": "Chile",
-      "provinces": [
+      "city": [
         "Antofagasta",
         "Araucanía",
         "Atacama",
@@ -63,7 +75,7 @@
     },
     {
       "name": "Colombia",
-      "provinces": [
+      "city": [
         "Antioquia",
         "Atlántico",
         "Bogotá D.C.",
@@ -78,7 +90,7 @@
     },
     {
       "name": "Ecuador",
-      "provinces": [
+      "city": [
         "Azuay",
         "Chimborazo",
         "El Oro",
@@ -93,7 +105,7 @@
     },
     {
       "name": "México",
-      "provinces": [
+      "city": [
         "Chihuahua",
         "Ciudad de México",
         "Coahuila",
@@ -108,7 +120,7 @@
     },
     {
       "name": "Paraguay",
-      "provinces": [
+      "city": [
         "Alto Paraná",
         "Amambay",
         "Asunción",
@@ -123,7 +135,7 @@
     },
     {
       "name": "Perú",
-      "provinces": [
+      "city": [
         "Ancash",
         "Arequipa",
         "Cusco",
@@ -138,7 +150,7 @@
     },
     {
       "name": "Uruguay",
-      "provinces": [
+      "city": [
         "Canelones",
         "Colonia",
         "Maldonado",
@@ -153,7 +165,7 @@
     },
     {
       "name": "Venezuela",
-      "provinces": [
+      "city": [
         "Anzoátegui",
         "Aragua",
         "Barinas",

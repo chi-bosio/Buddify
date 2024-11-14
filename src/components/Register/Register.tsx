@@ -1,13 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
-import * as Yup from "yup";
+import validationSchema from "./components/validationSchema";
 
 const RegisterForm: React.FC = () => {
-  const [countries, setCountries] = useState<
-    { name: string; provinces: string[] }[]
-  >([]);
-  const [provinces, setProvinces] = useState<string[]>([]);
+  const [countries, setCountries] = useState<{ name: string, city: string[] }[]>([]);
+  const [city, setcity] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,9 +21,9 @@ const RegisterForm: React.FC = () => {
     const countryName = event.target.value;
     const country = countries.find((c) => c.name === countryName);
     if (country) {
-      setProvinces(country.provinces);
+      setcity(country.city);
     } else {
-      setProvinces([]);
+      setcity([]);
     }
   };
 
@@ -39,19 +37,9 @@ const RegisterForm: React.FC = () => {
       email: "",
       username: "",
       password: "",
-      nDni: "",
+      dni: "",
     },
-    validationSchema: Yup.object({
-      name: Yup.string().required("Requerido"),
-      lastname: Yup.string().required("Requerido"),
-      birthdate: Yup.date().required("Requerido"),
-      country: Yup.string().required("Requerido"),
-      province: Yup.string().required("Requerido"),
-      email: Yup.string().email("Correo inválido").required("Requerido"),
-      username: Yup.string().required("Requerido"),
-      password: Yup.string().required("Requerido"),
-      nDni: Yup.string().required("Requerido"),
-    }),
+    validationSchema:validationSchema,
     onSubmit: (values) => {
       //Logica de registro///<<<<<<<VALEN<<<<<<<<
       console.log(values);
@@ -60,7 +48,7 @@ const RegisterForm: React.FC = () => {
 
   const handleResetForm = () => {
     formik.resetForm();
-    setProvinces([]);
+    setcity([]); 
   };
 
   return (
@@ -188,7 +176,7 @@ const RegisterForm: React.FC = () => {
                 className="block w-full p-2 border border-[var(--custom-gray)] rounded-md shadow-sm focus:ring-[var(--custom-blue)] focus:border-[var(--custom-blue)] text-[var(--custom-gray-dark)]"
               >
                 <option value="">Seleccionar provincia</option>
-                {provinces.map((province, index) => (
+                {city.map((province, index) => (
                   <option key={index} value={province}>
                     {province}
                   </option>
@@ -274,25 +262,23 @@ const RegisterForm: React.FC = () => {
 
             <div className="relative">
               <label
-                htmlFor="nDni"
+                htmlFor="dni"
                 className="absolute -top-3 left-2 bg-[var(--custom-white)] px-1 text-sm font-medium text-[var(--custom-blue)] mt-1"
               >
                 DNI o pasaporte
               </label>
               <input
                 type="text"
-                id="nDni"
-                name="nDni"
-                value={formik.values.nDni}
+                id="dni"
+                name="dni"
+                value={formik.values.dni}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 className="block w-full p-2 border border-[var(--custom-gray)] rounded-md shadow-sm focus:ring-[var(--custom-blue)] focus:border-[var(--custom-blue)] text-[var(--custom-gray-dark)]"
               />
-              {formik.touched.nDni && formik.errors.nDni && (
-                <div className="text-[var(--custom-red)]">
-                  {formik.errors.nDni}
-                </div>
-              )}
+
+              {formik.touched.dni && formik.errors.dni && <div className="text-[var(--custom-red)]">{formik.errors.dni}</div>}
+
             </div>
           </div>
 
