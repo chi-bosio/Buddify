@@ -17,6 +17,11 @@ export default function NavBar() {
       title: "Home",
       href: "/",
     },
+    /* PLACEHOLDER */
+    {
+      title: "crear actividad",
+      href: "/createActivity",
+    },
   ];
 
   const logged = false;
