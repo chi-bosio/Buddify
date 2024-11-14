@@ -4,7 +4,9 @@ import { useFormik } from "formik";
 import validationSchema from "./components/validationSchema";
 
 const RegisterForm: React.FC = () => {
-  const [countries, setCountries] = useState<{ name: string, city: string[] }[]>([]);
+  const [countries, setCountries] = useState<
+    { name: string; city: string[] }[]
+  >([]);
   const [city, setcity] = useState<string[]>([]);
 
   useEffect(() => {
@@ -39,7 +41,7 @@ const RegisterForm: React.FC = () => {
       password: "",
       dni: "",
     },
-    validationSchema:validationSchema,
+    validationSchema: validationSchema,
     onSubmit: (values) => {
       //Logica de registro///<<<<<<<VALEN<<<<<<<<
       console.log(values);
@@ -48,13 +50,13 @@ const RegisterForm: React.FC = () => {
 
   const handleResetForm = () => {
     formik.resetForm();
-    setcity([]); 
+    setcity([]);
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[var(--custom-white)]">
-      <div className="w-full max-w-4xl p-8 bg-[var(--custom-white)] rounded-xl shadow-lg border border-[var(--custom-white)]">
-        <h1 className="text-center text-3xl font-bold mb-6 text-[var(--custom-blue)]">
+    <div className="bg-[url('/assets/textura-fondo.avif')] min-h-screen flex items-center justify-center bg-customPalette-white">
+      <div className="w-full max-w-4xl p-8 bg-customPalette-white rounded-xl shadow-lg border border-customPalette-white">
+        <h1 className="text-center text-3xl font-bold mb-6 text-customPalette-blue">
           Registrarse
         </h1>
         <form onSubmit={formik.handleSubmit} className="grid grid-cols-2 gap-6">
@@ -62,7 +64,7 @@ const RegisterForm: React.FC = () => {
             <div className="relative">
               <label
                 htmlFor="name"
-                className="absolute -top-3 left-2 bg-[var(--custom-white)] px-1 text-sm font-medium text-[var(--custom-blue)] mt-1"
+                className="absolute -top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1"
               >
                 Nombre
               </label>
@@ -73,10 +75,10 @@ const RegisterForm: React.FC = () => {
                 value={formik.values.name}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className="block w-full p-2 border border-[var(--custom-gray)] rounded-md shadow-sm focus:ring-[var(--custom-blue)] focus:border-[var(--custom-blue)] text-[var(--custom-gray-dark)]"
+                className="block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark"
               />
               {formik.touched.name && formik.errors.name && (
-                <div className="text-[var(--custom-red)]">
+                <div className="text-customPalette-red">
                   {formik.errors.name}
                 </div>
               )}
@@ -85,7 +87,7 @@ const RegisterForm: React.FC = () => {
             <div className="relative">
               <label
                 htmlFor="lastname"
-                className="absolute -top-3 left-2 bg-[var(--custom-white)] px-1 text-sm font-medium text-[var(--custom-blue)] mt-1"
+                className="absolute -top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1"
               >
                 Apellido
               </label>
@@ -96,10 +98,10 @@ const RegisterForm: React.FC = () => {
                 value={formik.values.lastname}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className="block w-full p-2 border border-[var(--custom-gray)] rounded-md shadow-sm focus:ring-[var(--custom-blue)] focus:border-[var(--custom-blue)] text-[var(--custom-gray-dark)]"
+                className="block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark"
               />
               {formik.touched.lastname && formik.errors.lastname && (
-                <div className="text-[var(--custom-red)]">
+                <div className="text-customPalette-red">
                   {formik.errors.lastname}
                 </div>
               )}
@@ -108,7 +110,7 @@ const RegisterForm: React.FC = () => {
             <div className="relative">
               <label
                 htmlFor="birthdate"
-                className="absolute -top-3 left-2 bg-[var(--custom-white)] px-1 text-sm font-medium text-[var(--custom-blue)] mt-1"
+                className="absolute -top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1"
               >
                 Fecha de nacimiento
               </label>
@@ -119,10 +121,10 @@ const RegisterForm: React.FC = () => {
                 value={formik.values.birthdate}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className="block w-full p-2 border border-[var(--custom-gray)] rounded-md shadow-sm focus:ring-[var(--custom-blue)] focus:border-[var(--custom-blue)] text-[var(--custom-gray-dark)]"
+                className="block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark"
               />
               {formik.touched.birthdate && formik.errors.birthdate && (
-                <div className="text-[var(--custom-red)]">
+                <div className="text-customPalette-red">
                   {formik.errors.birthdate}
                 </div>
               )}
@@ -131,7 +133,7 @@ const RegisterForm: React.FC = () => {
             <div className="relative">
               <label
                 htmlFor="country"
-                className="absolute -top-3 left-2 bg-[var(--custom-white)] px-1 text-sm font-medium text-[var(--custom-blue)] mt-1"
+                className="absolute -top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1"
               >
                 País
               </label>
@@ -144,7 +146,7 @@ const RegisterForm: React.FC = () => {
                   handleCountryChange(event);
                 }}
                 onBlur={formik.handleBlur}
-                className="block w-full p-2 border border-[var(--custom-gray)] rounded-md shadow-sm focus:ring-[var(--custom-blue)] focus:border-[var(--custom-blue)] text-[var(--custom-gray-dark)]"
+                className="block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark"
               >
                 <option value="">Seleccionar país</option>
                 {countries.map((country, index) => (
@@ -154,7 +156,7 @@ const RegisterForm: React.FC = () => {
                 ))}
               </select>
               {formik.touched.country && formik.errors.country && (
-                <div className="text-[var(--custom-red)]">
+                <div className="text-customPalette-red">
                   {formik.errors.country}
                 </div>
               )}
@@ -163,7 +165,7 @@ const RegisterForm: React.FC = () => {
             <div className="relative">
               <label
                 htmlFor="province"
-                className="absolute -top-3 left-2 bg-[var(--custom-white)] px-1 text-sm font-medium text-[var(--custom-blue)] mt-1"
+                className="absolute -top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1"
               >
                 Provincia
               </label>
@@ -173,7 +175,7 @@ const RegisterForm: React.FC = () => {
                 value={formik.values.province}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className="block w-full p-2 border border-[var(--custom-gray)] rounded-md shadow-sm focus:ring-[var(--custom-blue)] focus:border-[var(--custom-blue)] text-[var(--custom-gray-dark)]"
+                className="block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark"
               >
                 <option value="">Seleccionar provincia</option>
                 {city.map((province, index) => (
@@ -183,7 +185,7 @@ const RegisterForm: React.FC = () => {
                 ))}
               </select>
               {formik.touched.province && formik.errors.province && (
-                <div className="text-[var(--custom-red)]">
+                <div className="text-customPalette-red">
                   {formik.errors.province}
                 </div>
               )}
@@ -194,7 +196,7 @@ const RegisterForm: React.FC = () => {
             <div className="relative">
               <label
                 htmlFor="email"
-                className="absolute -top-3 left-2 bg-[var(--custom-white)] px-1 text-sm font-medium text-[var(--custom-blue)] mt-1"
+                className="absolute -top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1"
               >
                 Correo electrónico
               </label>
@@ -205,10 +207,10 @@ const RegisterForm: React.FC = () => {
                 value={formik.values.email}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className="block w-full p-2 border border-[var(--custom-gray)] rounded-md shadow-sm focus:ring-[var(--custom-blue)] focus:border-[var(--custom-blue)] text-[var(--custom-gray-dark)]"
+                className="block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark"
               />
               {formik.touched.email && formik.errors.email && (
-                <div className="text-[var(--custom-red)]">
+                <div className="text-customPalette-red">
                   {formik.errors.email}
                 </div>
               )}
@@ -217,7 +219,7 @@ const RegisterForm: React.FC = () => {
             <div className="relative">
               <label
                 htmlFor="username"
-                className="absolute -top-3 left-2 bg-[var(--custom-white)] px-1 text-sm font-medium text-[var(--custom-blue)] mt-1"
+                className="absolute -top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1"
               >
                 Username
               </label>
@@ -228,10 +230,10 @@ const RegisterForm: React.FC = () => {
                 value={formik.values.username}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className="block w-full p-2 border border-[var(--custom-gray)] rounded-md shadow-sm focus:ring-[var(--custom-blue)] focus:border-[var(--custom-blue)] text-[var(--custom-gray-dark)]"
+                className="block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark"
               />
               {formik.touched.username && formik.errors.username && (
-                <div className="text-[var(--custom-red)]">
+                <div className="text-customPalette-red">
                   {formik.errors.username}
                 </div>
               )}
@@ -240,7 +242,7 @@ const RegisterForm: React.FC = () => {
             <div className="relative">
               <label
                 htmlFor="password"
-                className="absolute -top-3 left-2 bg-[var(--custom-white)] px-1 text-sm font-medium text-[var(--custom-blue)] mt-1"
+                className="absolute -top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1"
               >
                 Contraseña
               </label>
@@ -251,10 +253,10 @@ const RegisterForm: React.FC = () => {
                 value={formik.values.password}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className="block w-full p-2 border border-[var(--custom-gray)] rounded-md shadow-sm focus:ring-[var(--custom-blue)] focus:border-[var(--custom-blue)] text-[var(--custom-gray-dark)]"
+                className="block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark"
               />
               {formik.touched.password && formik.errors.password && (
-                <div className="text-[var(--custom-red)]">
+                <div className="text-customPalette-red">
                   {formik.errors.password}
                 </div>
               )}
@@ -263,7 +265,7 @@ const RegisterForm: React.FC = () => {
             <div className="relative">
               <label
                 htmlFor="dni"
-                className="absolute -top-3 left-2 bg-[var(--custom-white)] px-1 text-sm font-medium text-[var(--custom-blue)] mt-1"
+                className="absolute -top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1"
               >
                 DNI o pasaporte
               </label>
@@ -274,36 +276,38 @@ const RegisterForm: React.FC = () => {
                 value={formik.values.dni}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className="block w-full p-2 border border-[var(--custom-gray)] rounded-md shadow-sm focus:ring-[var(--custom-blue)] focus:border-[var(--custom-blue)] text-[var(--custom-gray-dark)]"
+                className="block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark"
               />
-
-              {formik.touched.dni && formik.errors.dni && <div className="text-[var(--custom-red)]">{formik.errors.dni}</div>}
-
+              {formik.touched.dni && formik.errors.dni && (
+                <div className="text-customPalette-red">
+                  {formik.errors.dni}
+                </div>
+              )}
             </div>
           </div>
 
           <div className="col-span-2 flex justify-center gap-6 mt-6">
             <button
               type="button"
-              className="w-1/4 py-2 bg-[var(--custom-orange)] text-var(--background) rounded-md hover:bg-var(--custom-orange-500) focus:outline-none"
+              className="w-1/4 py-2 bg-customPalette-orange text-var(--background) rounded-md hover:bg-customPalette-orangebright focus:outline-none"
               onClick={handleResetForm}
             >
-              Eliminar
+              Cancelar
             </button>
             <button
               type="submit"
-              className="w-1/4 py-2 bg-[var(--custom-blue)] text-var(--background) rounded-md hover:bg-var(--custom-blue-800) focus:outline-none"
+              className="w-1/4 py-2 bg-customPalette-blue text-var(--background) rounded-md hover:bg-customPalette-bluedark focus:outline-none"
             >
               Registrarse
             </button>
           </div>
 
           <div className="col-span-2 text-center mt-6">
-            <p className="text-sm text-[var(--custom-black)]">
+            <p className="text-sm text-customPalette-black">
               ¿Ya tenés cuenta?
               <a
                 href="/login"
-                className="text-[var(--custom-black)] hover:text-[var(--custom-black)] underline"
+                className="text-customPalette-black hover:text-customPalette-black underline"
               >
                 Inicia sesión
               </a>
