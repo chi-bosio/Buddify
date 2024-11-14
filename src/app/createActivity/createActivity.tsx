@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { CalendarIcon, ClockIcon, MapPinIcon } from 'lucide-react'
 import { format } from "date-fns"
 
@@ -8,13 +8,26 @@ export default function CreateActivityForm() {
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [image, setImage] = useState<File | null>(null)
+  const [imagePreview, setImagePreview] = useState<string | null>(null)
   const [date, setDate] = useState<Date | undefined>(undefined)
   const [time, setTime] = useState('')
   const [place, setPlace] = useState('')
 
+  useEffect(() => {
+    if (image) {
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string)
+      }
+      reader.readAsDataURL(image)
+    } else {
+      setImagePreview(null)
+    }
+  }, [image])
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    /* PLACEHOLDER */
+    // Simulate getting latitude and longitude from place name
     const latitude = Math.random() * 180 - 90
     const longitude = Math.random() * 360 - 180
 
@@ -44,8 +57,8 @@ export default function CreateActivityForm() {
         <h1 className="text-center text-3xl font-bold mb-6 text-[#235789]">
           Crear Nueva Actividad
         </h1>
-        <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-6">
-          <div className="space-y-4">
+        <div className="flex flex-col md:flex-row gap-8">
+          <form onSubmit={handleSubmit} className="flex-1 space-y-4">
             <div>
               <label
                 htmlFor="name"
@@ -96,9 +109,7 @@ export default function CreateActivityForm() {
                 className="mt-1 block w-full p-2 border border-[#D9D9D9] rounded-md shadow-sm focus:ring-[#235789] focus:border-[#235789] file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-[#235789] file:text-white hover:file:bg-blue-800"
               />
             </div>
-          </div>
 
-          <div className="space-y-4">
             <div>
               <label
                 htmlFor="date"
@@ -159,31 +170,56 @@ export default function CreateActivityForm() {
                 />
               </div>
             </div>
-          </div>
 
-          <div className="col-span-2 flex justify-center gap-6 mt-6">
-            <button
-              type="button"
-              onClick={() => {
-                setName('')
-                setDescription('')
-                setImage(null)
-                setDate(undefined)
-                setTime('')
-                setPlace('')
-              }}
-              className="w-1/4 py-2 bg-[#F9A03F] text-white rounded-md hover:bg-orange-500 focus:outline-none"
-            >
-              Limpiar
-            </button>
-            <button
-              type="submit"
-              className="w-1/4 py-2 bg-[#235789] text-white rounded-md hover:bg-blue-800 focus:outline-none"
-            >
-              Crear Actividad
-            </button>
+            <div className="flex justify-center gap-6 mt-6">
+              <button
+                type="button"
+                onClick={() => {
+                  setName('')
+                  setDescription('')
+                  setImage(null)
+                  setDate(undefined)
+                  setTime('')
+                  setPlace('')
+                }}
+                className="w-1/3 py-2 bg-[#F9A03F] text-white rounded-md hover:bg-orange-500 focus:outline-none"
+              >
+                Limpiar
+              </button>
+              <button
+                type="submit"
+                className="w-1/3 py-2 bg-[#235789] text-white rounded-md hover:bg-blue-800 focus:outline-none"
+              >
+                Crear Actividad
+              </button>
+            </div>
+          </form>
+
+          <div className="flex-1">
+            <h2 className="text-xl font-bold mb-4 text-[#235789]">Vista Previa</h2>
+            <div className="bg-white rounded-lg shadow-md overflow-hidden">
+              {imagePreview && (
+                <img src={imagePreview} alt="Vista previa" className="w-full h-48 object-cover" />
+              )}
+              <div className="p-4">
+                <h3 className="text-xl font-semibold text-[#235789] mb-2">{name || 'Nombre de la Actividad'}</h3>
+                <p className="text-gray-600 mb-4">{description || 'Descripción de la actividad'}</p>
+                <div className="flex items-center text-gray-500 mb-2">
+                  <CalendarIcon className="w-4 h-4 mr-2" />
+                  <span>{date ? format(date, "dd/MM/yyyy") : 'Fecha'}</span>
+                </div>
+                <div className="flex items-center text-gray-500 mb-2">
+                  <ClockIcon className="w-4 h-4 mr-2" />
+                  <span>{time || 'Hora'}</span>
+                </div>
+                <div className="flex items-center text-gray-500">
+                  <MapPinIcon className="w-4 h-4 mr-2" />
+                  <span>{place || 'Lugar'}</span>
+                </div>
+              </div>
+            </div>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   )
