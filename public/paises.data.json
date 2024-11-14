@@ -1,0 +1,170 @@
+{
+  "countries": [
+    {
+      "name": "Argentina",
+      "provinces": [
+        "Buenos Aires",
+        "Córdoba",
+        "Chaco",
+        "Ciudad de Buenos Aires",
+        "Corrientes",
+        "La Pampa",
+        "Mendoza",
+        "Misiones",
+        "Salta",
+        "San Juan",
+        "Santa Fe",
+        "Tucumán"
+      ]
+    },
+    {
+      "name": "Bolivia",
+      "provinces": [
+        "Beni",
+        "Cochabamba",
+        "Chuquisaca",
+        "La Paz",
+        "Oruro",
+        "Pando",
+        "Potosí",
+        "Santa Cruz",
+        "Tarija"
+      ]
+    },
+    {
+      "name": "Brasil",
+      "provinces": [
+        "Amazonas",
+        "Bahía",
+        "Ceará",
+        "Minas Gerais",
+        "Pará",
+        "Paraná",
+        "Pernambuco",
+        "Rio Grande do Sul",
+        "Rio de Janeiro",
+        "São Paulo"
+      ]
+    },
+    {
+      "name": "Chile",
+      "provinces": [
+        "Antofagasta",
+        "Araucanía",
+        "Atacama",
+        "Biobío",
+        "Coquimbo",
+        "Los Lagos",
+        "Maule",
+        "Santiago",
+        "Tarapacá",
+        "Valparaíso"
+      ]
+    },
+    {
+      "name": "Colombia",
+      "provinces": [
+        "Antioquia",
+        "Atlántico",
+        "Bogotá D.C.",
+        "Bolívar",
+        "Boyacá",
+        "Cundinamarca",
+        "Magdalena",
+        "Santander",
+        "Tolima",
+        "Valle del Cauca"
+      ]
+    },
+    {
+      "name": "Ecuador",
+      "provinces": [
+        "Azuay",
+        "Chimborazo",
+        "El Oro",
+        "Esmeraldas",
+        "Guayas",
+        "Imbabura",
+        "Los Ríos",
+        "Loja",
+        "Manabí",
+        "Pichincha"
+      ]
+    },
+    {
+      "name": "México",
+      "provinces": [
+        "Chihuahua",
+        "Ciudad de México",
+        "Coahuila",
+        "Guanajuato",
+        "Jalisco",
+        "Nuevo León",
+        "Puebla",
+        "Sonora",
+        "Veracruz",
+        "Yucatán"
+      ]
+    },
+    {
+      "name": "Paraguay",
+      "provinces": [
+        "Alto Paraná",
+        "Amambay",
+        "Asunción",
+        "Caaguazú",
+        "Central",
+        "Cordillera",
+        "Guairá",
+        "Itapúa",
+        "Ñeembucú",
+        "Paraguarí"
+      ]
+    },
+    {
+      "name": "Perú",
+      "provinces": [
+        "Ancash",
+        "Arequipa",
+        "Cusco",
+        "Junín",
+        "Lambayeque",
+        "La Libertad",
+        "Lima",
+        "Loreto",
+        "Piura",
+        "San Martín"
+      ]
+    },
+    {
+      "name": "Uruguay",
+      "provinces": [
+        "Canelones",
+        "Colonia",
+        "Maldonado",
+        "Montevideo",
+        "Paysandú",
+        "Rivera",
+        "Salto",
+        "San José",
+        "Soriano",
+        "Tacuarembó"
+      ]
+    },
+    {
+      "name": "Venezuela",
+      "provinces": [
+        "Anzoátegui",
+        "Aragua",
+        "Barinas",
+        "Bolívar",
+        "Carabobo",
+        "Distrito Capital",
+        "Lara",
+        "Miranda",
+        "Táchira",
+        "Zulia"
+      ]
+    }
+  ]
+}
