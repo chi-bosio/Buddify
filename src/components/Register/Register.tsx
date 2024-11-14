@@ -1,10 +1,12 @@
-'use client';
+"use client";
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
 const RegisterForm: React.FC = () => {
-  const [countries, setCountries] = useState<{ name: string, provinces: string[] }[]>([]);
+  const [countries, setCountries] = useState<
+    { name: string; provinces: string[] }[]
+  >([]);
   const [provinces, setProvinces] = useState<string[]>([]);
 
   useEffect(() => {
@@ -51,25 +53,29 @@ const RegisterForm: React.FC = () => {
       nDni: Yup.string().required("Requerido"),
     }),
     onSubmit: (values) => {
-    //Logica de registro///<<<<<<<VALEN<<<<<<<<
+      //Logica de registro///<<<<<<<VALEN<<<<<<<<
       console.log(values);
     },
   });
 
   const handleResetForm = () => {
     formik.resetForm();
-    setProvinces([]); 
+    setProvinces([]);
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#FDFFFC]">
-      <div className="w-full max-w-4xl p-8 bg-[#FDFFFC] rounded-xl shadow-lg border border-[#D9D9D9]">
-        <h1 className="text-center text-3xl font-bold mb-6 text-[#235789]">Registrarse</h1>
+    <div className="min-h-screen flex items-center justify-center bg-[var(--custom-white)]">
+      <div className="w-full max-w-4xl p-8 bg-[var(--custom-white)] rounded-xl shadow-lg border border-[var(--custom-white)]">
+        <h1 className="text-center text-3xl font-bold mb-6 text-[var(--custom-blue)]">
+          Registrarse
+        </h1>
         <form onSubmit={formik.handleSubmit} className="grid grid-cols-2 gap-6">
           <div className="space-y-6">
-
             <div className="relative">
-              <label htmlFor="name" className="absolute -top-3 left-2 bg-[#FDFFFC] px-1 text-sm font-medium text-[#235789] mt-1">
+              <label
+                htmlFor="name"
+                className="absolute -top-3 left-2 bg-[var(--custom-white)] px-1 text-sm font-medium text-[var(--custom-blue)] mt-1"
+              >
                 Nombre
               </label>
               <input
@@ -79,14 +85,20 @@ const RegisterForm: React.FC = () => {
                 value={formik.values.name}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className="block w-full p-2 border border-[#D9D9D9] rounded-md shadow-sm focus:ring-[#235789] focus:border-[#235789] text-[#333333]"
+                className="block w-full p-2 border border-[var(--custom-gray)] rounded-md shadow-sm focus:ring-[var(--custom-blue)] focus:border-[var(--custom-blue)] text-[var(--custom-gray-dark)]"
               />
-              {formik.touched.name && formik.errors.name && <div className="text-red-600">{formik.errors.name}</div>}
+              {formik.touched.name && formik.errors.name && (
+                <div className="text-[var(--custom-red)]">
+                  {formik.errors.name}
+                </div>
+              )}
             </div>
 
-  
             <div className="relative">
-              <label htmlFor="lastname" className="absolute -top-3 left-2 bg-[#FDFFFC] px-1 text-sm font-medium text-[#235789] mt-1">
+              <label
+                htmlFor="lastname"
+                className="absolute -top-3 left-2 bg-[var(--custom-white)] px-1 text-sm font-medium text-[var(--custom-blue)] mt-1"
+              >
                 Apellido
               </label>
               <input
@@ -96,14 +108,20 @@ const RegisterForm: React.FC = () => {
                 value={formik.values.lastname}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className="block w-full p-2 border border-[#D9D9D9] rounded-md shadow-sm focus:ring-[#235789] focus:border-[#235789] text-[#333333]"
+                className="block w-full p-2 border border-[var(--custom-gray)] rounded-md shadow-sm focus:ring-[var(--custom-blue)] focus:border-[var(--custom-blue)] text-[var(--custom-gray-dark)]"
               />
-              {formik.touched.lastname && formik.errors.lastname && <div className="text-red-600">{formik.errors.lastname}</div>}
+              {formik.touched.lastname && formik.errors.lastname && (
+                <div className="text-[var(--custom-red)]">
+                  {formik.errors.lastname}
+                </div>
+              )}
             </div>
 
-  
             <div className="relative">
-              <label htmlFor="birthdate" className="absolute -top-3 left-2 bg-[#FDFFFC] px-1 text-sm font-medium text-[#235789] mt-1">
+              <label
+                htmlFor="birthdate"
+                className="absolute -top-3 left-2 bg-[var(--custom-white)] px-1 text-sm font-medium text-[var(--custom-blue)] mt-1"
+              >
                 Fecha de nacimiento
               </label>
               <input
@@ -113,14 +131,20 @@ const RegisterForm: React.FC = () => {
                 value={formik.values.birthdate}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className="block w-full p-2 border border-[#D9D9D9] rounded-md shadow-sm focus:ring-[#235789] focus:border-[#235789] text-[#333333]"
+                className="block w-full p-2 border border-[var(--custom-gray)] rounded-md shadow-sm focus:ring-[var(--custom-blue)] focus:border-[var(--custom-blue)] text-[var(--custom-gray-dark)]"
               />
-              {formik.touched.birthdate && formik.errors.birthdate && <div className="text-red-600">{formik.errors.birthdate}</div>}
+              {formik.touched.birthdate && formik.errors.birthdate && (
+                <div className="text-[var(--custom-red)]">
+                  {formik.errors.birthdate}
+                </div>
+              )}
             </div>
 
-
             <div className="relative">
-              <label htmlFor="country" className="absolute -top-3 left-2 bg-[#FDFFFC] px-1 text-sm font-medium text-[#235789] mt-1">
+              <label
+                htmlFor="country"
+                className="absolute -top-3 left-2 bg-[var(--custom-white)] px-1 text-sm font-medium text-[var(--custom-blue)] mt-1"
+              >
                 País
               </label>
               <select
@@ -132,7 +156,7 @@ const RegisterForm: React.FC = () => {
                   handleCountryChange(event);
                 }}
                 onBlur={formik.handleBlur}
-                className="block w-full p-2 border border-[#D9D9D9] rounded-md shadow-sm focus:ring-[#235789] focus:border-[#235789] text-[#333333]"
+                className="block w-full p-2 border border-[var(--custom-gray)] rounded-md shadow-sm focus:ring-[var(--custom-blue)] focus:border-[var(--custom-blue)] text-[var(--custom-gray-dark)]"
               >
                 <option value="">Seleccionar país</option>
                 {countries.map((country, index) => (
@@ -141,11 +165,18 @@ const RegisterForm: React.FC = () => {
                   </option>
                 ))}
               </select>
-              {formik.touched.country && formik.errors.country && <div className="text-red-600">{formik.errors.country}</div>}
+              {formik.touched.country && formik.errors.country && (
+                <div className="text-[var(--custom-red)]">
+                  {formik.errors.country}
+                </div>
+              )}
             </div>
 
             <div className="relative">
-              <label htmlFor="province" className="absolute -top-3 left-2 bg-[#FDFFFC] px-1 text-sm font-medium text-[#235789] mt-1">
+              <label
+                htmlFor="province"
+                className="absolute -top-3 left-2 bg-[var(--custom-white)] px-1 text-sm font-medium text-[var(--custom-blue)] mt-1"
+              >
                 Provincia
               </label>
               <select
@@ -154,7 +185,7 @@ const RegisterForm: React.FC = () => {
                 value={formik.values.province}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className="block w-full p-2 border border-[#D9D9D9] rounded-md shadow-sm focus:ring-[#235789] focus:border-[#235789] text-[#333333]"
+                className="block w-full p-2 border border-[var(--custom-gray)] rounded-md shadow-sm focus:ring-[var(--custom-blue)] focus:border-[var(--custom-blue)] text-[var(--custom-gray-dark)]"
               >
                 <option value="">Seleccionar provincia</option>
                 {provinces.map((province, index) => (
@@ -163,14 +194,20 @@ const RegisterForm: React.FC = () => {
                   </option>
                 ))}
               </select>
-              {formik.touched.province && formik.errors.province && <div className="text-red-600">{formik.errors.province}</div>}
+              {formik.touched.province && formik.errors.province && (
+                <div className="text-[var(--custom-red)]">
+                  {formik.errors.province}
+                </div>
+              )}
             </div>
           </div>
 
           <div className="space-y-6">
-            
             <div className="relative">
-              <label htmlFor="email" className="absolute -top-3 left-2 bg-[#FDFFFC] px-1 text-sm font-medium text-[#235789] mt-1">
+              <label
+                htmlFor="email"
+                className="absolute -top-3 left-2 bg-[var(--custom-white)] px-1 text-sm font-medium text-[var(--custom-blue)] mt-1"
+              >
                 Correo electrónico
               </label>
               <input
@@ -180,14 +217,20 @@ const RegisterForm: React.FC = () => {
                 value={formik.values.email}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className="block w-full p-2 border border-[#D9D9D9] rounded-md shadow-sm focus:ring-[#235789] focus:border-[#235789] text-[#333333]"
+                className="block w-full p-2 border border-[var(--custom-gray)] rounded-md shadow-sm focus:ring-[var(--custom-blue)] focus:border-[var(--custom-blue)] text-[var(--custom-gray-dark)]"
               />
-              {formik.touched.email && formik.errors.email && <div className="text-red-600">{formik.errors.email}</div>}
+              {formik.touched.email && formik.errors.email && (
+                <div className="text-[var(--custom-red)]">
+                  {formik.errors.email}
+                </div>
+              )}
             </div>
 
-   
             <div className="relative">
-              <label htmlFor="username" className="absolute -top-3 left-2 bg-[#FDFFFC] px-1 text-sm font-medium text-[#235789] mt-1">
+              <label
+                htmlFor="username"
+                className="absolute -top-3 left-2 bg-[var(--custom-white)] px-1 text-sm font-medium text-[var(--custom-blue)] mt-1"
+              >
                 Username
               </label>
               <input
@@ -197,14 +240,20 @@ const RegisterForm: React.FC = () => {
                 value={formik.values.username}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className="block w-full p-2 border border-[#D9D9D9] rounded-md shadow-sm focus:ring-[#235789] focus:border-[#235789] text-[#333333]"
+                className="block w-full p-2 border border-[var(--custom-gray)] rounded-md shadow-sm focus:ring-[var(--custom-blue)] focus:border-[var(--custom-blue)] text-[var(--custom-gray-dark)]"
               />
-              {formik.touched.username && formik.errors.username && <div className="text-red-600">{formik.errors.username}</div>}
+              {formik.touched.username && formik.errors.username && (
+                <div className="text-[var(--custom-red)]">
+                  {formik.errors.username}
+                </div>
+              )}
             </div>
 
-
             <div className="relative">
-              <label htmlFor="password" className="absolute -top-3 left-2 bg-[#FDFFFC] px-1 text-sm font-medium text-[#235789] mt-1">
+              <label
+                htmlFor="password"
+                className="absolute -top-3 left-2 bg-[var(--custom-white)] px-1 text-sm font-medium text-[var(--custom-blue)] mt-1"
+              >
                 Contraseña
               </label>
               <input
@@ -214,14 +263,20 @@ const RegisterForm: React.FC = () => {
                 value={formik.values.password}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className="block w-full p-2 border border-[#D9D9D9] rounded-md shadow-sm focus:ring-[#235789] focus:border-[#235789] text-[#333333]"
+                className="block w-full p-2 border border-[var(--custom-gray)] rounded-md shadow-sm focus:ring-[var(--custom-blue)] focus:border-[var(--custom-blue)] text-[var(--custom-gray-dark)]"
               />
-              {formik.touched.password && formik.errors.password && <div className="text-red-600">{formik.errors.password}</div>}
+              {formik.touched.password && formik.errors.password && (
+                <div className="text-[var(--custom-red)]">
+                  {formik.errors.password}
+                </div>
+              )}
             </div>
 
-      
             <div className="relative">
-              <label htmlFor="nDni" className="absolute -top-3 left-2 bg-[#FDFFFC] px-1 text-sm font-medium text-[#235789] mt-1">
+              <label
+                htmlFor="nDni"
+                className="absolute -top-3 left-2 bg-[var(--custom-white)] px-1 text-sm font-medium text-[var(--custom-blue)] mt-1"
+              >
                 DNI o pasaporte
               </label>
               <input
@@ -231,27 +286,42 @@ const RegisterForm: React.FC = () => {
                 value={formik.values.nDni}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className="block w-full p-2 border border-[#D9D9D9] rounded-md shadow-sm focus:ring-[#235789] focus:border-[#235789] text-[#333333]"
+                className="block w-full p-2 border border-[var(--custom-gray)] rounded-md shadow-sm focus:ring-[var(--custom-blue)] focus:border-[var(--custom-blue)] text-[var(--custom-gray-dark)]"
               />
-              {formik.touched.nDni && formik.errors.nDni && <div className="text-red-600">{formik.errors.nDni}</div>}
+              {formik.touched.nDni && formik.errors.nDni && (
+                <div className="text-[var(--custom-red)]">
+                  {formik.errors.nDni}
+                </div>
+              )}
             </div>
           </div>
-
 
           <div className="col-span-2 flex justify-center gap-6 mt-6">
             <button
               type="button"
-              className="w-1/4 py-2 bg-[#F9A03F] text-white rounded-md hover:bg-orange-500 focus:outline-none"
+              className="w-1/4 py-2 bg-[var(--custom-orange)] text-var(--background) rounded-md hover:bg-var(--custom-orange-500) focus:outline-none"
               onClick={handleResetForm}
             >
               Eliminar
             </button>
             <button
               type="submit"
-              className="w-1/4 py-2 bg-[#235789] text-white rounded-md hover:bg-blue-800 focus:outline-none"
+              className="w-1/4 py-2 bg-[var(--custom-blue)] text-var(--background) rounded-md hover:bg-var(--custom-blue-800) focus:outline-none"
             >
               Registrarse
             </button>
+          </div>
+
+          <div className="col-span-2 text-center mt-6">
+            <p className="text-sm text-[var(--custom-black)]">
+              ¿Ya tenés cuenta?
+              <a
+                href="/login"
+                className="text-[var(--custom-black)] hover:text-[var(--custom-black)] underline"
+              >
+                Inicia sesión
+              </a>
+            </p>
           </div>
         </form>
       </div>
