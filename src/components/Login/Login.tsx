@@ -23,7 +23,7 @@ const LoginForm = () => {
               </label>
             </div>
   
-            <div className="input-group relative mb-14 w-full max-w-[400px] mx-auto">
+            <div className="input-group relative mb-6 w-full max-w-[400px] mx-auto">
               <input
                 type="password"
                 id="password"
@@ -39,7 +39,7 @@ const LoginForm = () => {
               </label>
             </div>
   
-            <div className="mb-8 text-center">
+            <div className="mt-10 text-center">
               <a
                 href="/recuperar-contraseña"
                 className="text-blue-600 text-base hover:text-blue-700"
@@ -50,10 +50,20 @@ const LoginForm = () => {
   
             <button
               type="submit"
-              className="w-1/4 min-w-[150px] bg-customPalette-orange text-white text-lg font-semibold py-3 px-8 rounded hover:bg-customPalette-orange mt-24 mx-auto block"
+              className="w-1/4 min-w-[150px] bg-customPalette-orange text-white text-lg font-semibold py-3 px-8 rounded hover:bg-customPalette-orange mt-24 mb-6 mx-auto block"
             >
               Ingresar
             </button>
+
+            <div className="mt-16 text-center">
+              <a
+                href="/recuperar-contraseña"
+                className="text-blue-600 text-lg hover:text-blue-700"
+              >
+                ¿Todavia no tienes cuenta? Registrarse
+              </a>
+            </div>
+
           </form>
         </div>
       </div>
