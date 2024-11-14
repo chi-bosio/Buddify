@@ -15,7 +15,7 @@ export default function NavBar() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const links = [
     {
-      title: "Home",
+      title: "Inicio",
       href: "/",
     },
     ...(logged

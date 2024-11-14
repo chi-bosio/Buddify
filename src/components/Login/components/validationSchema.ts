@@ -1,9 +1,7 @@
 import * as Yup from "yup"; 
-export const validationSchema = Yup.object({
-    username: Yup.string()
-      .required("Nombre de Usuario es obligatorio"),
-    password: Yup.string()
-      .required("La contraseña es obligatoria"),
+export const validationSchemaLogin = Yup.object({
+    username: Yup.string().required("Requerido"),
+    password: Yup.string().required("Requerido"),
   });
 
-export default validationSchema;
+export default validationSchemaLogin;
