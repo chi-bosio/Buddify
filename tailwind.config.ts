@@ -17,6 +17,13 @@ export default {
           white: "var(--custom-white)", // Blanco para texto
           gray: "var(--custom-gray)", // Gris para contenido secundario
           black: "var(--custom-black)", // Negro no tan negro
+          bluedark: "var(--custom-blue-800)" /* Azul oscuro */,
+          bluelight:
+            "var(--custom-blue-700)" /* Azul más claro que el azul oscuro */,
+          bluelink: "var(--custom-blue-500)" /* Azul medio para enlaces */,
+          orangebright: "var(--custom-orange-500)" /* Naranja brillante */,
+          red: "var(--custom-red)" /* Rojo */,
+          graydark: "var(--custom-gray-dark)" /* Gris oscuro */,
         },
       },
     },
