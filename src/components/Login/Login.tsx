@@ -4,20 +4,20 @@ const LoginForm = () => {
         <div className="md:col-span-2 bg-cover bg-center h-full" style={{ backgroundImage: 'url(/assets/fondoLanding.png)' }}></div>
   
         <div className="flex justify-center items-center h-full">
-          <form className="w-full h-full bg-[rgba(255,255,255,0.9)] p-8">
-            <h2 className="text-4xl font-bold text-gray-700 text-center mt-24 mb-24">Iniciar sesión</h2>
+          <form className="w-full h-full bg-[var(--custom-white)] p-8">
+            <h2 className="text-4xl font-bold text-[var(--custom-gray-dark)] text-center mt-24 mb-24">Iniciar sesión</h2>
   
             <div className="input-group relative mb-14 w-full max-w-[400px] mx-auto">
               <input
                 type="text"
                 id="username"
                 required
-                className="peer w-full min-w-[200px] h-full p-4 pt-8 border border-black rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-300 text-black text-xl"
+                className="peer w-full min-w-[200px] h-full p-4 pt-6 border border-black rounded-md shadow-sm focus:ring-[var(--custom-blue-500)] focus:border-[var(--custom-blue-300)] text-black text-xl"
                 placeholder=" "
               />
               <label
                 htmlFor="username"
-                className="absolute left-5 -top-0 text-lg font-medium text-gray-600 transition-all duration-300 ease-in-out peer-placeholder-shown:top-5 peer-placeholder-shown:text-lg peer-focus:-top-0 peer-focus:left-3 peer-focus:text-lg peer-focus:text-gray-700"
+                className="absolute -top-3 left-2 bg-[var(--custom-white)] px-1 text-base font-medium text-[var(--custom-gray-dark)] mt-1"
               >
                 Nombre de Usuario
               </label>
@@ -28,12 +28,12 @@ const LoginForm = () => {
                 type="password"
                 id="password"
                 required
-                className="peer w-full min-w-[200px] h-full p-4 pt-8 border border-black rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-300 text-black text-xl"
+                className="peer w-full min-w-[200px] h-full p-4 pt-6 border border-black rounded-md shadow-sm focus:ring-[var(--custom-blue-500)] focus:border-[var(--custom-blue-300)] text-black text-xl"
                 placeholder=" "
               />
               <label
                 htmlFor="password"
-                className="absolute left-5 -top-0 text-lg font-medium text-gray-600 transition-all duration-300 ease-in-out peer-placeholder-shown:top-5 peer-placeholder-shown:text-lg peer-focus:-top-0 peer-focus:left-3 peer-focus:text-lg peer-focus:text-gray-700"
+                className="absolute -top-3 left-2 bg-[var(--custom-white)] px-1 text-base font-medium text-[var(--custom-gray-dark)] mt-1"
               >
                 Contraseña
               </label>
@@ -42,7 +42,7 @@ const LoginForm = () => {
             <div className="mt-10 text-center">
               <a
                 href="/recuperar-contraseña"
-                className="text-blue-600 text-base hover:text-blue-700"
+                className="text-[var(--custom-blue-500)] text-base hover:text-[var(--custom-blue-700)]"
               >
                 ¿Has olvidado tu contraseña?
               </a>
@@ -50,18 +50,21 @@ const LoginForm = () => {
   
             <button
               type="submit"
-              className="w-1/4 min-w-[150px] bg-customPalette-orange text-white text-lg font-semibold py-3 px-8 rounded hover:bg-customPalette-orange mt-24 mb-6 mx-auto block"
+              className="w-1/4 min-w-[150px] bg-customPalette-orange text-[var(--custom-white)] text-lg font-semibold py-3 px-8 rounded hover:bg-customPalette-orange mt-24 mb-6 mx-auto block"
             >
               Ingresar
             </button>
 
             <div className="mt-16 text-center">
+            <p className="text-base text-[var(--custom-black)]">
+              ¿Todavia no tienes cuenta?&nbsp;
               <a
-                href="/recuperar-contraseña"
-                className="text-blue-600 text-lg hover:text-blue-700"
+                href="/register"
+                className="text-[var(--custom-blue-600)] text-lg hover:text-[var(--custom-blue-800)]"
               >
-                ¿Todavia no tienes cuenta? Registrarse
+                Registrarse
               </a>
+            </p>  
             </div>
 
           </form>
