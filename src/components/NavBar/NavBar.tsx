@@ -18,12 +18,15 @@ export default function NavBar() {
       title: "Home",
       href: "/",
     },
-<<<<<<< HEAD
     ...(logged
       ? [
           {
             title: "Mis actividades",
             href: "/activities",
+          },
+          {
+            title: "crear actividad",
+            href: "/createActivity",
           },
         ]
       : [
@@ -44,13 +47,7 @@ export default function NavBar() {
             href: "/login" 
           }
         ]),
-=======
-    /* PLACEHOLDER */
-    {
-      title: "crear actividad",
-      href: "/createActivity",
-    },
->>>>>>> 43e1a7c46311c91d72fbb3a207294e194ba734a2
+    
   ];
 
 

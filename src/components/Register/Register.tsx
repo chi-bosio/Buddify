@@ -1,11 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
-import validationSchema from "./components/validationSchema";
+import validationSchemaRegister  from "./components/validationSchema";
+import postData from "./components/postData";
 
 const RegisterForm: React.FC = () => {
   const [countries, setCountries] = useState<{ name: string, city: string[] }[]>([]);
-  const [city, setcity] = useState<string[]>([]);
+  const [city, setCity] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,9 +22,9 @@ const RegisterForm: React.FC = () => {
     const countryName = event.target.value;
     const country = countries.find((c) => c.name === countryName);
     if (country) {
-      setcity(country.city);
+      setCity(country.city);
     } else {
-      setcity([]);
+      setCity([]);
     }
   };
 
@@ -33,22 +34,22 @@ const RegisterForm: React.FC = () => {
       lastname: "",
       birthdate: "",
       country: "",
-      province: "",
+      city: "",
       email: "",
       username: "",
       password: "",
       dni: "",
     },
-    validationSchema:validationSchema,
-    onSubmit: (values) => {
-      //Logica de registro///<<<<<<<VALEN<<<<<<<<
-      console.log(values);
+    validationSchema:validationSchemaRegister ,
+    onSubmit: async (values) => {
+      if(confirm("¿Revisaste todos los campos capo?"))
+        postData(values);
     },
+    
   });
-
   const handleResetForm = () => {
     formik.resetForm();
-    setcity([]); 
+    setCity([]);
   };
 
   return (
@@ -162,29 +163,29 @@ const RegisterForm: React.FC = () => {
 
             <div className="relative">
               <label
-                htmlFor="province"
+                htmlFor="city"
                 className="absolute -top-3 left-2 bg-[var(--custom-white)] px-1 text-sm font-medium text-[var(--custom-blue)] mt-1"
               >
-                Provincia
+                Ciudad
               </label>
               <select
-                id="province"
-                name="province"
-                value={formik.values.province}
+                id="city"
+                name="city"
+                value={formik.values.city}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 className="block w-full p-2 border border-[var(--custom-gray)] rounded-md shadow-sm focus:ring-[var(--custom-blue)] focus:border-[var(--custom-blue)] text-[var(--custom-gray-dark)]"
               >
-                <option value="">Seleccionar provincia</option>
-                {city.map((province, index) => (
-                  <option key={index} value={province}>
-                    {province}
+                <option value="">Seleccionar ciudad</option>
+                {city.map((city, index) => (
+                  <option key={index} value={city}>
+                    {city}
                   </option>
                 ))}
               </select>
-              {formik.touched.province && formik.errors.province && (
+              {formik.touched.city && formik.errors.city && (
                 <div className="text-[var(--custom-red)]">
-                  {formik.errors.province}
+                  {formik.errors.city}
                 </div>
               )}
             </div>
@@ -315,3 +316,5 @@ const RegisterForm: React.FC = () => {
   );
 };
 export default RegisterForm;
+
+
