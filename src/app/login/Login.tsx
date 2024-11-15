@@ -2,6 +2,7 @@
 import { useFormik } from "formik";
 import validationSchemaLogin from "./components/validationSchema";
 import postData from "./components/postData";
+import { toast } from "react-toastify";
 
 const LoginForm = () => {
   const formik = useFormik({
@@ -11,12 +12,32 @@ const LoginForm = () => {
     },
     validationSchema: validationSchemaLogin,
     onSubmit: async (values) => {
-      if(confirm("¿Revisaste todos los campos capo?"))
-        if(await postData(values))
-          handleResetForm();
-          /// redireccionar o algo
-    },
-  });
+      const success = await postData(values);
+      if (success) {
+        toast.success("Inicio de sesión exitoso.",{
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        handleResetForm();
+        // Redireccionar 
+      } else {
+        toast.error("Error al iniciar sesión. Por favor, revisa los datos.",{
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
+    }
+});
   const handleResetForm = () => {
     formik.resetForm();
   };
