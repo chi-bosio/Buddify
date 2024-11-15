@@ -2,21 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  /* Nueva paleta de colores */
+  --custom-blue: #235789; /* Azul principal */
+  --custom-orange: #F9A03F; /* Naranja para hover y active */
+  --custom-white: #FDFFFC; /* Blanco para texto */
+  --custom-gray: #D9D9D9; /* Gris para elementos secundarios */
+  --custom-black: #020100; /* Negro no tan negro*/
+  --custom-blue-800: #1e3a8a; /* Azul oscuro */
+  --custom-blue-700: #1d4ed8; /* Azul más claro que el azul oscuro */
+  --custom-blue-600: #2563EB; /* Azul medio para enlaces */
+  --custom-blue-500: #3b82f6; /* Azul medio para enlaces */
+  --custom-blue-300: #93C5FD; /* Azul medio para enlaces */
+  --custom-orange-500: #f97316; /* Naranja brillante */
+  --custom-red: #dc2626; /* Rojo */
+  --custom-gray-dark: #333333; /* Gris oscuro */
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
-      /* Nueva paleta de colores */
-    --custom-blue: #235789; /* Azul principal */
-    --custom-orange: #F9A03F; /* Naranja para hover y active */
-    --custom-white: #FDFFFC; /* Blanco para texto */
-    --custom-gray: #D9D9D9; /* Gris para elementos secundarios */
-    --custom-black:#020100 /* Negro no tan negro*/
   }
 }
 

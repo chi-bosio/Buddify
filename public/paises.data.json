@@ -1,0 +1,182 @@
+{
+  "countries": [
+    {
+      "name": "Argentina",
+"city": [
+    "Buenos Aires",
+    "Catamarca",
+    "Chaco",
+    "Chubut",
+    "Ciudad de Buenos Aires",
+    "Córdoba",
+    "Corrientes",
+    "Entre Ríos",
+    "Formosa",
+    "Jujuy",
+    "La Pampa",
+    "La Rioja",
+    "Mendoza",
+    "Misiones",
+    "Neuquén",
+    "Río Negro",
+    "Salta",
+    "San Juan",
+    "San Luis",
+    "Santa Cruz",
+    "Santa Fe",
+    "Santiago del Estero",
+    "Tierra del Fuego",
+    "Tucumán"
+]
+    },
+    {
+      "name": "Bolivia",
+      "city": [
+        "Beni",
+        "Cochabamba",
+        "Chuquisaca",
+        "La Paz",
+        "Oruro",
+        "Pando",
+        "Potosí",
+        "Santa Cruz",
+        "Tarija"
+      ]
+    },
+    {
+      "name": "Brasil",
+      "city": [
+        "Amazonas",
+        "Bahía",
+        "Ceará",
+        "Minas Gerais",
+        "Pará",
+        "Paraná",
+        "Pernambuco",
+        "Rio Grande do Sul",
+        "Rio de Janeiro",
+        "São Paulo"
+      ]
+    },
+    {
+      "name": "Chile",
+      "city": [
+        "Antofagasta",
+        "Araucanía",
+        "Atacama",
+        "Biobío",
+        "Coquimbo",
+        "Los Lagos",
+        "Maule",
+        "Santiago",
+        "Tarapacá",
+        "Valparaíso"
+      ]
+    },
+    {
+      "name": "Colombia",
+      "city": [
+        "Antioquia",
+        "Atlántico",
+        "Bogotá D.C.",
+        "Bolívar",
+        "Boyacá",
+        "Cundinamarca",
+        "Magdalena",
+        "Santander",
+        "Tolima",
+        "Valle del Cauca"
+      ]
+    },
+    {
+      "name": "Ecuador",
+      "city": [
+        "Azuay",
+        "Chimborazo",
+        "El Oro",
+        "Esmeraldas",
+        "Guayas",
+        "Imbabura",
+        "Los Ríos",
+        "Loja",
+        "Manabí",
+        "Pichincha"
+      ]
+    },
+    {
+      "name": "México",
+      "city": [
+        "Chihuahua",
+        "Ciudad de México",
+        "Coahuila",
+        "Guanajuato",
+        "Jalisco",
+        "Nuevo León",
+        "Puebla",
+        "Sonora",
+        "Veracruz",
+        "Yucatán"
+      ]
+    },
+    {
+      "name": "Paraguay",
+      "city": [
+        "Alto Paraná",
+        "Amambay",
+        "Asunción",
+        "Caaguazú",
+        "Central",
+        "Cordillera",
+        "Guairá",
+        "Itapúa",
+        "Ñeembucú",
+        "Paraguarí"
+      ]
+    },
+    {
+      "name": "Perú",
+      "city": [
+        "Ancash",
+        "Arequipa",
+        "Cusco",
+        "Junín",
+        "Lambayeque",
+        "La Libertad",
+        "Lima",
+        "Loreto",
+        "Piura",
+        "San Martín"
+      ]
+    },
+    {
+      "name": "Uruguay",
+      "city": [
+        "Canelones",
+        "Colonia",
+        "Maldonado",
+        "Montevideo",
+        "Paysandú",
+        "Rivera",
+        "Salto",
+        "San José",
+        "Soriano",
+        "Tacuarembó"
+      ]
+    },
+    {
+      "name": "Venezuela",
+      "city": [
+        "Anzoátegui",
+        "Aragua",
+        "Barinas",
+        "Bolívar",
+        "Carabobo",
+        "Distrito Capital",
+        "Lara",
+        "Miranda",
+        "Táchira",
+        "Zulia"
+      ]
+    }
+  ]
+}
