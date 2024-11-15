@@ -1,54 +1,58 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { CalendarIcon, ClockIcon, MapPinIcon } from 'lucide-react'
+import { useFormik } from 'formik'
 import { format } from "date-fns"
 
-export default function CreateActivityForm() {
-  const [name, setName] = useState('')
-  const [description, setDescription] = useState('')
-  const [image, setImage] = useState<File | null>(null)
-  const [imagePreview, setImagePreview] = useState<string | null>(null)
-  const [date, setDate] = useState<Date | undefined>(undefined)
-  const [time, setTime] = useState('')
-  const [place, setPlace] = useState('')
+interface FormValues {
+  name: string;
+  description: string;
+  image: File | null;
+  date: string;
+  time: string;
+  place: string;
+}
 
-  useEffect(() => {
-    if (image) {
+export default function CreateActivityForm() {
+  const [imagePreview, setImagePreview] = useState<string | null>(null)
+
+  const formik = useFormik<FormValues>({
+    initialValues: {
+      name: '',
+      description: '',
+      image: null,
+      date: '',
+      time: '',
+      place: '',
+    },
+    onSubmit: (values, { resetForm }) => {
+      // Simulate getting latitude and longitude from place name
+      const latitude = Math.random() * 180 - 90
+      const longitude = Math.random() * 360 - 180
+
+      console.log('Submitting:', {
+        ...values,
+        latitude,
+        longitude,
+      })
+
+      resetForm()
+      setImagePreview(null)
+    },
+  })
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0] || null
+    formik.setFieldValue('image', file)
+
+    if (file) {
       const reader = new FileReader()
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string)
-      }
-      reader.readAsDataURL(image)
+      reader.onloadend = () => setImagePreview(reader.result as string)
+      reader.readAsDataURL(file)
     } else {
       setImagePreview(null)
     }
-  }, [image])
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // Simulate getting latitude and longitude from place name
-    const latitude = Math.random() * 180 - 90
-    const longitude = Math.random() * 360 - 180
-
-    console.log('Submitting:', { 
-      name, 
-      description, 
-      image, 
-      date, 
-      time, 
-      place, 
-      latitude, 
-      longitude 
-    })
-    
-    // Reset form after submission
-    setName('')
-    setDescription('')
-    setImage(null)
-    setDate(undefined)
-    setTime('')
-    setPlace('')
   }
 
   return (
@@ -58,7 +62,7 @@ export default function CreateActivityForm() {
           Crear Nueva Actividad
         </h1>
         <div className="flex flex-col md:flex-row gap-8">
-          <form onSubmit={handleSubmit} className="flex-1 space-y-4">
+          <form onSubmit={formik.handleSubmit} className="flex-1 space-y-4">
             <div>
               <label
                 htmlFor="name"
@@ -69,8 +73,8 @@ export default function CreateActivityForm() {
               <input
                 type="text"
                 id="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={formik.values.name}
+                onChange={formik.handleChange}
                 required
                 className="mt-1 block w-full p-2 border border-[#D9D9D9] rounded-md shadow-sm focus:ring-[#235789] focus:border-[#235789]"
               />
@@ -85,8 +89,8 @@ export default function CreateActivityForm() {
               </label>
               <textarea
                 id="description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                value={formik.values.description}
+                onChange={formik.handleChange}
                 required
                 rows={3}
                 className="mt-1 block w-full p-2 border border-[#D9D9D9] rounded-md shadow-sm focus:ring-[#235789] focus:border-[#235789]"
@@ -104,8 +108,7 @@ export default function CreateActivityForm() {
                 type="file"
                 id="image"
                 accept="image/*"
-                onChange={(e) => setImage(e.target.files?.[0] || null)}
-                required
+                onChange={handleImageChange}
                 className="mt-1 block w-full p-2 border border-[#D9D9D9] rounded-md shadow-sm focus:ring-[#235789] focus:border-[#235789] file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-[#235789] file:text-white hover:file:bg-blue-800"
               />
             </div>
@@ -122,8 +125,8 @@ export default function CreateActivityForm() {
                 <input
                   type="date"
                   id="date"
-                  value={date ? format(date, "yyyy-MM-dd") : ''}
-                  onChange={(e) => setDate(e.target.valueAsDate || undefined)}
+                  value={formik.values.date}
+                  onChange={formik.handleChange}
                   required
                   className="mt-1 block w-full p-2 pl-10 border border-[#D9D9D9] rounded-md shadow-sm focus:ring-[#235789] focus:border-[#235789]"
                 />
@@ -142,8 +145,8 @@ export default function CreateActivityForm() {
                 <input
                   type="time"
                   id="time"
-                  value={time}
-                  onChange={(e) => setTime(e.target.value)}
+                  value={formik.values.time}
+                  onChange={formik.handleChange}
                   required
                   className="mt-1 block w-full p-2 pl-10 border border-[#D9D9D9] rounded-md shadow-sm focus:ring-[#235789] focus:border-[#235789]"
                 />
@@ -162,8 +165,8 @@ export default function CreateActivityForm() {
                 <input
                   type="text"
                   id="place"
-                  value={place}
-                  onChange={(e) => setPlace(e.target.value)}
+                  value={formik.values.place}
+                  onChange={formik.handleChange}
                   required
                   className="mt-1 block w-full p-2 pl-10 border border-[#D9D9D9] rounded-md shadow-sm focus:ring-[#235789] focus:border-[#235789]"
                   placeholder="Ingrese la ubicación"
@@ -173,14 +176,10 @@ export default function CreateActivityForm() {
 
             <div className="flex justify-center gap-6 mt-6">
               <button
-                type="button"
+                type="reset"
                 onClick={() => {
-                  setName('')
-                  setDescription('')
-                  setImage(null)
-                  setDate(undefined)
-                  setTime('')
-                  setPlace('')
+                  formik.resetForm()
+                  setImagePreview(null)
                 }}
                 className="w-1/3 py-2 bg-[#F9A03F] text-white rounded-md hover:bg-orange-500 focus:outline-none"
               >
@@ -202,19 +201,23 @@ export default function CreateActivityForm() {
                 <img src={imagePreview} alt="Vista previa" className="w-full h-48 object-cover" />
               )}
               <div className="p-4">
-                <h3 className="text-xl font-semibold text-[#235789] mb-2">{name || 'Nombre de la Actividad'}</h3>
-                <p className="text-gray-600 mb-4">{description || 'Descripción de la actividad'}</p>
+                <h3 className="text-xl font-semibold text-[#235789] mb-2">
+                  {formik.values.name || 'Nombre de la Actividad'}
+                </h3>
+                <p className="text-gray-600 mb-4">
+                  {formik.values.description || 'Descripción de la actividad'}
+                </p>
                 <div className="flex items-center text-gray-500 mb-2">
                   <CalendarIcon className="w-4 h-4 mr-2" />
-                  <span>{date ? format(date, "dd/MM/yyyy") : 'Fecha'}</span>
+                  <span>{formik.values.date ? format(new Date(formik.values.date), "dd/MM/yyyy") : 'Fecha'}</span>
                 </div>
                 <div className="flex items-center text-gray-500 mb-2">
                   <ClockIcon className="w-4 h-4 mr-2" />
-                  <span>{time || 'Hora'}</span>
+                  <span>{formik.values.time || 'Hora'}</span>
                 </div>
                 <div className="flex items-center text-gray-500">
                   <MapPinIcon className="w-4 h-4 mr-2" />
-                  <span>{place || 'Lugar'}</span>
+                  <span>{formik.values.place || 'Lugar'}</span>
                 </div>
               </div>
             </div>
