@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import validationSchemaRegister  from "./components/validationSchema";
 import postData from "./components/postData";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
 
@@ -55,8 +54,17 @@ const RegisterForm: React.FC = () => {
         cancelButtonText:"Cancelar",
         confirmButtonText: "Registrarse"
       });
+      
       if(result.isConfirmed) {
+        Swal.fire({
+          allowOutsideClick: false,
+          icon:'info',
+          title: 'Procesando...'
+        });
+        Swal.showLoading();
         const success = await postData(values);
+        Swal.close();
+        
         if (success) handleResetForm();
       }     
       }

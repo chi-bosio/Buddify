@@ -2,6 +2,7 @@
 import { useFormik } from "formik";
 import validationSchemaLogin from "./components/validationSchema";
 import postData from "./components/postData";
+import Swal from "sweetalert2";
 
 
 
@@ -13,8 +14,15 @@ const LoginForm = () => {
     },
     validationSchema: validationSchemaLogin,
     onSubmit: async (values) => {
-        const success = await postData(values);
-        if (success) handleResetForm();
+      Swal.fire({
+        allowOutsideClick: false,
+        icon:'info',
+        title: 'Procesando...'
+      });
+      Swal.showLoading();
+      const success = await postData(values);
+      Swal.close();
+      if (success) handleResetForm();
     }
 });
   const handleResetForm = () => {
