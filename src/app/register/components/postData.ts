@@ -1,3 +1,5 @@
+import { toast } from "react-toastify";
+
 type data={
     name: string,
     lastname: string,
@@ -19,18 +21,42 @@ export const postData = async (values:data):Promise<boolean> =>{
         body: JSON.stringify(data),
       });
 
-
       if (!response.ok) {
         const errorData = await response.json();
-        alert(`Error: ${JSON.stringify(errorData.message)}`);
+        toast.error(errorData.message, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
         return false;
       }else{
         const result = await response.json();
-        alert(result.message);
+        toast.success(result.message, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
         return true;
       }
     } catch (error) {
-      console.error("Error al realizar la solicitud:", error);
+      const errorMessage = (error as any).message ? (error as any).message : "Error del servidor";
+      toast.error(errorMessage, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       return false;
     }
 };
