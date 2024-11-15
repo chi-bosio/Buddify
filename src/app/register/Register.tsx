@@ -3,6 +3,9 @@ import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import validationSchemaRegister  from "./components/validationSchema";
 import postData from "./components/postData";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Swal from "sweetalert2";
 
 const RegisterForm: React.FC = () => {
   const [countries, setCountries] = useState<{ name: string, city: string[] }[]>([]);
@@ -42,12 +45,21 @@ const RegisterForm: React.FC = () => {
     },
     validationSchema:validationSchemaRegister ,
     onSubmit: async (values) => {
-      if(confirm("¿Revisaste todos los campos capo?"))
-        if(await postData(values))
-          handleResetForm();
-          /// redireccionar o algo
-    },
-    
+      const result = await Swal.fire({
+        title: "¿Estás seguro?",
+        text: "Controla tus datos antes de registrarte",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#f97316",
+        cancelButtonColor: "#235789",
+        cancelButtonText:"Cancelar",
+        confirmButtonText: "Registrarse"
+      });
+      if(result.isConfirmed) {
+        const success = await postData(values);
+        if (success) handleResetForm();
+      }     
+      }
   });
   const handleResetForm = () => {
     formik.resetForm();
@@ -289,15 +301,8 @@ const RegisterForm: React.FC = () => {
 
           <div className="col-span-2 flex justify-center gap-6 mt-6">
             <button
-              type="button"
-              className="w-1/4 py-2 bg-customPalette-orange text-var(--background) rounded-md hover:bg-customPalette-orangebright focus:outline-none"
-              onClick={handleResetForm}
-            >
-              Cancelar
-            </button>
-            <button
               type="submit"
-              className="w-1/4 py-2 bg-customPalette-blue text-var(--background) rounded-md hover:bg-customPalette-bluedark focus:outline-none"
+              className="w-1/4 py-2 bg-customPalette-orange text-customPalette-white rounded-md hover:bg-customPalette-orangebright focus:outline-none"
             >
               Registrarse
             </button>
@@ -305,7 +310,7 @@ const RegisterForm: React.FC = () => {
 
           <div className="col-span-2 text-center mt-6">
             <p className="text-sm text-customPalette-black">
-              ¿Ya tenés cuenta?
+              ¿Ya tenés cuenta?&nbsp;
               <a
                 href="/login"
                 className="text-customPalette-black hover:text-customPalette-black underline"

@@ -10,7 +10,7 @@ export default function NavBar() {
   const [linkActive, setLinkActive] = useState<string>("");
   const pathname = usePathname();
 
-  const logged = true; 
+  const logged = false; 
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const links = [

@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function Home() {
   return (
     <>
-      <section className="bg-[url('/assets/fondoLanding.png')] bg-cover bg-center text-customPalette-white py-20 text-center">
+      <section className="bg-[url('/assets/fondo2.webp')] bg-contain bg-center text-customPalette-white py-20 text-center">
         <div className="bg-black bg-opacity-50 py-20">
           <div className="container mx-auto px-4">
             <h2 className="text-4xl font-bold mb-4">Bienvenido a Buddify</h2>
