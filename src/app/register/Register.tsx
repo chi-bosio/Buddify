@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import validationSchemaRegister  from "./components/validationSchema";
 import postData from "./components/postData";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const RegisterForm: React.FC = () => {
   const [countries, setCountries] = useState<{ name: string, city: string[] }[]>([]);
@@ -42,12 +44,31 @@ const RegisterForm: React.FC = () => {
     },
     validationSchema:validationSchemaRegister ,
     onSubmit: async (values) => {
-      if(confirm("¿Revisaste todos los campos capo?"))
-        if(await postData(values))
+      
+        const success = await postData(values);
+        if (success) {
+          toast.success("Registro exitoso ", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
           handleResetForm();
-          /// redireccionar o algo
-    },
-    
+        } else {
+          toast.error("Hubo un error al enviar el formulario", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        }
+      }
   });
   const handleResetForm = () => {
     formik.resetForm();
