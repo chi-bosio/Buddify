@@ -9,7 +9,6 @@ export default function Home() {
             <h2 className="text-4xl font-bold mb-4">Bienvenido a Buddify</h2>
             <p className="text-lg mb-6">
               Da el primer paso hacia una nueva aventura
-              y aun ahi mas
             </p>
             <Link href="/register" className="bg-customPalette-orange text-white font-semibold py-2 px-4 rounded hover:bg-customPalette-orange">
               Registrate
