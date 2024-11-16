@@ -1,9 +1,9 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { CalendarIcon, ClockIcon, MapPinIcon } from 'lucide-react'
-import { useFormik } from 'formik'
-import { format } from "date-fns"
+import { useState } from "react";
+import { CalendarIcon, ClockIcon, MapPinIcon } from "lucide-react";
+import { useFormik } from "formik";
+import moment from "moment";
 
 interface FormValues {
   name: string;
@@ -15,58 +15,61 @@ interface FormValues {
 }
 
 export default function CreateActivityForm() {
-  const [imagePreview, setImagePreview] = useState<string | null>(null)
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const formik = useFormik<FormValues>({
     initialValues: {
-      name: '',
-      description: '',
+      name: "",
+      description: "",
       image: null,
-      date: '',
-      time: '',
-      place: '',
+      date: "",
+      time: "",
+      place: "",
     },
     onSubmit: (values, { resetForm }) => {
-      // Simulate getting latitude and longitude from place name
-      const latitude = Math.random() * 180 - 90
-      const longitude = Math.random() * 360 - 180
+      const formattedDate = moment(values.date).format("DD/MM/YYYY");
 
-      console.log('Submitting:', {
+      // Simulate getting latitude and longitude from place name
+      const latitude = Math.random() * 180 - 90;
+      const longitude = Math.random() * 360 - 180;
+
+      console.log("Submitting:", {
         ...values,
+        date: formattedDate,
         latitude,
         longitude,
-      })
+      });
 
-      resetForm()
-      setImagePreview(null)
+      resetForm();
+      setImagePreview(null);
     },
-  })
+  });
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0] || null
-    formik.setFieldValue('image', file)
+    const file = event.target.files?.[0] || null;
+    formik.setFieldValue("image", file);
 
     if (file) {
-      const reader = new FileReader()
-      reader.onloadend = () => setImagePreview(reader.result as string)
-      reader.readAsDataURL(file)
+      const reader = new FileReader();
+      reader.onloadend = () => setImagePreview(reader.result as string);
+      reader.readAsDataURL(file);
     } else {
-      setImagePreview(null)
+      setImagePreview(null);
     }
-  }
+  };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#FDFFFC]">
-      <div className="w-full max-w-4xl p-8 bg-[#FDFFFC] rounded-xl shadow-lg border border-[#D9D9D9]">
-        <h1 className="text-center text-3xl font-bold mb-6 text-[#235789]">
+    <div className="bg-[url('/assets/textura-fondo.avif')] min-h-screen flex items-center justify-center bg-customPalette-white">
+      <div className="w-full max-w-4xl p-8 bg-customPalette-white rounded-xl shadow-lg border border-customPalette-gray">
+        <h1 className="text-center text-3xl font-bold mb-6 text-customPalette-blue">
           Crear Nueva Actividad
         </h1>
         <div className="flex flex-col md:flex-row gap-8">
           <form onSubmit={formik.handleSubmit} className="flex-1 space-y-4">
-            <div>
+            <div className="relative">
               <label
                 htmlFor="name"
-                className="block text-sm font-medium text-[#235789]"
+                className="absolute -top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1"
               >
                 Nombre de la Actividad
               </label>
@@ -76,14 +79,14 @@ export default function CreateActivityForm() {
                 value={formik.values.name}
                 onChange={formik.handleChange}
                 required
-                className="mt-1 block w-full p-2 border border-[#D9D9D9] rounded-md shadow-sm focus:ring-[#235789] focus:border-[#235789]"
+                className="mt-1 block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark"
               />
             </div>
 
-            <div>
+            <div className="relative">
               <label
                 htmlFor="description"
-                className="block text-sm font-medium text-[#235789]"
+                className="absolute -top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1"
               >
                 Descripción
               </label>
@@ -93,14 +96,14 @@ export default function CreateActivityForm() {
                 onChange={formik.handleChange}
                 required
                 rows={3}
-                className="mt-1 block w-full p-2 border border-[#D9D9D9] rounded-md shadow-sm focus:ring-[#235789] focus:border-[#235789]"
+                className="mt-1 block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark"
               />
             </div>
 
-            <div>
+            <div className="relative">
               <label
                 htmlFor="image"
-                className="block text-sm font-medium text-[#235789]"
+                className="absolute -top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1"
               >
                 Imagen de la Actividad
               </label>
@@ -109,85 +112,76 @@ export default function CreateActivityForm() {
                 id="image"
                 accept="image/*"
                 onChange={handleImageChange}
-                className="mt-1 block w-full p-2 border border-[#D9D9D9] rounded-md shadow-sm focus:ring-[#235789] focus:border-[#235789] file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-[#235789] file:text-white hover:file:bg-blue-800"
+                className="mt-1 block w-full py-3 px-4 border border-customPalette-gray rounded-sm shadow-sm focus:ring-customPalette-bluedark focus:border-customPalette-bluelightli file:mr-4 file:py-1 file:px-2 file:rounded-sm file:border-0 file:text-xs file:font-medium file:bg-customPalette-blue file:text-customPalette-white file:shadow hover:file:bg-customPalette-bluedark text-xs text-customPalette-graydark bg-customPalette-white focus:outline-none focus:ring-2"
               />
             </div>
 
-            <div>
+            <div className="relative">
               <label
                 htmlFor="date"
-                className="block text-sm font-medium text-[#235789]"
+                className="absolute -top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1"
               >
                 Fecha de la Actividad
               </label>
-              <div className="relative">
-                <CalendarIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#235789]" />
-                <input
-                  type="date"
-                  id="date"
-                  value={formik.values.date}
-                  onChange={formik.handleChange}
-                  required
-                  className="mt-1 block w-full p-2 pl-10 border border-[#D9D9D9] rounded-md shadow-sm focus:ring-[#235789] focus:border-[#235789]"
-                />
-              </div>
+              <input
+                type="date"
+                id="date"
+                value={formik.values.date}
+                onChange={formik.handleChange}
+                required
+                className="mt-1 block w-full p-2 pl-10 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark text-sm"
+              />
             </div>
 
-            <div>
+            <div className="relative">
               <label
                 htmlFor="time"
-                className="block text-sm font-medium text-[#235789]"
+                className="absolute -top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1"
               >
                 Hora de la Actividad
               </label>
-              <div className="relative">
-                <ClockIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#235789]" />
-                <input
-                  type="time"
-                  id="time"
-                  value={formik.values.time}
-                  onChange={formik.handleChange}
-                  required
-                  className="mt-1 block w-full p-2 pl-10 border border-[#D9D9D9] rounded-md shadow-sm focus:ring-[#235789] focus:border-[#235789]"
-                />
-              </div>
+              <input
+                type="time"
+                id="time"
+                value={formik.values.time}
+                onChange={formik.handleChange}
+                required
+                className="mt-1 block w-full p-2 pl-10 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark text-sm"
+              />
             </div>
 
-            <div>
+            <div className="relative">
               <label
                 htmlFor="place"
-                className="block text-sm font-medium text-[#235789]"
+                className="absolute -top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1"
               >
                 Lugar de la Actividad
               </label>
-              <div className="relative">
-                <MapPinIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#235789]" />
-                <input
-                  type="text"
-                  id="place"
-                  value={formik.values.place}
-                  onChange={formik.handleChange}
-                  required
-                  className="mt-1 block w-full p-2 pl-10 border border-[#D9D9D9] rounded-md shadow-sm focus:ring-[#235789] focus:border-[#235789]"
-                  placeholder="Ingrese la ubicación"
-                />
-              </div>
+              <input
+                type="text"
+                id="place"
+                value={formik.values.place}
+                onChange={formik.handleChange}
+                required
+                className="mt-1 block w-full p-2 pl-10 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark text-sm"
+                placeholder="Ingrese la ubicación"
+              />
             </div>
 
             <div className="flex justify-center gap-6 mt-6">
               <button
                 type="reset"
                 onClick={() => {
-                  formik.resetForm()
-                  setImagePreview(null)
+                  formik.resetForm();
+                  setImagePreview(null);
                 }}
-                className="w-1/3 py-2 bg-[#F9A03F] text-white rounded-md hover:bg-orange-500 focus:outline-none"
+                className="w-1/3 py-2 bg-customPalette-blue text-customPalette-white rounded-md hover:bg-customPalette-bluedark focus:outline-none"
               >
                 Limpiar
               </button>
               <button
                 type="submit"
-                className="w-1/3 py-2 bg-[#235789] text-white rounded-md hover:bg-blue-800 focus:outline-none"
+                className="w-1/3 py-2 bg-customPalette-orange text-customPalette-white rounded-md hover:bg-customPalette-orangebright focus:outline-none"
               >
                 Crear Actividad
               </button>
@@ -195,29 +189,41 @@ export default function CreateActivityForm() {
           </form>
 
           <div className="flex-1">
-            <h2 className="text-xl font-bold mb-4 text-[#235789]">Vista Previa</h2>
+            <h2 className="text-xl font-bold mb-4 text-customPalette-blue">
+              Vista Previa
+            </h2>
             <div className="bg-white rounded-lg shadow-md overflow-hidden">
               {imagePreview && (
-                <img src={imagePreview} alt="Vista previa" className="w-full h-48 object-cover" />
+                <img
+                  src={imagePreview}
+                  alt="Vista previa"
+                  className="w-full h-48 object-cover"
+                />
               )}
               <div className="p-4">
-                <h3 className="text-xl font-semibold text-[#235789] mb-2">
-                  {formik.values.name || 'Nombre de la Actividad'}
+                <h3 className="text-xl font-semibold text-customPalette-bluedark mb-2">
+                  {formik.values.name || "Nombre de la Actividad"}
                 </h3>
                 <p className="text-gray-600 mb-4">
-                  {formik.values.description || 'Descripción de la actividad'}
+                  {formik.values.description || "Descripción de la actividad"}
                 </p>
                 <div className="flex items-center text-gray-500 mb-2">
                   <CalendarIcon className="w-4 h-4 mr-2" />
-                  <span>{formik.values.date ? format(new Date(formik.values.date), "dd/MM/yyyy") : 'Fecha'}</span>
+                  <span>
+                    {formik.values.date
+                      ? moment(formik.values.date, "YYYY-MM-DD").format(
+                          "DD/MM/YYYY"
+                        )
+                      : "Fecha"}
+                  </span>
                 </div>
                 <div className="flex items-center text-gray-500 mb-2">
                   <ClockIcon className="w-4 h-4 mr-2" />
-                  <span>{formik.values.time || 'Hora'}</span>
+                  <span>{formik.values.time || "Hora"}</span>
                 </div>
                 <div className="flex items-center text-gray-500">
                   <MapPinIcon className="w-4 h-4 mr-2" />
-                  <span>{formik.values.place || 'Lugar'}</span>
+                  <span>{formik.values.place || "Lugar"}</span>
                 </div>
               </div>
             </div>
@@ -225,5 +231,5 @@ export default function CreateActivityForm() {
         </div>
       </div>
     </div>
-  )
+  );
 }
