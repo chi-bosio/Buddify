@@ -10,7 +10,7 @@ export default function NavBar() {
   const [linkActive, setLinkActive] = useState<string>("");
   const pathname = usePathname();
 
-  const logged = false; 
+  const logged = false;
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const links = [
@@ -38,18 +38,16 @@ export default function NavBar() {
             title: "Contacto",
             href: "/contact",
           },
-          { 
-            title: "Registro", 
-            href: "/register" 
+          {
+            title: "Registro",
+            href: "/register",
           },
-          { 
-            title: "Login", 
-            href: "/login" 
-          }
+          {
+            title: "Login",
+            href: "/login",
+          },
         ]),
-    
   ];
-
 
   useEffect(() => {
     const activeLink = links.find((link) => pathname === link.href);
@@ -72,8 +70,7 @@ export default function NavBar() {
       <div className="flex flex-col sm:flex-row sm:gap-6 w-full sm:w-auto items-center sm:items-center">
         {links
           .filter(
-            (link) =>
-              link.title !== "Registro" && link.title !== "Login" // Excluir "Registro" y "Login" del listado principal
+            (link) => link.title !== "Registro" && link.title !== "Login" // Excluir "Registro" y "Login" del listado principal
           )
           .map((link) => (
             <NavLink
