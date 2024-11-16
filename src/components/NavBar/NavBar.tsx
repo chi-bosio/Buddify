@@ -5,12 +5,18 @@ import NavLink from "./components/NavLink";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function NavBar() {
   const [linkActive, setLinkActive] = useState<string>("");
+  const [logged, setLogged] = useState<boolean>(false);
   const pathname = usePathname();
+  const router = useRouter();
 
-  const logged = false;
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setLogged(!!token);
+  }, []);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const links = [
@@ -56,6 +62,12 @@ export default function NavBar() {
     }
   }, [pathname, links]);
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setLogged(false);
+    router.push("/login");
+  };
+
   return (
     <nav className="flex items-center justify-between bg-customPalette-black px-8 py-4 flex-col sm:flex-row">
       <Link
@@ -93,6 +105,10 @@ export default function NavBar() {
               width={10}
               height={10}
             />
+
+            <button onClick={handleLogout} className="text-customPalette-red">
+              Salir
+            </button>
           </>
         ) : (
           <>

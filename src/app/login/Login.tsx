@@ -2,10 +2,11 @@
 import { useFormik } from "formik";
 import validationSchemaLogin from "./components/validationSchema";
 import postData from "./components/postData";
-
-
+import React, { useState } from 'react';
+import { useRouter } from "next/navigation";
 
 const LoginForm = () => {
+  const router = useRouter();
   const formik = useFormik({
     initialValues: {
       username: "",
@@ -14,12 +15,24 @@ const LoginForm = () => {
     validationSchema: validationSchemaLogin,
     onSubmit: async (values) => {
         const success = await postData(values);
-        if (success) handleResetForm();
-    }
+        if (success) {
+          handleResetForm();
+          router.push("/create-activity");
+      } else {
+        console.log("Error al iniciar sesión");
+      }
+      }
 });
   const handleResetForm = () => {
     formik.resetForm();
   };
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleTogglePassword = () => {
+    setShowPassword(!showPassword);
+  }
+  
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 h-screen">
       <div
@@ -62,7 +75,7 @@ const LoginForm = () => {
 
           <div className="input-group relative mb-6 w-full max-w-[400px] mx-auto">
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               id="password"
               name="password"
               value={formik.values.password}
@@ -77,6 +90,19 @@ const LoginForm = () => {
             >
               Contraseña
             </label>
+            
+            <button
+                type="button"
+                onClick={handleTogglePassword}
+                className="absolute right-3 top-4"
+              >
+                <img
+                  src={showPassword ? "/assets/ojosabierto.png" : "/assets/ojoscerrado.png"}
+                  alt={showPassword ? "Ojo cerrado" : "Ojo abierto"}
+                  className="w-9 h-9"
+                />
+            </button>
+
             {formik.touched.password && formik.errors.password && (
               <div className="text-customPalette-red">
                 {formik.errors.password}
@@ -117,6 +143,5 @@ const LoginForm = () => {
   );
 
 };
-
 
 export default LoginForm;
