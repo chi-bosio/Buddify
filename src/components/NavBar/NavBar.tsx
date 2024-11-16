@@ -44,18 +44,16 @@ export default function NavBar() {
             title: "Contacto",
             href: "/contact",
           },
-          { 
-            title: "Registro", 
-            href: "/register" 
+          {
+            title: "Registro",
+            href: "/register",
           },
-          { 
-            title: "Login", 
-            href: "/login" 
-          }
+          {
+            title: "Login",
+            href: "/login",
+          },
         ]),
-    
   ];
-
 
   useEffect(() => {
     const activeLink = links.find((link) => pathname === link.href);
@@ -69,7 +67,6 @@ export default function NavBar() {
     setLogged(false);
     router.push("/login");
   };
-
 
   return (
     <nav className="flex items-center justify-between bg-customPalette-black px-8 py-4 flex-col sm:flex-row">
@@ -85,8 +82,7 @@ export default function NavBar() {
       <div className="flex flex-col sm:flex-row sm:gap-6 w-full sm:w-auto items-center sm:items-center">
         {links
           .filter(
-            (link) =>
-              link.title !== "Registro" && link.title !== "Login" // Excluir "Registro" y "Login" del listado principal
+            (link) => link.title !== "Registro" && link.title !== "Login" // Excluir "Registro" y "Login" del listado principal
           )
           .map((link) => (
             <NavLink
@@ -110,13 +106,9 @@ export default function NavBar() {
               height={10}
             />
 
-              <button
-                onClick={handleLogout}
-                className="text-customPalette-red"
-              >
+            <button onClick={handleLogout} className="text-customPalette-red">
               Salir
-              </button>
-
+            </button>
           </>
         ) : (
           <>
