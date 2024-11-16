@@ -26,6 +26,11 @@ export const postData = async (data:data):Promise<boolean> =>{
             return false;
           }else{
             const result = await response.json();
+
+            if (result.access_token) {
+              localStorage.setItem("token", result.access_token);
+            }
+
             toast.success(result.message, {
               position: "top-right",
               autoClose: 5000,
