@@ -81,7 +81,7 @@ const LoginForm = () => {
               value={formik.values.password}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              className="peer w-full min-w-[200px] h-full p-4 pt-6 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-bluelink focus:border-customPalette-bluelightli text-customPalette-graydark text-xl"
+              className="peer w-full min-w-[200px] h-full p-4 pt-6 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-bluelink focus:border-customPalette-bluelightli text-customPalette-graydark text-xl pr-14"
               placeholder=" "
             />
             <label

@@ -72,6 +72,12 @@ const RegisterForm: React.FC = () => {
     setCity([]);
   };
 
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleTogglePassword = () => {
+    setShowPassword(!showPassword);
+  }
+
   return (
     <div className="bg-[url('/assets/textura-fondo.avif')] min-h-screen flex items-center justify-center bg-customPalette-white">
       <div className="w-full max-w-4xl p-8 bg-customPalette-white rounded-xl shadow-lg border border-customPalette-white">
@@ -265,6 +271,19 @@ const RegisterForm: React.FC = () => {
               >
                 Contraseña
               </label>
+
+              <button
+                type="button"
+                onClick={handleTogglePassword}
+                className="absolute right-2 top-1"
+              >
+                <img
+                  src={showPassword ? "/assets/ojosabierto.png" : "/assets/ojoscerrado.png"}
+                  alt={showPassword ? "Ojo cerrado" : "Ojo abierto"}
+                  className="w-9 h-9"
+                />
+                </button>
+
               <input
                 type="password"
                 id="password"
@@ -272,7 +291,7 @@ const RegisterForm: React.FC = () => {
                 value={formik.values.password}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className="block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark"
+                className="block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark pr-12"
               />
               {formik.touched.password && formik.errors.password && (
                 <div className="text-customPalette-red">
