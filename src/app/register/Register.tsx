@@ -1,13 +1,17 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
-import validationSchemaRegister  from "./components/validationSchema";
+import validationSchemaRegister from "./components/validationSchema";
 import postData from "./components/postData";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
+import { useRouter } from "next/navigation";
 
 const RegisterForm: React.FC = () => {
-  const [countries, setCountries] = useState<{ name: string, city: string[] }[]>([]);
+  const router = useRouter();
+  const [countries, setCountries] = useState<
+    { name: string; city: string[] }[]
+  >([]);
   const [city, setCity] = useState<string[]>([]);
 
   useEffect(() => {
@@ -42,7 +46,7 @@ const RegisterForm: React.FC = () => {
       password: "",
       dni: "",
     },
-    validationSchema:validationSchemaRegister ,
+    validationSchema: validationSchemaRegister,
     onSubmit: async (values) => {
       const result = await Swal.fire({
         title: "¿Estás seguro?",
@@ -51,14 +55,17 @@ const RegisterForm: React.FC = () => {
         showCancelButton: true,
         confirmButtonColor: "#f97316",
         cancelButtonColor: "#235789",
-        cancelButtonText:"Cancelar",
-        confirmButtonText: "Registrarse"
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Registrarse",
       });
-      if(result.isConfirmed) {
+      if (result.isConfirmed) {
         const success = await postData(values);
-        if (success) handleResetForm();
-      }     
+        if (success) {
+          handleResetForm();
+          router.push("/login");
+        }
       }
+    },
   });
   const handleResetForm = () => {
     formik.resetForm();
@@ -185,7 +192,7 @@ const RegisterForm: React.FC = () => {
                 htmlFor="city"
                 className="absolute -top-3 left-2 bg-[var(--custom-white)] px-1 text-sm font-medium text-[var(--custom-blue)] mt-1"
               >
-                Ciudad
+                Provincia
               </label>
               <select
                 id="city"
@@ -343,5 +350,3 @@ const RegisterForm: React.FC = () => {
   );
 };
 export default RegisterForm;
-
-
