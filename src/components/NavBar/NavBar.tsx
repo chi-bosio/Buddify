@@ -41,13 +41,6 @@ export default function NavBar() {
           {
             title: "Registro",
             href: "/register",
-          {
-            title: "Registro",
-            href: "/register",
-          },
-          {
-            title: "Login",
-            href: "/login",
           },
           {
             title: "Login",

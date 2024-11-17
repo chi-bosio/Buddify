@@ -4,6 +4,9 @@ import { useState } from "react";
 import { CalendarIcon, ClockIcon, MapPinIcon } from "lucide-react";
 import { useFormik } from "formik";
 import moment from "moment";
+import DragAndDropImage from "./components/dragAndDrop";
+import { toast } from "react-toastify";
+import { UploadImageToCloudinary } from "./components/uploadImageToCloudinary";
 
 interface FormValues {
   name: string;
@@ -26,37 +29,52 @@ export default function CreateActivityForm() {
       time: "",
       place: "",
     },
-    onSubmit: (values, { resetForm }) => {
+    onSubmit: async (values, { resetForm }) => {
       const formattedDate = moment(values.date).format("DD/MM/YYYY");
 
-      // Simulate getting latitude and longitude from place name
       const latitude = Math.random() * 180 - 90;
       const longitude = Math.random() * 360 - 180;
-
+    
+      let imageUrl = '';
+      if (values.image) {
+        imageUrl = await UploadImageToCloudinary(values.image);
+        if (!imageUrl) {
+          toast.error("No se pudo subir la imagen. Verifica e intenta nuevamente.", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          return;
+        }
+      }
+    
       console.log("Submitting:", {
         ...values,
+        image: imageUrl,
         date: formattedDate,
         latitude,
         longitude,
       });
-
+    
       resetForm();
       setImagePreview(null);
+    
+      toast.success("Actividad creada con éxito!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     },
+    
   });
-
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0] || null;
-    formik.setFieldValue("image", file);
-
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => setImagePreview(reader.result as string);
-      reader.readAsDataURL(file);
-    } else {
-      setImagePreview(null);
-    }
-  };
 
   return (
     <div className="bg-[url('/assets/textura-fondo.avif')] min-h-screen flex items-center justify-center bg-customPalette-white">
@@ -101,20 +119,26 @@ export default function CreateActivityForm() {
             </div>
 
             <div className="relative">
-              <label
-                htmlFor="image"
-                className="absolute -top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1"
-              >
-                Imagen de la Actividad
-              </label>
-              <input
-                type="file"
-                id="image"
-                accept="image/*"
-                onChange={handleImageChange}
-                className="mt-1 block w-full py-3 px-4 border border-customPalette-gray rounded-sm shadow-sm focus:ring-customPalette-bluedark focus:border-customPalette-bluelightli file:mr-4 file:py-1 file:px-2 file:rounded-sm file:border-0 file:text-xs file:font-medium file:bg-customPalette-blue file:text-customPalette-white file:shadow hover:file:bg-customPalette-bluedark text-xs text-customPalette-graydark bg-customPalette-white focus:outline-none focus:ring-2"
-              />
-            </div>
+  <label
+    htmlFor="image"
+    className="absolute -top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1"
+  >
+    Imagen de la Actividad
+  </label>
+  <DragAndDropImage
+    onImageUpload={(file) => {
+      formik.setFieldValue("image", file);
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => setImagePreview(reader.result as string);
+        reader.readAsDataURL(file);
+      } else {
+        setImagePreview(null);
+      }
+    }}
+  />
+</div>
+
 
             <div className="relative">
               <label
@@ -157,6 +181,9 @@ export default function CreateActivityForm() {
               >
                 Lugar de la Actividad
               </label>
+              <span className="absolute inset-y-0 left-2 flex items-center pointer-events-none">
+                 <MapPinIcon className="w-5 h-5 text-customPalette-graydark" />
+               </span>
               <input
                 type="text"
                 id="place"
