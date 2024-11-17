@@ -285,7 +285,7 @@ const RegisterForm: React.FC = () => {
                 </button>
 
               <input
-                type="password"
+                type={showPassword?"text":"password"}
                 id="password"
                 name="password"
                 value={formik.values.password}
