@@ -1,12 +1,13 @@
-"use client";
-
+'use client';
 import { useState } from "react";
 import { CalendarIcon, ClockIcon, MapPinIcon } from "lucide-react";
 import { useFormik } from "formik";
 import moment from "moment";
 import DragAndDropImage from "./components/dragAndDrop";
 import { toast } from "react-toastify";
+import { PostData } from "./components/postData";
 import { UploadImageToCloudinary } from "./components/uploadImageToCloudinary";
+import validationSchemaNewActivitie from "./components/validationSchema";
 
 interface FormValues {
   name: string;
@@ -29,11 +30,11 @@ export default function CreateActivityForm() {
       time: "",
       place: "",
     },
-    onSubmit: async (values, { resetForm }) => {
-      const formattedDate = moment(values.date).format("DD/MM/YYYY");
+    validationSchema: validationSchemaNewActivitie,
+    onSubmit: async (values, { resetForm }) => {;
 
-      const latitude = Math.random() * 180 - 90;
-      const longitude = Math.random() * 360 - 180;
+      const latitude = "latitud"
+      const longitude = "longitud"
     
       let imageUrl = '';
       if (values.image) {
@@ -52,28 +53,20 @@ export default function CreateActivityForm() {
         }
       }
     
-      console.log("Submitting:", {
+      const activityData = {
         ...values,
+        creatorId:"9af12024-662e-41d6-8a91-78cc4d64c1df",
         image: imageUrl,
-        date: formattedDate,
         latitude,
         longitude,
-      });
-    
-      resetForm();
-      setImagePreview(null);
-    
-      toast.success("Actividad creada con éxito!", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      };
+      const isSuccess = await PostData(activityData);
+      if (isSuccess) {
+  
+        resetForm();
+        setImagePreview(null);
+      }
     },
-    
   });
 
   return (
@@ -92,6 +85,7 @@ export default function CreateActivityForm() {
                 Nombre de la Actividad
               </label>
               <input
+                onBlur={formik.handleBlur}
                 type="text"
                 id="name"
                 value={formik.values.name}
@@ -99,6 +93,11 @@ export default function CreateActivityForm() {
                 required
                 className="mt-1 block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark"
               />
+           <div className="text-customPalette-red h-0.5">
+            {formik.touched.name && formik.errors.name && (
+                <>{formik.errors.name}</>
+            )}
+            </div>
             </div>
 
             <div className="relative">
@@ -109,6 +108,7 @@ export default function CreateActivityForm() {
                 Descripción
               </label>
               <textarea
+                onBlur={formik.handleBlur}
                 id="description"
                 value={formik.values.description}
                 onChange={formik.handleChange}
@@ -116,29 +116,34 @@ export default function CreateActivityForm() {
                 rows={3}
                 className="mt-1 block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark"
               />
+             <div className="text-customPalette-red h-0.5">
+            {formik.touched.description && formik.errors.description && (
+                <>{formik.errors.description}</>
+            )}
+            </div>
+            
             </div>
 
             <div className="relative">
-  <label
-    htmlFor="image"
-    className="absolute -top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1"
-  >
-    Imagen de la Actividad
-  </label>
-  <DragAndDropImage
-    onImageUpload={(file) => {
-      formik.setFieldValue("image", file);
-      if (file) {
-        const reader = new FileReader();
-        reader.onloadend = () => setImagePreview(reader.result as string);
-        reader.readAsDataURL(file);
-      } else {
-        setImagePreview(null);
-      }
-    }}
-  />
-</div>
-
+              <label
+                htmlFor="image"
+                className="absolute -top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1"
+              >
+                Imagen de la Actividad
+              </label>
+              <DragAndDropImage
+                onImageUpload={(file) => {
+                  formik.setFieldValue("image", file);
+                  if (file) {
+                    const reader = new FileReader();
+                    reader.onloadend = () => setImagePreview(reader.result as string);
+                    reader.readAsDataURL(file);
+                  } else {
+                    setImagePreview(null);
+                  }
+                }}
+              />
+            </div>
 
             <div className="relative">
               <label
@@ -148,6 +153,7 @@ export default function CreateActivityForm() {
                 Fecha de la Actividad
               </label>
               <input
+                onBlur={formik.handleBlur}
                 type="date"
                 id="date"
                 value={formik.values.date}
@@ -155,6 +161,11 @@ export default function CreateActivityForm() {
                 required
                 className="mt-1 block w-full p-2 pl-10 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark text-sm"
               />
+            <div className="text-customPalette-red h-0.5">
+                {formik.touched.date && formik.errors.date && (
+                <>{formik.errors.date}</>
+              )}
+            </div>
             </div>
 
             <div className="relative">
@@ -165,6 +176,7 @@ export default function CreateActivityForm() {
                 Hora de la Actividad
               </label>
               <input
+                onBlur={formik.handleBlur}
                 type="time"
                 id="time"
                 value={formik.values.time}
@@ -172,6 +184,11 @@ export default function CreateActivityForm() {
                 required
                 className="mt-1 block w-full p-2 pl-10 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark text-sm"
               />
+              <div className="text-customPalette-red h-0.5">
+                {formik.touched.time && formik.errors.time && (
+                <>{formik.errors.time}</>
+                )}
+            </div>
             </div>
 
             <div className="relative">
@@ -185,6 +202,7 @@ export default function CreateActivityForm() {
                  <MapPinIcon className="w-5 h-5 text-customPalette-graydark" />
                </span>
               <input
+                onBlur={formik.handleBlur}
                 type="text"
                 id="place"
                 value={formik.values.place}
@@ -193,6 +211,11 @@ export default function CreateActivityForm() {
                 className="mt-1 block w-full p-2 pl-10 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark text-sm"
                 placeholder="Ingrese la ubicación"
               />
+                <div className="text-customPalette-red h-0.5">
+                {formik.touched.place && formik.errors.place && (
+                <>{formik.errors.place}</>
+                )}
+                </div>
             </div>
 
             <div className="flex justify-center gap-6 mt-6">
@@ -203,12 +226,6 @@ export default function CreateActivityForm() {
                   setImagePreview(null);
                 }}
                 className="w-1/3 py-2 bg-customPalette-blue text-customPalette-white rounded-md hover:bg-customPalette-bluedark focus:outline-none"
-              >
-                Limpiar
-              </button>
-              <button
-                type="submit"
-                className="w-1/3 py-2 bg-customPalette-orange text-customPalette-white rounded-md hover:bg-customPalette-orangebright focus:outline-none"
               >
                 Crear Actividad
               </button>
@@ -238,9 +255,7 @@ export default function CreateActivityForm() {
                   <CalendarIcon className="w-4 h-4 mr-2" />
                   <span>
                     {formik.values.date
-                      ? moment(formik.values.date, "YYYY-MM-DD").format(
-                          "DD/MM/YYYY"
-                        )
+                      ? moment(formik.values.date, "YYYY-MM-DD").format("DD/MM/YYYY")
                       : "Fecha"}
                   </span>
                 </div>
