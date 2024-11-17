@@ -4,27 +4,21 @@ import Logo from "./components/Logo";
 import NavLink from "./components/NavLink";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useAuthContext } from "../../contexts/authContext";
 
 export default function NavBar() {
   const [linkActive, setLinkActive] = useState<string>("");
-  const [logged, setLogged] = useState<boolean>(false);
   const pathname = usePathname();
   const router = useRouter();
+  const { isLoggedIn, logout } = useAuthContext();
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    setLogged(!!token);
-  }, []);
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const links = [
     {
       title: "Inicio",
       href: "/",
     },
-    ...(logged
+    ...(isLoggedIn
       ? [
           {
             title: "Mis actividades",
@@ -47,6 +41,13 @@ export default function NavBar() {
           {
             title: "Registro",
             href: "/register",
+          {
+            title: "Registro",
+            href: "/register",
+          },
+          {
+            title: "Login",
+            href: "/login",
           },
           {
             title: "Login",
@@ -63,8 +64,7 @@ export default function NavBar() {
   }, [pathname, links]);
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    setLogged(false);
+    logout();
     router.push("/login");
   };
 
@@ -82,7 +82,8 @@ export default function NavBar() {
       <div className="flex flex-col sm:flex-row sm:gap-6 w-full sm:w-auto items-center sm:items-center">
         {links
           .filter(
-            (link) => link.title !== "Registro" && link.title !== "Login" // Excluir "Registro" y "Login" del listado principal
+            (link) =>
+              link.title !== "Registro" && link.title !== "Login"
           )
           .map((link) => (
             <NavLink
@@ -95,7 +96,7 @@ export default function NavBar() {
       </div>
 
       <div className="flex items-center gap-4 mt-4 sm:mt-0">
-        {logged ? (
+        {isLoggedIn ? (
           <>
             <span>Usuario</span>
             <Image
@@ -105,9 +106,11 @@ export default function NavBar() {
               width={10}
               height={10}
             />
-
-            <button onClick={handleLogout} className="text-customPalette-red">
-              Salir
+            <button
+              onClick={handleLogout}
+              className="text-white hover:text-customPalette-orange"
+            >
+              Cerrar sesión
             </button>
           </>
         ) : (
@@ -130,3 +133,4 @@ export default function NavBar() {
     </nav>
   );
 }
+

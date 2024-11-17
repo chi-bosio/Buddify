@@ -3,10 +3,17 @@ import { useFormik } from "formik";
 import validationSchemaLogin from "./components/validationSchema";
 import postData from "./components/postData";
 import React, { useState } from 'react';
+import { useAuthContext } from "@/contexts/authContext";
 import { useRouter } from "next/navigation";
 
 const LoginForm = () => {
+  const { login } = useAuthContext();
   const router = useRouter();
+
+  const handleResetForm = () => {
+    formik.resetForm();
+  };
+
   const formik = useFormik({
     initialValues: {
       username: "",
@@ -14,18 +21,20 @@ const LoginForm = () => {
     },
     validationSchema: validationSchemaLogin,
     onSubmit: async (values) => {
+
         const success = await postData(values);
-        if (success) {
+
+        if (success.success) {
+          if (success.token){
+          login({token: success.token});
+          }
           handleResetForm();
           router.push("/create-activity");
-      } else {
-        console.log("Error al iniciar sesión");
-      }
+        }else {
+          console.log('Error:', success.message);
+        }
       }
 });
-  const handleResetForm = () => {
-    formik.resetForm();
-  };
 
   const [showPassword, setShowPassword] = useState(false);
 
