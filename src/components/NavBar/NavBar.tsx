@@ -2,7 +2,7 @@
 import Link from "next/link";
 import Logo from "./components/Logo";
 import NavLink from "./components/NavLink";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useAuthContext } from "../../contexts/authContext";
@@ -11,56 +11,32 @@ export default function NavBar() {
   const [linkActive, setLinkActive] = useState<string>("");
   const pathname = usePathname();
   const router = useRouter();
-  const { isLoggedIn, logout } = useAuthContext();
-
-  const links = [
-    {
-      title: "Inicio",
-      href: "/",
-    },
-    ...(isLoggedIn
-      ? [
-          {
-            title: "Mis actividades",
-            href: "/activities",
-          },
-          {
-            title: "Crear actividad",
-            href: "/create-activity",
-          },
-        ]
-      : [
-          {
-            title: "Nosotros",
-            href: "/about",
-          },
-          {
-            title: "Contacto",
-            href: "/contact",
-          },
-          {
-            title: "Registro",
-            href: "/register",
-          },
-          {
-            title: "Login",
-            href: "/login",
-          },
-        ]),
-  ];
-
+  const { isLoggedIn = false , logout} = useAuthContext();
+  const [isClient, setIsClient] = useState(false);
+  const links = useMemo(() => {
+    if (!isClient) return []; 
+    return [
+      { title: "Inicio", href: "/" },
+      ...(isLoggedIn
+        ? [{ title: "Mis actividades", href: "/activities" }]
+        : [{ title: "Nosotros", href: "/about" }]),
+    ];
+  }, [isClient, isLoggedIn]);
   useEffect(() => {
     const activeLink = links.find((link) => pathname === link.href);
     if (activeLink) {
       setLinkActive(activeLink.title);
     }
+    setIsClient(true);
   }, [pathname, links]);
 
   const handleLogout = () => {
     logout();
     router.push("/login");
   };
-
+  if (!isClient) {
+    return <div>Cargando...</div>;
+  }
   return (
     <nav className="flex items-center justify-between bg-customPalette-black px-8 py-4 flex-col sm:flex-row">
       <Link
