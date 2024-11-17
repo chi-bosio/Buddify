@@ -58,28 +58,12 @@ const RegisterForm: React.FC = () => {
         cancelButtonText: "Cancelar",
         confirmButtonText: "Registrarse",
       });
-<<<<<<< HEAD
-      
-      if(result.isConfirmed) {
-        Swal.fire({
-          allowOutsideClick: false,
-          icon:'info',
-          title: 'Procesando...'
-        });
-        Swal.showLoading();
-        const success = await postData(values);
-        Swal.close();
-        
-        if (success) handleResetForm();
-      }     
-=======
       if (result.isConfirmed) {
         const success = await postData(values);
         if (success) {
           handleResetForm();
           router.push("/login");
         }
->>>>>>> 119fcfa9b883480af533b864044ac9b96191672c
       }
     },
   });

@@ -2,15 +2,9 @@
 import { useFormik } from "formik";
 import validationSchemaLogin from "./components/validationSchema";
 import postData from "./components/postData";
-<<<<<<< HEAD
-import Swal from "sweetalert2";
-
-
-=======
 import React, { useState } from 'react';
 import { useAuthContext } from "@/contexts/authContext";
 import { useRouter } from "next/navigation";
->>>>>>> 119fcfa9b883480af533b864044ac9b96191672c
 
 const LoginForm = () => {
   const { login } = useAuthContext();
@@ -27,18 +21,6 @@ const LoginForm = () => {
     },
     validationSchema: validationSchemaLogin,
     onSubmit: async (values) => {
-<<<<<<< HEAD
-      Swal.fire({
-        allowOutsideClick: false,
-        icon:'info',
-        title: 'Procesando...'
-      });
-      Swal.showLoading();
-      const success = await postData(values);
-      Swal.close();
-      if (success) handleResetForm();
-    }
-=======
 
         const success = await postData(values);
 
@@ -52,7 +34,6 @@ const LoginForm = () => {
           console.log('Error:', success.message);
         }
       }
->>>>>>> 119fcfa9b883480af533b864044ac9b96191672c
 });
 
   const [showPassword, setShowPassword] = useState(false);
