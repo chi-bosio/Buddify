@@ -1,13 +1,17 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
-import validationSchemaRegister  from "./components/validationSchema";
+import validationSchemaRegister from "./components/validationSchema";
 import postData from "./components/postData";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
+import { useRouter } from "next/navigation";
 
 const RegisterForm: React.FC = () => {
-  const [countries, setCountries] = useState<{ name: string, city: string[] }[]>([]);
+  const router = useRouter();
+  const [countries, setCountries] = useState<
+    { name: string; city: string[] }[]
+  >([]);
   const [city, setCity] = useState<string[]>([]);
 
   useEffect(() => {
@@ -42,7 +46,7 @@ const RegisterForm: React.FC = () => {
       password: "",
       dni: "",
     },
-    validationSchema:validationSchemaRegister ,
+    validationSchema: validationSchemaRegister,
     onSubmit: async (values) => {
       const result = await Swal.fire({
         title: "¿Estás seguro?",
@@ -51,9 +55,10 @@ const RegisterForm: React.FC = () => {
         showCancelButton: true,
         confirmButtonColor: "#f97316",
         cancelButtonColor: "#235789",
-        cancelButtonText:"Cancelar",
-        confirmButtonText: "Registrarse"
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Registrarse",
       });
+<<<<<<< HEAD
       
       if(result.isConfirmed) {
         Swal.fire({
@@ -67,12 +72,27 @@ const RegisterForm: React.FC = () => {
         
         if (success) handleResetForm();
       }     
+=======
+      if (result.isConfirmed) {
+        const success = await postData(values);
+        if (success) {
+          handleResetForm();
+          router.push("/login");
+        }
+>>>>>>> 119fcfa9b883480af533b864044ac9b96191672c
       }
+    },
   });
   const handleResetForm = () => {
     formik.resetForm();
     setCity([]);
   };
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleTogglePassword = () => {
+    setShowPassword(!showPassword);
+  }
 
   return (
     <div className="bg-[url('/assets/textura-fondo.avif')] min-h-screen flex items-center justify-center bg-customPalette-white">
@@ -188,7 +208,7 @@ const RegisterForm: React.FC = () => {
                 htmlFor="city"
                 className="absolute -top-3 left-2 bg-[var(--custom-white)] px-1 text-sm font-medium text-[var(--custom-blue)] mt-1"
               >
-                Ciudad
+                Provincia
               </label>
               <select
                 id="city"
@@ -267,14 +287,27 @@ const RegisterForm: React.FC = () => {
               >
                 Contraseña
               </label>
+
+              <button
+                type="button"
+                onClick={handleTogglePassword}
+                className="absolute right-2 top-1"
+              >
+                <img
+                  src={showPassword ? "/assets/ojosabierto.png" : "/assets/ojoscerrado.png"}
+                  alt={showPassword ? "Ojo cerrado" : "Ojo abierto"}
+                  className="w-9 h-9"
+                />
+                </button>
+
               <input
-                type="password"
+                type={showPassword?"text":"password"}
                 id="password"
                 name="password"
                 value={formik.values.password}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className="block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark"
+                className="block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark pr-12"
               />
               {formik.touched.password && formik.errors.password && (
                 <div className="text-customPalette-red">
@@ -333,5 +366,3 @@ const RegisterForm: React.FC = () => {
   );
 };
 export default RegisterForm;
-
-

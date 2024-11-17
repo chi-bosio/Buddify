@@ -2,11 +2,24 @@
 import { useFormik } from "formik";
 import validationSchemaLogin from "./components/validationSchema";
 import postData from "./components/postData";
+<<<<<<< HEAD
 import Swal from "sweetalert2";
 
 
+=======
+import React, { useState } from 'react';
+import { useAuthContext } from "@/contexts/authContext";
+import { useRouter } from "next/navigation";
+>>>>>>> 119fcfa9b883480af533b864044ac9b96191672c
 
 const LoginForm = () => {
+  const { login } = useAuthContext();
+  const router = useRouter();
+
+  const handleResetForm = () => {
+    formik.resetForm();
+  };
+
   const formik = useFormik({
     initialValues: {
       username: "",
@@ -14,6 +27,7 @@ const LoginForm = () => {
     },
     validationSchema: validationSchemaLogin,
     onSubmit: async (values) => {
+<<<<<<< HEAD
       Swal.fire({
         allowOutsideClick: false,
         icon:'info',
@@ -24,10 +38,29 @@ const LoginForm = () => {
       Swal.close();
       if (success) handleResetForm();
     }
+=======
+
+        const success = await postData(values);
+
+        if (success.success) {
+          if (success.token){
+          login({token: success.token});
+          }
+          handleResetForm();
+          router.push("/create-activity");
+        }else {
+          console.log('Error:', success.message);
+        }
+      }
+>>>>>>> 119fcfa9b883480af533b864044ac9b96191672c
 });
-  const handleResetForm = () => {
-    formik.resetForm();
-  };
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleTogglePassword = () => {
+    setShowPassword(!showPassword);
+  }
+  
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 h-screen">
       <div
@@ -70,13 +103,13 @@ const LoginForm = () => {
 
           <div className="input-group relative mb-6 w-full max-w-[400px] mx-auto">
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               id="password"
               name="password"
               value={formik.values.password}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              className="peer w-full min-w-[200px] h-full p-4 pt-6 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-bluelink focus:border-customPalette-bluelightli text-customPalette-graydark text-xl"
+              className="peer w-full min-w-[200px] h-full p-4 pt-6 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-bluelink focus:border-customPalette-bluelightli text-customPalette-graydark text-xl pr-14"
               placeholder=" "
             />
             <label
@@ -85,6 +118,19 @@ const LoginForm = () => {
             >
               Contraseña
             </label>
+            
+            <button
+                type="button"
+                onClick={handleTogglePassword}
+                className="absolute right-3 top-4"
+              >
+                <img
+                  src={showPassword ? "/assets/ojosabierto.png" : "/assets/ojoscerrado.png"}
+                  alt={showPassword ? "Ojo cerrado" : "Ojo abierto"}
+                  className="w-9 h-9"
+                />
+            </button>
+
             {formik.touched.password && formik.errors.password && (
               <div className="text-customPalette-red">
                 {formik.errors.password}
@@ -125,6 +171,5 @@ const LoginForm = () => {
   );
 
 };
-
 
 export default LoginForm;
