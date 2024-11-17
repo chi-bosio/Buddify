@@ -38,7 +38,7 @@ export const UploadImageToCloudinary = async (file: File): Promise<string> => {
       return result.secure_url;
   }
   } catch (error) {
-    const errorMessage = (error as any).message ? (error as any).message : "Error al subior la imagen";
+    const errorMessage = (error as any).message ? (error as any).message : "Error al subir la imagen";
     toast.error(errorMessage, {
       position: "top-right",
       autoClose: 5000,

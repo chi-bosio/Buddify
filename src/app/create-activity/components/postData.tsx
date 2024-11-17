@@ -1,27 +1,25 @@
 import { toast } from "react-toastify";
 import { UploadImageToCloudinary } from "./uploadImageToCloudinary";
+import { Console } from "console";
 
 export const PostData = async (activityData: any) => {
   try {
     if (!activityData.image) {
       throw new Error('La imagen es obligatoria.');
     }
-    const imageUrl = await UploadImageToCloudinary(activityData.image);
-
-    const activityWithImage = {
-      ...activityData,
-      imageUrl, 
-    };
-    const response = await fetch('http://localhost:3000/activities', {
+   console.log(activityData);
+    const url= `${process.env.NEXT_PUBLIC_API_URL}/activities`;
+    const response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(activityWithImage),
+      body: JSON.stringify(activityData),
     });
 
     if (!response.ok) {
         const errorData = await response.json();
+        console.log(errorData);
         toast.error(errorData.message, {
             position: "top-right",
             autoClose: 5000,
