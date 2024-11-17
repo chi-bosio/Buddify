@@ -3,8 +3,7 @@ import { validateImage } from './validationImage';
 interface DragAndDropImageProps {
   onImageUpload: (file: File | null) => void;
 }
-
-const DragAndDropImage: React.FC<DragAndDropImageProps> = ({ onImageUpload }) => {
+const DragAndDropImage: React.FC<DragAndDropImageProps> = ({ onImageUpload} ) => {
   const [isDragging, setIsDragging] = useState(false);
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
@@ -61,6 +60,7 @@ const DragAndDropImage: React.FC<DragAndDropImageProps> = ({ onImageUpload }) =>
         onChange={handleInputChange}
         className="hidden" 
       />
+      
     </div>
   );
 };

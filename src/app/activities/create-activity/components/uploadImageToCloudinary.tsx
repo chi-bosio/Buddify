@@ -1,4 +1,4 @@
-import { toast } from "react-toastify";
+import Toast, { TypeToast } from "@/components/Toast/Toast";
 
 export const UploadImageToCloudinary = async (file: File): Promise<string> => {
   const formData = new FormData();
@@ -14,40 +14,16 @@ export const UploadImageToCloudinary = async (file: File): Promise<string> => {
 
     if (!response.ok) {
       const errorData = await response.json();
-      toast.error(errorData.message, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-        return '';
+      Toast(TypeToast.Error,errorData.message)
+      return '';
     }else{
       const result = await response.json();
-      toast.success(result.message, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      Toast(TypeToast.Success,result.message);
       return result.secure_url;
   }
   } catch (error) {
     const errorMessage = (error as any).message ? (error as any).message : "Error al subir la imagen";
-    toast.error(errorMessage, {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
+    Toast(TypeToast.Error,errorMessage);
     return '';
   }
 };

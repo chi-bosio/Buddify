@@ -1,4 +1,4 @@
-import { toast } from "react-toastify";
+import Toast, { TypeToast } from "@/components/Toast/Toast";
 
 type Data = {
   username: string;
@@ -23,14 +23,7 @@ export const postData = async (data: Data): Promise<LoginResponse> => {
 
     if (!response.ok) {
       const errorData = await response.json();
-      toast.error(errorData.message || "Error al iniciar sesión", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
+      Toast(TypeToast.Error,errorData.message || "Error al iniciar sesión")
       return { success: false, message: errorData.message || "Error del servidor" };
     }
 
@@ -38,25 +31,10 @@ export const postData = async (data: Data): Promise<LoginResponse> => {
 
 
     if (!result.success) {
-      toast.error(result.message || "Datos incompletos del servidor", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
+      Toast(TypeToast.Error,result.message || "Datos incompletos del servidor")
       return { success: false, message: result.message || "Datos incompletos del servidor" };
     }
-
-    toast.success(result.message || "Inicio de sesión exitoso", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-    });
+    Toast(TypeToast.Success,result.message || "Inicio de sesión exitoso")
 
     if (result.success && result.access_token) {
       return { success: true, token: result.access_token };
@@ -64,14 +42,8 @@ export const postData = async (data: Data): Promise<LoginResponse> => {
 
     return { success: false, message: "No se ha recibido un token" };
   } catch (error) {
-    toast.error("Error del servidor", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-    });
+    Toast(TypeToast.Error,"Error del servidor");
+    
     return { success: false, message: "Error del servidor" };
   }
 };

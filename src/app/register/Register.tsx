@@ -6,6 +6,9 @@ import postData from "./components/postData";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
+import ErrorMessageForm from "@/components/ErrorMessageForm/ErrorMessageForm";
+import SubmitButton from "@/components/SubmitButton/SubmitButton";
+import InputWithLabel from "@/components/InputWithLabel/InputWithLabel";
 
 const RegisterForm: React.FC = () => {
   const router = useRouter();
@@ -59,7 +62,16 @@ const RegisterForm: React.FC = () => {
         confirmButtonText: "Registrarse",
       });
       if (result.isConfirmed) {
+        Swal.fire({
+          title: 'Cargando...',
+          icon:"info",
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading(); 
+          }
+        });
         const success = await postData(values);
+        Swal.close();
         if (success) {
           handleResetForm();
           router.push("/login");
@@ -71,13 +83,6 @@ const RegisterForm: React.FC = () => {
     formik.resetForm();
     setCity([]);
   };
-
-  const [showPassword, setShowPassword] = useState(false);
-
-  const handleTogglePassword = () => {
-    setShowPassword(!showPassword);
-  }
-
   return (
     <div className="bg-[url('/assets/textura-fondo.avif')] min-h-screen flex items-center justify-center bg-customPalette-white">
       <div className="w-full max-w-4xl p-8 bg-customPalette-white rounded-xl shadow-lg border border-customPalette-white">
@@ -87,72 +92,27 @@ const RegisterForm: React.FC = () => {
         <form onSubmit={formik.handleSubmit} className="grid grid-cols-2 gap-6">
           <div className="space-y-6">
             <div className="relative">
-              <label
-                htmlFor="name"
-                className="absolute -top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1"
-              >
-                Nombre
-              </label>
-              <input
-                type="text"
-                id="name"
+              <InputWithLabel 
+                formik={formik}
                 name="name"
-                value={formik.values.name}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                className="block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark"
-              />
-              {formik.touched.name && formik.errors.name && (
-                <div className="text-customPalette-red">
-                  {formik.errors.name}
-                </div>
-              )}
-            </div>
-
-            <div className="relative">
-              <label
-                htmlFor="lastname"
-                className="absolute -top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1"
-              >
-                Apellido
-              </label>
-              <input
                 type="text"
-                id="lastname"
-                name="lastname"
-                value={formik.values.lastname}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                className="block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark"
-              />
-              {formik.touched.lastname && formik.errors.lastname && (
-                <div className="text-customPalette-red">
-                  {formik.errors.lastname}
-                </div>
-              )}
+                text="Nombre" />
             </div>
 
             <div className="relative">
-              <label
-                htmlFor="birthdate"
-                className="absolute -top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1"
-              >
-                Fecha de nacimiento
-              </label>
-              <input
-                type="date"
-                id="birthdate"
+              <InputWithLabel 
+                formik={formik}
+                name="lastname"
+                type="text"
+                text="Apellido" />
+            </div>
+
+            <div className="relative">
+              <InputWithLabel 
+                formik={formik}
                 name="birthdate"
-                value={formik.values.birthdate}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                className="block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark"
-              />
-              {formik.touched.birthdate && formik.errors.birthdate && (
-                <div className="text-customPalette-red">
-                  {formik.errors.birthdate}
-                </div>
-              )}
+                type="date"
+                text="Fecha de nacimiento"/>
             </div>
 
             <div className="relative">
@@ -171,7 +131,7 @@ const RegisterForm: React.FC = () => {
                   handleCountryChange(event);
                 }}
                 onBlur={formik.handleBlur}
-                className="block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark"
+                className="block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark  "
               >
                 <option value="">Seleccionar país</option>
                 {countries.map((country, index) => (
@@ -180,11 +140,10 @@ const RegisterForm: React.FC = () => {
                   </option>
                 ))}
               </select>
-              {formik.touched.country && formik.errors.country && (
-                <div className="text-customPalette-red">
-                  {formik.errors.country}
-                </div>
-              )}
+              <ErrorMessageForm 
+              formik={formik}
+              input="country"
+              />
             </div>
 
             <div className="relative">
@@ -200,7 +159,7 @@ const RegisterForm: React.FC = () => {
                 value={formik.values.city}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className="block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark"
+                className="block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark  "
               >
                 <option value="">Seleccionar ciudad</option>
                 {city.map((city, index) => (
@@ -209,130 +168,53 @@ const RegisterForm: React.FC = () => {
                   </option>
                 ))}
               </select>
-              {formik.touched.city && formik.errors.city && (
-                <div className="text-[var(--custom-red)]">
-                  {formik.errors.city}
-                </div>
-              )}
+              <ErrorMessageForm 
+              formik={formik}
+              input="city"
+              />
             </div>
           </div>
 
           <div className="space-y-6">
             <div className="relative">
-              <label
-                htmlFor="email"
-                className="absolute -top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1"
-              >
-                Correo electrónico
-              </label>
-              <input
-                type="email"
-                id="email"
+              <InputWithLabel 
+                formik={formik}
                 name="email"
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                className="block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark"
-              />
-              {formik.touched.email && formik.errors.email && (
-                <div className="text-customPalette-red">
-                  {formik.errors.email}
-                </div>
-              )}
-            </div>
-
-            <div className="relative">
-              <label
-                htmlFor="username"
-                className="absolute -top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1"
-              >
-                Username
-              </label>
-              <input
-                type="text"
-                id="username"
-                name="username"
-                value={formik.values.username}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                className="block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark"
-              />
-              {formik.touched.username && formik.errors.username && (
-                <div className="text-customPalette-red">
-                  {formik.errors.username}
-                </div>
-              )}
-            </div>
-
-            <div className="relative">
-              <label
-                htmlFor="password"
-                className="absolute -top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1"
-              >
-                Contraseña
-              </label>
-
-              <button
-                type="button"
-                onClick={handleTogglePassword}
-                className="absolute right-2 top-1"
-              >
-                <img
-                  src={showPassword ? "/assets/ojosabierto.png" : "/assets/ojoscerrado.png"}
-                  alt={showPassword ? "Ojo cerrado" : "Ojo abierto"}
-                  className="w-9 h-9"
+                type="email"
+                text="Correo electrónico"
                 />
-                </button>
-
-              <input
-                type={showPassword?"text":"password"}
-                id="password"
-                name="password"
-                value={formik.values.password}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                className="block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark pr-12"
-              />
-              {formik.touched.password && formik.errors.password && (
-                <div className="text-customPalette-red">
-                  {formik.errors.password}
-                </div>
-              )}
             </div>
 
             <div className="relative">
-              <label
-                htmlFor="dni"
-                className="absolute -top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1"
-              >
-                DNI o pasaporte
-              </label>
-              <input
+              <InputWithLabel 
+                formik={formik}
+                name="username"
                 type="text"
-                id="dni"
+                text="Username"
+                />
+            </div>
+
+            <div className="relative">
+              <InputWithLabel 
+                formik={formik}
+                name="password"
+                type="password"
+                text="Contraseña"
+                />
+            </div>
+
+            <div className="relative">
+              <InputWithLabel 
+                formik={formik}
                 name="dni"
-                value={formik.values.dni}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                className="block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark"
-              />
-              {formik.touched.dni && formik.errors.dni && (
-                <div className="text-customPalette-red">
-                  {formik.errors.dni}
-                </div>
-              )}
+                type="text"
+                text="DNI o pasaporte"
+                 />
             </div>
           </div>
 
-          <div className="col-span-2 flex justify-center gap-6 mt-6">
-            <button
-              type="submit"
-              className="w-1/4 py-2 bg-customPalette-orange text-customPalette-white rounded-md hover:bg-customPalette-orangebright focus:outline-none"
-            >
-              Registrarse
-            </button>
-          </div>
-
+          <SubmitButton text="Registrarse" />
+          
           <div className="col-span-2 text-center mt-6">
             <p className="text-sm text-customPalette-black">
               ¿Ya tenés cuenta?&nbsp;
