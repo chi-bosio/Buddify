@@ -75,11 +75,11 @@ const LoginForm = () => {
             >
               Nombre de Usuario
             </label>
+            <div className="text-customPalette-red h-0.5">
             {formik.touched.username && formik.errors.username && (
-              <div className="text-customPalette-red">
-                {formik.errors.username}
-              </div>
+                <>{formik.errors.username}</>
             )}
+            </div>
           </div>
 
           <div className="input-group relative mb-6 w-full max-w-[400px] mx-auto">
@@ -111,12 +111,11 @@ const LoginForm = () => {
                   className="w-9 h-9"
                 />
             </button>
-
+            <div className="text-customPalette-red h-0.5">
             {formik.touched.password && formik.errors.password && (
-              <div className="text-customPalette-red">
-                {formik.errors.password}
-              </div>
+                <>{formik.errors.password}</>
             )}
+            </div>
           </div>
 
           <div className="mt-10 text-center">
