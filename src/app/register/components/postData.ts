@@ -1,4 +1,4 @@
-import { toast } from "react-toastify";
+import Toast, { TypeToast } from "@/components/Toast/Toast";
 
 type data={
     name: string,
@@ -23,40 +23,16 @@ export const postData = async (values:data):Promise<boolean> =>{
 
       if (!response.ok) {
         const errorData = await response.json();
-        toast.error(errorData.message, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        Toast(TypeToast.Error,errorData.message);
         return false;
       }else{
         const result = await response.json();
-        toast.success(result.message, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        Toast(TypeToast.Success,result.message);
         return true;
       }
     } catch (error) {
       const errorMessage = (error as any).message ? (error as any).message : "Error del servidor";
-      toast.error(errorMessage, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      Toast(TypeToast.Error,errorMessage);
       return false;
     }
 };

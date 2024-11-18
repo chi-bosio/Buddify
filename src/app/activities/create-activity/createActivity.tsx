@@ -1,9 +1,17 @@
-"use client";
-
+'use client';
 import { useState } from "react";
 import { CalendarIcon, ClockIcon, MapPinIcon } from "lucide-react";
 import { useFormik } from "formik";
 import moment from "moment";
+import DragAndDropImage from "./components/dragAndDrop";
+import { PostData } from "./components/postData";
+import { UploadImageToCloudinary } from "./components/uploadImageToCloudinary";
+import validationSchemaNewActivitie from "./components/validationSchema";
+import InputWithLabel from "@/components/InputWithLabel/InputWithLabel";
+import ErrorMessageForm from "@/components/ErrorMessageForm/ErrorMessageForm";
+import SubmitButton from "@/components/SubmitButton/SubmitButton";
+import Swal from "sweetalert2";
+import Toast, { TypeToast } from "@/components/Toast/Toast";
 
 interface FormValues {
   name: string;
@@ -26,38 +34,46 @@ export default function CreateActivityForm() {
       time: "",
       place: "",
     },
-    onSubmit: (values, { resetForm }) => {
-      const formattedDate = moment(values.date).format("DD/MM/YYYY");
-
-      // Simulate getting latitude and longitude from place name
-      const latitude = Math.random() * 180 - 90;
-      const longitude = Math.random() * 360 - 180;
-
-      console.log("Submitting:", {
+    validationSchema: validationSchemaNewActivitie,
+    onSubmit: async (values, { resetForm }) => {
+      const latitude = "latitud"
+      const longitude = "longitud"
+      Swal.fire({
+        title: 'Cargando...',
+        icon:"info",
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading(); 
+        }
+      });
+      let imageUrl = '';
+      if (values.image) {
+        imageUrl = await UploadImageToCloudinary(values.image);
+        if (!imageUrl) {
+          Swal.close();
+          Toast(TypeToast.Error,"No se pudo subir la imagen. Verifica e intenta nuevamente.");
+          return;
+        }
+      }
+    
+      const activityData = {
         ...values,
-        date: formattedDate,
+        creatorId:"61e11dc3-085a-43ef-a40d-649a4046c7c9",
+        image: imageUrl,
         latitude,
         longitude,
-      });
-
-      resetForm();
-      setImagePreview(null);
+      };
+      
+      const isSuccess = await PostData(activityData);
+      Swal.close();
+      if (isSuccess) {
+  
+        resetForm();
+        setImagePreview(null);
+      }
     },
   });
-
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0] || null;
-    formik.setFieldValue("image", file);
-
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => setImagePreview(reader.result as string);
-      reader.readAsDataURL(file);
-    } else {
-      setImagePreview(null);
-    }
-  };
-
+  
   return (
     <div className="bg-[url('/assets/textura-fondo.avif')] min-h-screen flex items-center justify-center bg-customPalette-white">
       <div className="w-full max-w-4xl p-8 bg-customPalette-white rounded-xl shadow-lg border border-customPalette-gray">
@@ -67,19 +83,11 @@ export default function CreateActivityForm() {
         <div className="flex flex-col md:flex-row gap-8">
           <form onSubmit={formik.handleSubmit} className="flex-1 space-y-4">
             <div className="relative">
-              <label
-                htmlFor="name"
-                className="absolute -top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1"
-              >
-                Nombre de la Actividad
-              </label>
-              <input
+              <InputWithLabel 
+                formik={formik}
+                name="name"
                 type="text"
-                id="name"
-                value={formik.values.name}
-                onChange={formik.handleChange}
-                required
-                className="mt-1 block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark"
+                text="Nombre de la Actividad"
               />
             </div>
 
@@ -91,62 +99,56 @@ export default function CreateActivityForm() {
                 Descripción
               </label>
               <textarea
+                onBlur={formik.handleBlur}
                 id="description"
                 value={formik.values.description}
                 onChange={formik.handleChange}
-                required
                 rows={3}
                 className="mt-1 block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark"
               />
+             <ErrorMessageForm formik={formik} input="description"/>
+            
             </div>
 
             <div className="relative">
               <label
-                htmlFor="image"
+                htmlFor="image-upload"
                 className="absolute -top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1"
               >
                 Imagen de la Actividad
               </label>
-              <input
-                type="file"
-                id="image"
-                accept="image/*"
-                onChange={handleImageChange}
-                className="mt-1 block w-full py-3 px-4 border border-customPalette-gray rounded-sm shadow-sm focus:ring-customPalette-bluedark focus:border-customPalette-bluelightli file:mr-4 file:py-1 file:px-2 file:rounded-sm file:border-0 file:text-xs file:font-medium file:bg-customPalette-blue file:text-customPalette-white file:shadow hover:file:bg-customPalette-bluedark text-xs text-customPalette-graydark bg-customPalette-white focus:outline-none focus:ring-2"
+              <DragAndDropImage
+                onImageUpload={(file) => {
+                  formik.setFieldTouched("image", true, true);
+                  formik.setFieldValue("image", file);
+                  if (file) {
+                    const reader = new FileReader();
+                    reader.onloadend = () => setImagePreview(reader.result as string);
+                    reader.readAsDataURL(file);
+                  } else {
+                    setImagePreview(null);
+                  }
+                }
+              } 
               />
+              <ErrorMessageForm formik={formik} input="image"/>
             </div>
 
             <div className="relative">
-              <label
-                htmlFor="date"
-                className="absolute -top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1"
-              >
-                Fecha de la Actividad
-              </label>
-              <input
+              <InputWithLabel 
+                formik={formik}
+                name="date"
                 type="date"
-                id="date"
-                value={formik.values.date}
-                onChange={formik.handleChange}
-                required
-                className="mt-1 block w-full p-2 pl-10 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark text-sm"
+                text="Fecha de la Actividad"
               />
             </div>
 
             <div className="relative">
-              <label
-                htmlFor="time"
-                className="absolute -top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1"
-              >
-                Hora de la Actividad
-              </label>
-              <input
+              <InputWithLabel 
+                formik={formik}
+                name="time"
                 type="time"
-                id="time"
-                value={formik.values.time}
-                onChange={formik.handleChange}
-                required
-                className="mt-1 block w-full p-2 pl-10 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark text-sm"
+                text="Hora de la Actividad"
               />
             </div>
 
@@ -157,34 +159,23 @@ export default function CreateActivityForm() {
               >
                 Lugar de la Actividad
               </label>
+              <span className="absolute inset-y-0 left-2 flex items-center pointer-events-none">
+                 <MapPinIcon className="w-5 h-5 text-customPalette-graydark" />
+               </span>
               <input
+                onBlur={formik.handleBlur}
                 type="text"
                 id="place"
                 value={formik.values.place}
                 onChange={formik.handleChange}
-                required
                 className="mt-1 block w-full p-2 pl-10 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark text-sm"
                 placeholder="Ingrese la ubicación"
               />
+              <ErrorMessageForm formik={formik} input="place"/>
             </div>
 
-            <div className="flex justify-center gap-6 mt-6">
-              <button
-                type="reset"
-                onClick={() => {
-                  formik.resetForm();
-                  setImagePreview(null);
-                }}
-                className="w-1/3 py-2 bg-customPalette-blue text-customPalette-white rounded-md hover:bg-customPalette-bluedark focus:outline-none"
-              >
-                Limpiar
-              </button>
-              <button
-                type="submit"
-                className="w-1/3 py-2 bg-customPalette-orange text-customPalette-white rounded-md hover:bg-customPalette-orangebright focus:outline-none"
-              >
-                Crear Actividad
-              </button>
+            <div className="flex justify-center items-center mt-1">
+              <SubmitButton text="Crear Actividad"/>
             </div>
           </form>
 
@@ -211,9 +202,7 @@ export default function CreateActivityForm() {
                   <CalendarIcon className="w-4 h-4 mr-2" />
                   <span>
                     {formik.values.date
-                      ? moment(formik.values.date, "YYYY-MM-DD").format(
-                          "DD/MM/YYYY"
-                        )
+                      ? moment(formik.values.date, "YYYY-MM-DD").format("DD/MM/YYYY")
                       : "Fecha"}
                   </span>
                 </div>
