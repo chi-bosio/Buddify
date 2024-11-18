@@ -68,9 +68,9 @@ export default function NavBar() {
         {isLoggedIn ? (
           <>
             <span>Usuario</span>
-            <Image
+            <img
               className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center"
-              src="/"
+              src="https://res.cloudinary.com/dtlmrtzpa/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1731928071/avatar16_dsdi8v.png"
               alt="Avatar"
               width={10}
               height={10}
