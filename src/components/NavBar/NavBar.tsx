@@ -37,7 +37,7 @@ export default function NavBar() {
           {
             title: "Contacto",
             href: "/contact",
-          },
+          }
           {
             title: "Registro",
             href: "/register",
