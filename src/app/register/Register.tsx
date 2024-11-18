@@ -161,7 +161,7 @@ const RegisterForm: React.FC = () => {
                 onBlur={formik.handleBlur}
                 className="block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark  "
               >
-                <option value="">Seleccionar ciudad</option>
+                <option value="">Seleccionar provincia</option>
                 {city.map((city, index) => (
                   <option key={index} value={city}>
                     {city}
