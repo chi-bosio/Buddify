@@ -15,7 +15,7 @@ name:string;
 type:string;
 formik:FormikProps<any>;
 text:string;
-disabled?: boolean; // Acepta la prop `disabled`
+disabled?: boolean; 
 }
 ){
     const [showPassword, setShowPassword] = useState(false);
