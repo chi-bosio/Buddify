@@ -7,18 +7,24 @@ name,
 type,
 formik,
 text,
+disabled,
 }:
 {
 name:string;
 type:string;
 formik:FormikProps<any>;
 text:string;
+disabled?: boolean; // Acepta la prop `disabled`
 }
 ){
     const [showPassword, setShowPassword] = useState(false);
     const handleTogglePassword = () => {
         setShowPassword(!showPassword);
     }
+    if (disabled === undefined) {
+        disabled = false;
+    }
+    
     return(
         <div className="relative">
               <label
