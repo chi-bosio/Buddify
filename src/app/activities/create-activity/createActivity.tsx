@@ -61,7 +61,7 @@ export default function CreateActivityForm() {
     
       const activityData = {
         ...values,
-        creatorId:"61e11dc3-085a-43ef-a40d-649a4046c7c9",
+        creatorId:"8fd830f4-55a7-4e62-86d4-94f6efed3d92",
         image: imageUrl,
         latitude:String(location.lat),
         longitude:String(location.lng),
