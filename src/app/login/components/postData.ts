@@ -42,7 +42,12 @@ export const postData = async (data: Data): Promise<LoginResponse> => {
 
     return { success: false, message: "No se ha recibido un token" };
   } catch (error) {
-    Toast(TypeToast.Error,"Error del servidor");
+    let errorMessage = "Error del servidor";
+    
+    if (error instanceof Error) {
+        errorMessage = error.message;
+    }
+    Toast(TypeToast.Error,errorMessage)
     
     return { success: false, message: "Error del servidor" };
   }

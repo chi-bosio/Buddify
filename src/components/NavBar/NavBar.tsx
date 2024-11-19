@@ -1,9 +1,9 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import Link from "next/link";
 import Logo from "./components/Logo";
 import NavLink from "./components/NavLink";
 import { useEffect, useMemo, useState } from "react";
-import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useAuthContext } from "../../contexts/authContext";
 

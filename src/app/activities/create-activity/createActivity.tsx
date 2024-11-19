@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 import { useState } from "react";
 import { CalendarIcon, ClockIcon, MapPinIcon, Navigation2Icon } from "lucide-react";
@@ -12,7 +13,7 @@ import ErrorMessageForm from "@/components/ErrorMessageForm/ErrorMessageForm";
 import SubmitButton from "@/components/SubmitButton/SubmitButton";
 import Swal from "sweetalert2";
 import Toast, { TypeToast } from "@/components/Toast/Toast";
-import MapForm from "@/components/MapForm/MapForm";
+import MapForm from "@/app/register/components/MapForm/MapForm";
 
 interface FormValues {
   name: string;

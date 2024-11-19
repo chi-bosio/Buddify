@@ -31,8 +31,12 @@ export const postData = async (values:data):Promise<boolean> =>{
         return true;
       }
     } catch (error) {
-      const errorMessage = (error as any).message ? (error as any).message : "Error del servidor";
-      Toast(TypeToast.Error,errorMessage);
+      let errorMessage = "Error del servidor";
+    
+      if (error instanceof Error) {
+          errorMessage = error.message;
+      }
+      Toast(TypeToast.Error,errorMessage)
       return false;
     }
 };
