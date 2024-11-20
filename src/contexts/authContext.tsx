@@ -22,6 +22,7 @@ interface AuthContextType {
   isLoggedIn: boolean;
   authTokens: AuthTokens;
   userId: string | null; // Aseguramos que el tipo incluya userId
+  userName: string | null; // Aseguramos que el tipo incluya username
 }
 
 export const AuthContext = createContext<AuthContextType>({
@@ -30,6 +31,7 @@ export const AuthContext = createContext<AuthContextType>({
   isLoggedIn: false,
   authTokens: null,
   userId: null, // Valor predeterminado para userId
+  userName: null,
 });
 
 export default function AuthContextProvider({
@@ -47,18 +49,25 @@ export default function AuthContextProvider({
     authTokensInLocalStorage ? JSON.parse(authTokensInLocalStorage) : null
   );
   const [userId, setUserId] = useState<string | null>(null);
+  const [userName, setUserName] = useState<string | null>(null);
 
   // Efecto para leer y rehidratar el userId al cargar la página
   useEffect(() => {
     if (authTokens) {
       const decoded = JSON.parse(atob(authTokens.token.split(".")[1]));
       const extractedUserId = decoded.sub; // Usamos 'sub' como userId
+      const extractedUserName = decoded.name; // 
       console.log("User ID extraído del token:", extractedUserId);
 
       if (extractedUserId) {
         setUserId(extractedUserId); // Establecer el userId
       } else {
         console.error("No se encontró el userId en el token");
+      }
+      if (extractedUserName) {
+        setUserName(extractedUserName); // Establecer el userId
+      } else {
+        console.error("No se encontró el userName en el token");
       }
     }
   }, [authTokens]);
@@ -70,10 +79,16 @@ export default function AuthContextProvider({
 
     const decoded = JSON.parse(atob(token.token.split(".")[1]));
     const extractedUserId = decoded.sub;
+    const extractedUserName = decoded.name; 
     console.log("User ID extraído del token:", extractedUserId);
-
+    console.log("UserName extraído del token:", extractedUserName);
     if (extractedUserId) {
       setUserId(extractedUserId); // Guardar el userId extraído
+    } else {
+      console.error("No se encontró userId en el token");
+    }
+    if (extractedUserName) {
+      setUserName(extractedUserName); // Guardar el userId extraído
     } else {
       console.error("No se encontró userId en el token");
     }
@@ -83,6 +98,7 @@ export default function AuthContextProvider({
     window.localStorage.removeItem(AUTH_TOKENS_KEY);
     setAuthTokens(null);
     setUserId(null);
+    setUserName(null)
     router.push("/login");
   }, [router]);
 
@@ -93,8 +109,9 @@ export default function AuthContextProvider({
       authTokens,
       isLoggedIn: authTokens !== null,
       userId, // Exponer el userId en el contexto
+      userName, // Exponer el userName en el contexto
     }),
-    [authTokens, login, logout, userId]
+    [authTokens, login, logout, userId, userName]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

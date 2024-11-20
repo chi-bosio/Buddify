@@ -1,9 +1,14 @@
+"use client"
 import { useFormik } from "formik";
 import Filter from "./components/Filter/Filter";
 import validationSchemaFilter from "./components/schemaValidation";
 import { Search } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
+import Swal from "sweetalert2";
 
 export function CombinedFilters(){
+    const [latitude, setLatitude] = useState<number|null>(null);
+    const [longitude, setLongitude] = useState<number|null>(null);
     const radius:{id:string;name:string;}[] = [
         {
             id:"10",
@@ -45,9 +50,39 @@ export function CombinedFilters(){
         },
         validationSchema: validationSchemaFilter,
         onSubmit: async (values) => {
-          console.log({values})
+            const data = {...values, latitude, longitude};
+          console.log({data})
       }
     });
+    const requestLocation = useCallback(() => {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+            setLatitude(latitude);
+            setLongitude(longitude)
+          },
+          (error) => {
+            if (error.code === error.PERMISSION_DENIED) {
+              Swal.fire({
+                title: "Ubicación requerida",
+                text: "Debes permitir el acceso a tu ubicación para crear una actividad.",
+                icon: "warning",
+                confirmButtonText: "Reintentar",
+                allowOutsideClick:false
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  requestLocation(); 
+                }
+              });
+            } else {
+              console.error("Error al obtener la ubicación:", error);
+            }
+          }
+        );
+      },[])
+      useEffect(()=>{
+        requestLocation();
+      },[requestLocation])
     return (
         <form onSubmit={formik.handleSubmit} className="mb-4 flex items-start justify-start flex-col w-full">
             <div className="flex items-start justify-center w-full">
