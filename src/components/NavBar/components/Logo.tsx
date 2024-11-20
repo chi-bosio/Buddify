@@ -7,8 +7,8 @@ export default function Logo() {
         src='/assets/logobuddify.png'
         alt="Logo buddify"
         className="h-full w-full"
-        width={400}
-        height={200}
+        width={1000}
+        height={1000}
     />
   );
 }

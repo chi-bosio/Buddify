@@ -39,7 +39,7 @@ const LoginForm = () => {
           login({token: success.token});
           }
           handleResetForm();
-          router.push("/activities");
+          router.push("/");
         }else {
           console.log('Error:', success.message);
         }

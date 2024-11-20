@@ -1,6 +1,6 @@
 "use client"
-import CardActivity from "@/app/activities/components/CardActivity/CardActivity";
-import ModalActivity from "@/app/activities/components/ModalActivity/ModalActivity";
+import CardActivity from "@/app/components/activities/components/CardActivity/CardActivity";
+import ModalActivity from "@/app/components/activities/components/ModalActivity/ModalActivity";
 import "leaflet/dist/leaflet.css";
 import { useState } from "react";
 import CombinedFilters from "./components/CombinedFilters/CombinedFilters";
