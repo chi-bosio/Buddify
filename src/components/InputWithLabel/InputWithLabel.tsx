@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { FormikProps } from "formik";
 import ErrorMessageForm from "../ErrorMessageForm/ErrorMessageForm";
 import { useState } from "react";
@@ -62,5 +63,4 @@ export function InputWithLabel({
     </div>
   );
 }
-
 export default InputWithLabel;

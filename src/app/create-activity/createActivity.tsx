@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 import { useState } from "react";
 import { CalendarIcon, ClockIcon, MapPinIcon, Navigation2Icon } from "lucide-react";
@@ -12,7 +13,7 @@ import ErrorMessageForm from "@/components/ErrorMessageForm/ErrorMessageForm";
 import SubmitButton from "@/components/SubmitButton/SubmitButton";
 import Swal from "sweetalert2";
 import Toast, { TypeToast } from "@/components/Toast/Toast";
-import MapForm from "@/components/MapForm/MapForm";
+import MapForm from "@/app/register/components/MapForm/MapForm";
 
 interface FormValues {
   name: string;
@@ -61,7 +62,7 @@ export default function CreateActivityForm() {
     
       const activityData = {
         ...values,
-        creatorId:"8fd830f4-55a7-4e62-86d4-94f6efed3d92",
+        creatorId:"5dd11feb-37bb-49d7-ac1c-bbc7275a7f49",
         image: imageUrl,
         latitude:String(location.lat),
         longitude:String(location.lng),

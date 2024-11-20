@@ -1,3 +1,6 @@
+/* globals.css o archivo de estilos globales */
+@import url('https://unpkg.com/leaflet/dist/leaflet.css');
+@import url('https://unpkg.com/leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

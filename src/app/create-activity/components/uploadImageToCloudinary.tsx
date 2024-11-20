@@ -22,7 +22,11 @@ export const UploadImageToCloudinary = async (file: File): Promise<string> => {
       return result.secure_url;
   }
   } catch (error) {
-    const errorMessage = (error as any).message ? (error as any).message : "Error al subir la imagen";
+    let errorMessage = "Error al subir la imagen";
+    
+    if (error instanceof Error) {
+        errorMessage = error.message;
+    }
     Toast(TypeToast.Error,errorMessage);
     return '';
   }
