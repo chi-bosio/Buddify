@@ -2,7 +2,7 @@
 import CardActivity from "@/app/components/activities/components/CardActivity/CardActivity";
 import ModalActivity from "@/app/components/activities/components/ModalActivity/ModalActivity";
 import "leaflet/dist/leaflet.css";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import CombinedFilters from "./components/CombinedFilters/CombinedFilters";
 import { Activity } from "./components/activity.interface";
 
@@ -21,7 +21,7 @@ const closeModal = () => {
     setSelectedActivity(null);
     setIsModalOpen(false);
 }
-useEffect(()=>{console.log("Activities updated:", activities);},[activities])
+
   return (
     <section 
     className="relative min-h-screen bg-[url('/assets/textura-fondo.avif')] bg-customPalette-white flex flex-col items-center justify-start w-full ">
@@ -31,6 +31,11 @@ useEffect(()=>{console.log("Activities updated:", activities);},[activities])
           Actividades cercanas a ti
       </h1>
       <CombinedFilters setActivities={setActivities}/>
+      {activities.length === 0 && (
+        <div className="text-customPalette-orange">
+            No hay actividades por el momento...
+        </div>
+      )}
       {activities.map((activity) => (
                     <CardActivity
                         key={activity.id}
