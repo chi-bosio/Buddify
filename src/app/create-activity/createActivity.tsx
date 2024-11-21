@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
-import { useState } from "react";
+import {  useState } from "react";
 import { CalendarIcon, ClockIcon, MapPinIcon, Navigation2Icon } from "lucide-react";
 import { useFormik } from "formik";
 import moment from "moment";
@@ -14,6 +14,8 @@ import SubmitButton from "@/components/SubmitButton/SubmitButton";
 import Swal from "sweetalert2";
 import Toast, { TypeToast } from "@/components/Toast/Toast";
 import MapForm from "@/app/create-activity/components/MapForm/MapForm";
+import { useAuthContext } from "@/contexts/authContext";
+import GetCategories from "@/components/GetCategories/GetCategories";
 
 interface FormValues {
   name: string;
@@ -22,12 +24,13 @@ interface FormValues {
   date: string;
   time: string;
   place:string;
+  categoryId:string;
 }
 
 export default function CreateActivityForm() {
+  const {userId} = useAuthContext();
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [location, setLocation] = useState({ lat: 0, lng: 0 });
-
   const handleLocationSelect = (lat: number, lng: number) => {
     setLocation({ lat, lng });
   };
@@ -39,6 +42,7 @@ export default function CreateActivityForm() {
       date: "",
       time: "",
       place:"",
+      categoryId:""
     },
     validationSchema: validationSchemaNewActivitie,
     onSubmit: async (values, { resetForm }) => {
@@ -62,7 +66,7 @@ export default function CreateActivityForm() {
     
       const activityData = {
         ...values,
-        creatorId:"5dd11feb-37bb-49d7-ac1c-bbc7275a7f49",
+        creatorId:userId,
         image: imageUrl,
         latitude:String(location.lat),
         longitude:String(location.lng),
@@ -93,6 +97,10 @@ export default function CreateActivityForm() {
                 type="text"
                 text="Nombre de la Actividad"
               />
+            </div>
+
+            <div className="relative">
+            <GetCategories formik={formik}/>
             </div>
 
             <div className="relative">

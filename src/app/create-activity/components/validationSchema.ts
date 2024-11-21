@@ -27,5 +27,6 @@ export const validationSchemaNewActivitie = Yup.object({
   ),
   time: Yup.string().required("Requerido"),
   place: Yup.string().required("Requerido"),
+  categoryId: Yup.string().required("Requerido"),
 });
 export default validationSchemaNewActivitie;

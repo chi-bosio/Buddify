@@ -6,24 +6,20 @@ export function CardActivity({
     name,
     description,
     image,
-    creator
+    creator,
+    category
 }:
 {
     onClick: () => void;
-    id:string;
     name: string;
     description: string;
     image: string;
-    date: Date;
-    time: string;
-    place: string;
-    latitude: string;
-    longitude: string;
     creator: {
       name: string;
       lastname: string;
       avatar:string;
     }
+    category: {id:string;name:string};
 }
 ){
     return (
@@ -37,9 +33,10 @@ export function CardActivity({
               <span>{ `${creator.name} ${creator.lastname}`}</span>
           </div> 
           <div className="w-full h-full flex items-start justify-start flex-col">
-                  <h3 className="text-2xl font-semibold text-customPalette-bluedark mb-2">
+                  <h3 className="text-2xl font-semibold text-customPalette-bluedark mb-2 w-full">
                     {name}
                   </h3>
+                  <span className="text-center bg-customPalette-orange rounded px-2 py1 mb-2">{category.name}</span>
                     <img
                       src={image}
                       alt={`ubicacion-${name}`}
