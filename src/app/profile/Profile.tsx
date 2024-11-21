@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useState, useEffect } from "react";
@@ -7,6 +6,9 @@ import InputWithLabel from "../../components/InputWithLabel/InputWithLabel";
 import ErrorMessageForm from "../../components/ErrorMessageForm/ErrorMessageForm";
 import validationSchema from "./components/validationSchema";
 import { useAuthContext } from "../../contexts/authContext";
+import { updateUserProfile } from "./components/postData";
+import Swal from "sweetalert2";
+import Toast, { TypeToast } from "@/components/Toast/Toast";
 
 interface Avatar {
   id: number;
@@ -92,9 +94,40 @@ const Profile: React.FC = () => {
     city: userData?.city || "",
   };
 
-  const handleSubmit = (values: any) => {
-    console.log("Datos del formulario:", values);
-    setIsEditing(false);
+  const handleSubmit = async (values: any) => {
+    const updatedData = {
+      ...values,
+      avatar: selectedAvatar || userData.avatar,
+    };
+
+    const result = await Swal.fire({
+      title: "¿Guardar cambios?",
+      text: "Estás a punto de actualizar tu perfil. ¿Deseas continuar?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, guardar",
+      cancelButtonText: "Cancelar",
+    });
+
+    if (!result.isConfirmed) {
+      return;
+    }
+
+    try {
+      if (userId) {
+        await updateUserProfile(userId, updatedData);
+      } else {
+        console.error("User ID is null");
+      }
+
+      setUserData(updatedData);
+      Toast(TypeToast.Success, "Perfil actualizado con exito");
+      setIsEditing(false);
+    } catch (error) {
+      Toast(TypeToast.Error, "Error al actualizar el perfil");
+    }
   };
 
   const handleEditClick = () => {
