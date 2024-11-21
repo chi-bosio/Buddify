@@ -25,6 +25,7 @@ export default function NavBar() {
         ? [
             { title: "Crear actividad", href: "/create-activity" },
             { title: "Datos personales", href: "/profile" },
+            { title: "Tu calendario", href: "/calendar" },
           ]
         : [
             { title: "Nosotros", href: "/about" },

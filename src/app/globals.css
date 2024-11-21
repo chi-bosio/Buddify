@@ -23,6 +23,7 @@
   --custom-orange-500: #f97316; /* Naranja brillante */
   --custom-red: #dc2626; /* Rojo */
   --custom-gray-dark: #333333; /* Gris oscuro */
+  --custom-green: #27AE60;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -36,4 +37,7 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+}
+.rbc-label{
+  color:#020100 !important
 }

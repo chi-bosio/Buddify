@@ -25,6 +25,7 @@ export default {
           orangebright: "var(--custom-orange-500)", /* Naranja brillante */
           red: "var(--custom-red)" /* Rojo */,
           graydark: "var(--custom-gray-dark)" /* Gris oscuro */,
+          green: "var(--custom-green)"
         },
       },
     },
