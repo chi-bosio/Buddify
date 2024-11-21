@@ -8,6 +8,7 @@ import GetCategories from "@/components/GetCategories/GetCategories";
 import { useAuthContext } from "@/contexts/authContext";
 import Toast, { TypeToast } from "@/components/Toast/Toast";
 import { Activity } from "../activity.interface";
+import moment from "moment";
 
 export function CombinedFilters({setActivities}:{setActivities:(data:Activity[])=>void}){
     const {userId} = useAuthContext()
@@ -44,41 +45,58 @@ export function CombinedFilters({setActivities}:{setActivities:(data:Activity[])
         dateEnd?:string|null;
       }
       )=>{
-      const url = `${process.env.NEXT_PUBLIC_API_URL}/activities/search?userId=${userId}&latitude=${latitude}&longitude=${longitude}${radius ? `&radius=${radius}`:""}${categoryId? `&categoryId=${categoryId}`:""}${dateStart? `&dateStart=${dateStart}`: ""}${dateEnd? `&dateEnd=${dateEnd}`:""}`
-      Swal.fire({
-        title: 'Cargando...',
-        icon:"info",
-        allowOutsideClick: false,
-        didOpen: () => {
-          Swal.showLoading(); 
+        try{
+          const url = `${process.env.NEXT_PUBLIC_API_URL}/activities/search?userId=${userId}&latitude=${latitude}&longitude=${longitude}${radius ? `&radius=${radius}`:""}${categoryId? `&categoryId=${categoryId}`:""}${dateStart? `&dateStart=${dateStart}`: ""}${dateEnd? `&dateEnd=${dateEnd}`:""}`
+          Swal.fire({
+            title: 'Cargando...',
+            icon:"info",
+            allowOutsideClick: false,
+            didOpen: () => {
+              Swal.showLoading(); 
+            }
+          });
+          const response = await fetch(url);
+          const timeoutId = setTimeout(() => {
+            Swal.close();
+          }, 500);
+          
+          setTimeout(() => {
+            clearInterval(timeoutId); 
+          }, 500);
+          
+          if (!response.ok) {
+            const errorData = await response.json();
+            if(Array.isArray(errorData.message)){
+              errorData.message.map((men:string)=>{
+                Toast(TypeToast.Error,men);
+              })
+            }else{
+              Toast(TypeToast.Error,errorData.message);
+            }
+          }else{
+            const data = await response.json();
+            if (Array.isArray(data.data)) {
+              setActivities(data.data); 
+            } else {
+              Toast(TypeToast.Error, "No se encontraron actividades.");
+          }
         }
-      });
-      const response = await fetch(url);
-      const timeoutId = setTimeout(() => {
-        Swal.close();
-      }, 500);
+        }catch(error:unknown){
+          const timeoutId = setTimeout(() => {
+            Swal.close();
+          }, 500);
+          
+          setTimeout(() => {
+            clearInterval(timeoutId); 
+          }, 500);
+          let errorMessage = "Error del servidor";
+    
+          if (error instanceof Error) {
+              errorMessage = error.message;
+          }
+          Toast(TypeToast.Error,errorMessage)
+              }
       
-      setTimeout(() => {
-        clearInterval(timeoutId); 
-      }, 500);
-      
-      if (!response.ok) {
-        const errorData = await response.json();
-        if(Array.isArray(errorData.message)){
-          errorData.message.map((men:string)=>{
-            Toast(TypeToast.Error,men);
-          })
-        }else{
-          Toast(TypeToast.Error,errorData.message);
-        }
-      }else{
-        const data = await response.json();
-        if (Array.isArray(data.data)) {
-          setActivities(data.data); 
-        } else {
-          Toast(TypeToast.Error, "No se encontraron actividades.");
-      }
-    }
   }
     const formik = useFormik({
         initialValues: {
@@ -122,7 +140,8 @@ export function CombinedFilters({setActivities}:{setActivities:(data:Activity[])
     useEffect(()=>{
       requestLocation();
       if(userId && latitude && longitude){
-        fetchActivities({userId,latitude,longitude})
+        const dateStart = new Date().toISOString().split("T")[0];
+        fetchActivities({userId,latitude,longitude,dateStart})
       }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[requestLocation,userId,latitude, longitude])
@@ -172,6 +191,7 @@ export function CombinedFilters({setActivities}:{setActivities:(data:Activity[])
                             value={formik.values.dateStart}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
+                            min={moment().format("YYYY-MM-DD")}
                             className="block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark  "
                         />
                         </div>
@@ -189,6 +209,7 @@ export function CombinedFilters({setActivities}:{setActivities:(data:Activity[])
                             value={formik.values.dateEnd}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
+                            min={formik.values.dateStart}
                             className="block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark  "
                         />
                         </div>
