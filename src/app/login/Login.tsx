@@ -80,7 +80,7 @@ const LoginForm = () => {
 
           <div className="mt-1 text-center">
             <a
-              href="/reset-password"
+              href="/request-reset-password"
               className="text-customPalette-bluelink text-base hover:text-customPalette-bluelight"
             >
               ¿Has olvidado tu contraseña?
