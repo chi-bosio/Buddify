@@ -2,7 +2,7 @@
 import { useFormik } from "formik";
 import validationSchemaLogin from "./components/validationSchema";
 import postData from "./components/postData";
-import React from 'react';
+import React from "react";
 import { useAuthContext } from "@/contexts/authContext";
 import { useRouter } from "next/navigation";
 import SubmitButton from "@/components/SubmitButton/SubmitButton";
@@ -25,34 +25,33 @@ const LoginForm = () => {
     validationSchema: validationSchemaLogin,
     onSubmit: async (values) => {
       Swal.fire({
-        title: 'Cargando...',
-        icon:"info",
+        title: "Cargando...",
+        icon: "info",
         allowOutsideClick: false,
         didOpen: () => {
-          Swal.showLoading(); 
-        }
+          Swal.showLoading();
+        },
       });
-        const success = await postData(values);
+      const success = await postData(values);
       Swal.close();
-        if (success.success) {
-          if (success.token){
-          login({token: success.token});
-          }
-          handleResetForm();
-          router.push("/");
-        }else {
-          console.log('Error:', success.message);
+      if (success.success) {
+        if (success.token) {
+          login({ token: success.token });
         }
+        handleResetForm();
+        router.push("/");
+      } else {
+        console.log("Error:", success.message);
       }
-});
-  
-  return (
-    <div className="flex justify-end items-start h-screen"
-    style={{ backgroundImage: 'url(/assets/fondo2.webp)' }}>
+    },
+  });
 
-      <div className="flex justify-start items-center h-screen"
-      
-      >
+  return (
+    <div
+      className="flex justify-end items-start h-screen"
+      style={{ backgroundImage: "url(/assets/fondo2.webp)" }}
+    >
+      <div className="flex justify-start items-center h-screen">
         <form
           className="w-auto h-full bg-customPalette-white p-8"
           onSubmit={formik.handleSubmit}
@@ -62,36 +61,34 @@ const LoginForm = () => {
           </h1>
 
           <div className="input-group relative mb-14 w-full max-w-[400px] mx-auto">
-            <InputWithLabel 
-            formik={formik}
-            name="username"
-            type="text"
-            text="Nombre de Usuario"
+            <InputWithLabel
+              formik={formik}
+              name="username"
+              type="text"
+              text="Nombre de Usuario"
             />
           </div>
-            
+
           <div className="input-group relative mb-6 w-full max-w-[400px] mx-auto">
-            <InputWithLabel 
-            formik={formik}
-            name="password"
-            type="password"
-            text="Contraseña"
-          />
+            <InputWithLabel
+              formik={formik}
+              name="password"
+              type="password"
+              text="Contraseña"
+            />
           </div>
 
           <div className="mt-1 text-center">
             <a
-              href="/recuperar-contraseña"
+              href="/request-reset-password"
               className="text-customPalette-bluelink text-base hover:text-customPalette-bluelight"
             >
               ¿Has olvidado tu contraseña?
             </a>
           </div>
 
-            <SubmitButton 
-              text="Ingresar"
-            />
-            <div className="mt-1 text-center">
+          <SubmitButton text="Ingresar" />
+          <div className="mt-1 text-center">
             <p className="text-base text-customPalette-black">
               ¿Todavia no tenes cuenta?&nbsp;
               <a
@@ -100,13 +97,12 @@ const LoginForm = () => {
               >
                 Registrate
               </a>
-            </p>  
-            </div>   
-          </form>
-        </div>
+            </p>
+          </div>
+        </form>
       </div>
+    </div>
   );
-
 };
 
 export default LoginForm;
