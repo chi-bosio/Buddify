@@ -9,13 +9,12 @@ import { useAuthContext } from "../../contexts/authContext";
 import { Menu, X } from "lucide-react";
 
 export default function NavBar() {
-  const username = "Usuario" //llega por contexto
   const [openAvatar, setOpenAvatar] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
   const [linkActive, setLinkActive] = useState<string>("");
   const pathname = usePathname();
   const router = useRouter();
-  const { isLoggedIn = false, logout } = useAuthContext();
+  const { isLoggedIn = false, logout, userName } = useAuthContext();
   const [isClient, setIsClient] = useState(false);
 
   const links = useMemo(() => {
@@ -97,9 +96,9 @@ export default function NavBar() {
             <div
               className={`${
                 openAvatar ? "flex" : "hidden"
-              } bg-customPalette-black lg:flex rounded px-3 py-2 absolute top-10 lg:top-0 right-0 lg:relative items-start lg:items-center justify-center flex-col w-44 lg:w-auto lg:flex-row`}
+              } bg-customPalette-black lg:flex rounded px-3 py-2 absolute top-10 lg:top-0 -left-9 sm:left-0 lg:relative items-start lg:items-center justify-center flex-col w-44 lg:w-auto lg:flex-row`}
             >
-              <span className="lg:mr-3">{username}</span>
+              <span className="lg:mr-3">{userName}</span>
               <button
                 onClick={handleLogout}
                 className="w-auto min-w-20  bg-customPalette-orange text-customPalette-white text-xs lg:text-sm font-semibold py-1 px-8 lg:px-4 rounded hover:bg-customPalette-orangebright lg:m-0  mt-5 mb-5 mx-auto lg:block"
@@ -118,24 +117,22 @@ export default function NavBar() {
         }
         >
           <ul className={`flex flex-col items-center justify-center lg:flex-row  gap-4 w-full mb-5 lg:mb-0  ${isLoggedIn?"lg:mr-32":"lg:mr-96"}`}>
-            {links.map((link) => (
-              <>
-              {link.title !=="Registro" && link.title !== "Login" &&(
-                <li key={link.href} className="flex items-center justify-center">
-                  <NavLink
-                    href={link.href}
-                    title={link.title}
-                    active={linkActive === link.title}
-                  />
-                </li>
+          {links.map((link) => (
+            <li key={link.href} className="flex items-center justify-center">
+              {link.title !== "Registro" && link.title !== "Login" && (
+                <NavLink
+                  href={link.href}
+                  title={link.title}
+                  active={linkActive === link.title}
+                />
               )}
-              </>
-            ))}
+            </li>
+          ))}
           </ul>
           <ul className="flex flex-col item-center justify-center lg:flex-row gap-4 lg:w-auto w-full" >
             {!isLoggedIn && (
             <>
-              <li key="register" className="flex items-center justify-center">
+              <li key="registro" className="flex items-center justify-center">
                 <NavLink
                   href="/register"
                   title="Registro"

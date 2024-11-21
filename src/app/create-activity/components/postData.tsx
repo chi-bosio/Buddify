@@ -6,7 +6,7 @@ interface ActivityData{
   date: string,
   time: string,
   place:string,
-  creatorId:string,
+  creatorId:string|null,
   latitude:string,
   longitude:string,
 }
@@ -27,8 +27,9 @@ export const PostData = async (activityData: ActivityData) => {
           errorData.message.map((men:string)=>{
             Toast(TypeToast.Error,men);
           })
+        }else{
+          Toast(TypeToast.Error,errorData.message);
         }
-        Toast(TypeToast.Error,errorData.message);
           return false;
 
     }else{

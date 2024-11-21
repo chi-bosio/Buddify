@@ -17,23 +17,21 @@ export function ModalActivity({
     latitude,
     longitude,
     creator,
+    category,
 }: {
     isModalOpen: boolean;
     onClose: () => void;
-    id: string;
-    name: string;
-    description: string;
-    image: string;
-    date: Date;
-    time: string;
-    place: string;
-    latitude: string;
-    longitude: string;
-    creator: {
-        name: string;
-        lastname: string;
-        avatar: string;
-    };
+    id: string,
+    category: {id:string;name:string},
+    creator: {name:string;lastname:string;avatar:string;},
+    date: string,
+    description: string,
+    image: string,
+    latitude: string,
+    longitude: string
+    name: string,
+    place: string,
+    time: string,
 }) {
     const modalRef = useRef<HTMLDivElement>(null);
 
@@ -92,11 +90,12 @@ export function ModalActivity({
                     />
                     <span>{`${creator.name} ${creator.lastname}`}</span>
                 </div>
-                <div className="grid grid-cols-1 gap-2 md:grid-cols-2 ">
-                    <div className="w-full h-full flex items-center justify-start flex-col">
+                <div className="grid grid-cols-1 gap-2 md:grid-cols-2 w-full">
+                    <div className="w-full h-full flex items-start justify-start flex-col">
                         <h3 className="lg:text-2xl font-semibold text-customPalette-bluedark mb-2">
                             {name}
                         </h3>
+                        <span className="text-center bg-customPalette-orange rounded px-2 py1 mb-2">{category.name}</span>
                         <img
                             src={image}
                             alt={`ubicacion-${name}`}

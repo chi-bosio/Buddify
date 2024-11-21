@@ -1,7 +1,7 @@
 import * as Yup from "yup"; 
 
 export const validationSchemaFilter = Yup.object({
-  dateinit: Yup.string()
+  dateStart: Yup.string()
     .test('is-before', 'La fecha de inicio no puede ser posterior a la fecha de fin', function(value) {
       const { dateend } = this.parent;  
       if (value && dateend) {
@@ -18,7 +18,7 @@ export const validationSchemaFilter = Yup.object({
       return true;
     }),
   
-  dateend: Yup.string()
+    dateEnd: Yup.string()
     .test('is-after', 'La fecha de fin no puede ser anterior a la fecha de inicio', function(value) {
       const { dateinit } = this.parent;  
       if (value && dateinit) {
