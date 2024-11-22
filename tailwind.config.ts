@@ -15,6 +15,7 @@ export default {
           blue: "var(--custom-blue)", // Azul principal
           orange: "var(--custom-orange)", // Naranja para hover y active
           white: "var(--custom-white)", // Blanco para texto
+          whitelight: "var(--custom-whiteligth)", // Blanco para texto
           gray: "var(--custom-gray)", // Gris para contenido secundario
           black: "var(--custom-black)", // Negro no tan negro
           bluedark: "var(--custom-blue-800)", /* Azul oscuro */

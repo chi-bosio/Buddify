@@ -15,8 +15,7 @@ export const getActivities = async (userId:string|null) => {
         return false;
       }else{
         const result = await response.json();
-        const array = result.created.concat(result.joined)
-        return array;
+        return result;
       }
   
     } catch (error) {

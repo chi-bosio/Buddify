@@ -1,6 +1,5 @@
-"use client";
-
-import { useState, useEffect } from 'react';
+"use client"
+import { useState, useEffect, useCallback } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar'; 
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -16,7 +15,8 @@ interface CalendarEvent {
   backgroundColor?: string;
 }
 
-const BigCalendar = ({ activities }: { activities: Activity[] }) => {
+const BigCalendar = ({ activitiesCreated,activitiesJoined }: { activitiesCreated: Activity[] , activitiesJoined: Activity[]}) => {
+  const [activities] = useState<Activity[]>(activitiesCreated.concat(activitiesJoined));
   const [events, setEvents] = useState<CalendarEvent[]>([]);
   const dayPropGetter = (date: Date) => {
     const today = moment().startOf('day'); 
@@ -29,7 +29,7 @@ const BigCalendar = ({ activities }: { activities: Activity[] }) => {
       color: '#020100'
     };
   };
-  useEffect(() => {
+  const memoizedSetEventsCalback = useCallback(()=>{
     const events = activities.map((activity: Activity) => {
       const [hours, minutes] = activity.time.split(':').map(Number);
       const startDateTime = moment(activity.date).set({ hour: hours, minute: minutes });
@@ -39,11 +39,14 @@ const BigCalendar = ({ activities }: { activities: Activity[] }) => {
         title: activity.name,
         start: startDateTime.toDate(),
         end: endDateTime.toDate(),
-        backgroundColor: `${activity.creator ? "#27AE60":"#235789"}`
+        backgroundColor: `${activitiesCreated.includes(activity) ? "#27AE60":"#235789"}`
       };
     });
     setEvents(events);
-  }, [activities]);
+  },[activities, activitiesCreated])
+  useEffect(() => {
+    memoizedSetEventsCalback()
+  }, [activities, activitiesCreated, memoizedSetEventsCalback]);
 
   return (
     <Calendar

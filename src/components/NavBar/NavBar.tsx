@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Logo from "./components/Logo";
 import NavLink from "./components/NavLink";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useAuthContext } from "../../contexts/authContext";
 import { Menu, X } from "lucide-react";
@@ -14,9 +14,9 @@ export default function NavBar() {
   const [linkActive, setLinkActive] = useState<string>("");
   const pathname = usePathname();
   const router = useRouter();
-  const { isLoggedIn = false, logout, userName } = useAuthContext();
+  const { isLoggedIn = false, logout, userName, avatar } = useAuthContext();
   const [isClient, setIsClient] = useState(false);
-
+  const [urlAvatar,setUrlAvatar] = useState("https://res.cloudinary.com/dtlmrtzpa/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1731928071/avatar16_dsdi8v.png");
   const links = useMemo(() => {
     if (!isClient) return [];
     return [
@@ -25,6 +25,7 @@ export default function NavBar() {
         ? [
             { title: "Crear actividad", href: "/create-activity" },
             { title: "Datos personales", href: "/profile" },
+            { title: "Mis actividades", href: "/my-activities" },
             { title: "Tu calendario", href: "/calendar" },
           ]
         : [
@@ -46,7 +47,10 @@ export default function NavBar() {
       document.body.classList.remove("overflow-hidden");
     };
   }, [openMenu]);
-
+  const setAvatar = useCallback(()=>{
+    if(avatar)
+      setUrlAvatar(avatar)
+  },[avatar])
   useEffect(() => {
     const activeLink = links.find((link) => pathname === link.href);
     if (activeLink) {
@@ -55,10 +59,10 @@ export default function NavBar() {
         setOpenMenu(false);
       }
     }
-
+    setAvatar();
     setIsClient(true);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname, links]);
+  }, [pathname, links,avatar,setAvatar]);
 
   const handleLogout = () => {
     logout();
@@ -91,7 +95,7 @@ export default function NavBar() {
             <img
               onClick={handlerOnClickAvatar}
               className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center"
-              src="https://res.cloudinary.com/dtlmrtzpa/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1731928071/avatar16_dsdi8v.png"
+              src={urlAvatar}
               alt="Avatar"
             />
             <div

@@ -1,5 +1,4 @@
-"use client";
-
+"use client"
 import { useCallback, useEffect, useState } from "react";
 import { Activity } from "@/components/Interfaces/activity.interface";
 import getActivities from "../../components/GetActivities/getActivities";
@@ -7,8 +6,9 @@ import { useAuthContext } from "@/contexts/authContext";
 import Swal from "sweetalert2";
 import BigCalendar from "./components/BigCalendar";
 
-export function MyActivities(){
-    const [activities,setActivities] = useState<Activity[]>([]);
+export function Calendar(){
+    const [activitiesCreated,setActivitiesCreated] = useState<Activity[]>([]);
+    const [activitiesJoined,setActivitiesJoined] = useState<Activity[]>([]);
     const {userId} = useAuthContext()
     const fetchActivities = useCallback(async () => {
         Swal.fire({
@@ -19,17 +19,19 @@ export function MyActivities(){
             Swal.showLoading();
           },
         });
-    
+        
         const result = await getActivities(userId);
-        if (result) setActivities(result);
-    
+        if (result){
+            setActivitiesCreated(result.created)
+            setActivitiesJoined(result.joined)
+        } 
+        
         Swal.close();
       }, [userId]);
     useEffect(()=>{
         if(userId){
             fetchActivities()
         }
-        
     },[fetchActivities, userId])
     return(
         <section 
@@ -53,13 +55,16 @@ export function MyActivities(){
                     </div>
                 </div>
                 <div className="h-full w-full">
-                    <BigCalendar
-                        activities={activities}
-                    />
+                    { activitiesCreated.length !== 0 && activitiesJoined.length !== 0 && (
+                        <BigCalendar
+                            activitiesCreated={activitiesCreated}
+                            activitiesJoined={activitiesJoined}
+                        />
+                    )}
                 </div>
             </div>  
         </section>
     )
 }
 
-export default MyActivities;
+export default Calendar;

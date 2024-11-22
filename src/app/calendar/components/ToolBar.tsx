@@ -1,6 +1,5 @@
 export const CustomToolbar = (props: any) => {
     const { label, onNavigate, onView, views } = props;
-    console.log(views);
     return (
       <div className="flex flex-col lg:flex-row justify-between items-center p-2 bg-customPalette-graydark text-customPalette-white">
         <button
@@ -34,7 +33,6 @@ export const CustomToolbar = (props: any) => {
                 }`}
                 onClick={() =>{ 
                   const mappedView = view === 'week' ? 'week' : view;
-                  console.log(mappedView)
                   onView(mappedView)}}
               >
                 {view === 'month'

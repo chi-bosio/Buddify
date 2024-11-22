@@ -1,1 +1,1 @@
-export {default} from './MyActivities';
+export {default} from './Calendar';
