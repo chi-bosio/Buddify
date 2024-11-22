@@ -105,8 +105,8 @@ const Profile: React.FC = () => {
       text: "Estás a punto de actualizar tu perfil. ¿Deseas continuar?",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
+      confirmButtonColor: "#f97316",
+      cancelButtonColor: "#235789",
       confirmButtonText: "Sí, guardar",
       cancelButtonText: "Cancelar",
     });

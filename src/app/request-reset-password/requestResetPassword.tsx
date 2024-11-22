@@ -14,7 +14,7 @@ const RequestPasswordReset = () => {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       Swal.fire({
-        title: "Enviando...",
+        title: "Cargando...",
         icon: "info",
         allowOutsideClick: false,
         didOpen: () => {
