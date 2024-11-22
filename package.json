@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@stripe/react-stripe-js": "^3.0.0",
+    "@stripe/stripe-js": "^5.2.0",
     "date-fns": "^4.1.0",
     "formik": "^2.4.6",
     "leaflet": "^1.9.4",
