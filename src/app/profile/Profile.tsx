@@ -9,6 +9,7 @@ import { useAuthContext } from "../../contexts/authContext";
 import { updateUserProfile } from "./components/postData";
 import Swal from "sweetalert2";
 import Toast, { TypeToast } from "@/components/Toast/Toast";
+import PlansButton from "@/components/Plans/PlansButton";
 
 interface Avatar {
   id: number;
@@ -172,6 +173,8 @@ const Profile: React.FC = () => {
         <h1 className="text-center text-3xl font-bold mb-6 text-customPalette-blue">
           Perfil
         </h1>
+
+        <PlansButton />
 
         <Formik
           initialValues={initialValues}
