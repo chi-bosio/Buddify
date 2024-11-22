@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 import GetCategories from "@/components/GetCategories/GetCategories";
 import { useAuthContext } from "@/contexts/authContext";
 import Toast, { TypeToast } from "@/components/Toast/Toast";
-import { Activity } from "../activity.interface";
+import { Activity } from "../../../../../components/Interfaces/activity.interface";
 import moment from "moment";
 
 export function CombinedFilters({setActivities}:{setActivities:(data:Activity[])=>void}){

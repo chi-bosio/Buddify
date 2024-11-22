@@ -4,7 +4,7 @@ import ModalActivity from "@/app/components/activities/components/ModalActivity/
 import "leaflet/dist/leaflet.css";
 import {  useState } from "react";
 import CombinedFilters from "./components/CombinedFilters/CombinedFilters";
-import { Activity } from "./components/activity.interface";
+import { Activity } from "../../../components/Interfaces/activity.interface";
 
 export function Activities() {
 const [activities, setActivities] = useState<Activity[]>([]);
