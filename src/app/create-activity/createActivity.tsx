@@ -1,7 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
-'use client';
-import {  useState } from "react";
-import { CalendarIcon, ClockIcon, MapPinIcon, Navigation2Icon } from "lucide-react";
+"use client";
+import { useState } from "react";
+import {
+  CalendarIcon,
+  ClockIcon,
+  MapPinIcon,
+  Navigation2Icon,
+} from "lucide-react";
 import { useFormik } from "formik";
 import moment from "moment";
 import DragAndDropImage from "./components/dragAndDrop";
@@ -16,6 +21,7 @@ import Toast, { TypeToast } from "@/components/Toast/Toast";
 import MapForm from "@/app/create-activity/components/MapForm/MapForm";
 import { useAuthContext } from "@/contexts/authContext";
 import GetCategories from "@/components/GetCategories/GetCategories";
+import PlansButton from "@/components/Plans/PlansButton";
 
 interface FormValues {
   name: string;
@@ -23,12 +29,12 @@ interface FormValues {
   image: File | null;
   date: string;
   time: string;
-  place:string;
-  categoryId:string;
+  place: string;
+  categoryId: string;
 }
 
 export default function CreateActivityForm() {
-  const {userId} = useAuthContext();
+  const { userId } = useAuthContext();
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [location, setLocation] = useState({ lat: 0, lng: 0 });
   const handleLocationSelect = (lat: number, lng: number) => {
@@ -41,57 +47,61 @@ export default function CreateActivityForm() {
       image: null,
       date: "",
       time: "",
-      place:"",
-      categoryId:""
+      place: "",
+      categoryId: "",
     },
     validationSchema: validationSchemaNewActivitie,
     onSubmit: async (values, { resetForm }) => {
       Swal.fire({
-        title: 'Cargando...',
-        icon:"info",
+        title: "Cargando...",
+        icon: "info",
         allowOutsideClick: false,
         didOpen: () => {
-          Swal.showLoading(); 
-        }
+          Swal.showLoading();
+        },
       });
-      let imageUrl = '';
+      let imageUrl = "";
       if (values.image) {
         imageUrl = await UploadImageToCloudinary(values.image);
         if (!imageUrl) {
           Swal.close();
-          Toast(TypeToast.Error,"No se pudo subir la imagen. Verifica e intenta nuevamente.");
+          Toast(
+            TypeToast.Error,
+            "No se pudo subir la imagen. Verifica e intenta nuevamente."
+          );
           return;
         }
       }
-    
+
       const activityData = {
         ...values,
-        creatorId:userId,
+        creatorId: userId,
         image: imageUrl,
-        latitude:String(location.lat),
-        longitude:String(location.lng),
+        latitude: String(location.lat),
+        longitude: String(location.lng),
       };
-      
+
       const isSuccess = await PostData(activityData);
       Swal.close();
       if (isSuccess) {
-  
         resetForm();
         setImagePreview(null);
       }
     },
   });
-  
+
   return (
     <div className="bg-[url('/assets/textura-fondo.avif')] min-h-screen flex items-center justify-center bg-customPalette-white">
       <div className="w-full max-w-4xl p-8 bg-customPalette-white rounded-xl shadow-lg border border-customPalette-gray">
+        <PlansButton />
+
         <h1 className="text-center text-3xl font-bold mb-6 text-customPalette-blue">
           Crear Nueva Actividad
         </h1>
         <div className="flex flex-col md:flex-row gap-8">
           <form onSubmit={formik.handleSubmit} className="flex-1 space-y-4">
             <div className="relative">
-              <InputWithLabel 
+              <InputWithLabel
                 formik={formik}
                 name="name"
                 type="text"
@@ -100,7 +110,7 @@ export default function CreateActivityForm() {
             </div>
 
             <div className="relative">
-            <GetCategories formik={formik}/>
+              <GetCategories formik={formik} />
             </div>
 
             <div className="relative">
@@ -118,8 +128,7 @@ export default function CreateActivityForm() {
                 rows={3}
                 className="mt-1 block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark"
               />
-             <ErrorMessageForm formik={formik} input="description"/>
-            
+              <ErrorMessageForm formik={formik} input="description" />
             </div>
 
             <div className="relative">
@@ -135,18 +144,18 @@ export default function CreateActivityForm() {
                   formik.setFieldValue("image", file);
                   if (file) {
                     const reader = new FileReader();
-                    reader.onloadend = () => setImagePreview(reader.result as string);
+                    reader.onloadend = () =>
+                      setImagePreview(reader.result as string);
                     reader.readAsDataURL(file);
                   } else {
                     setImagePreview(null);
                   }
-                }
-              } 
+                }}
               />
             </div>
 
             <div className="relative">
-              <InputWithLabel 
+              <InputWithLabel
                 formik={formik}
                 name="date"
                 type="date"
@@ -155,7 +164,7 @@ export default function CreateActivityForm() {
             </div>
 
             <div className="relative">
-              <InputWithLabel 
+              <InputWithLabel
                 formik={formik}
                 name="time"
                 type="time"
@@ -164,7 +173,7 @@ export default function CreateActivityForm() {
             </div>
 
             <div className="relative">
-              <InputWithLabel 
+              <InputWithLabel
                 formik={formik}
                 name="place"
                 type="text"
@@ -183,11 +192,9 @@ export default function CreateActivityForm() {
                 Si no cambias este campo , se tomara tu direccion actual
               </div>
             </div>
-            <div>
-            
-        </div>
+            <div></div>
             <div className="flex justify-center items-center mt-1">
-              <SubmitButton text="Crear Actividad"/>
+              <SubmitButton text="Crear Actividad" />
             </div>
           </form>
 
@@ -214,7 +221,9 @@ export default function CreateActivityForm() {
                   <CalendarIcon className="w-4 h-4 mr-2" />
                   <span>
                     {formik.values.date
-                      ? moment(formik.values.date, "YYYY-MM-DD").format("DD/MM/YYYY")
+                      ? moment(formik.values.date, "YYYY-MM-DD").format(
+                          "DD/MM/YYYY"
+                        )
                       : "Fecha"}
                   </span>
                 </div>
@@ -224,11 +233,15 @@ export default function CreateActivityForm() {
                 </div>
                 <div className="flex items-center text-gray-500 mb-2">
                   <MapPinIcon className="w-4 h-4 mr-2" />
-                  <span>{formik.values.place  || "Lugar"}</span>
+                  <span>{formik.values.place || "Lugar"}</span>
                 </div>
                 <div className="flex items-center text-gray-500 mb-2">
                   <Navigation2Icon className="w-4 h-4 mr-2" />
-                  <span>{location.lat && location.lng ? `${location.lat} ${location.lng}` : "Ubicación"}</span>
+                  <span>
+                    {location.lat && location.lng
+                      ? `${location.lat} ${location.lng}`
+                      : "Ubicación"}
+                  </span>
                 </div>
               </div>
             </div>
