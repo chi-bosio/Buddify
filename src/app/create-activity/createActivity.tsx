@@ -1,6 +1,7 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
-import { useState } from "react";
-import { CalendarIcon, ClockIcon, MapPinIcon } from "lucide-react";
+import {  useState } from "react";
+import { CalendarIcon, ClockIcon, MapPinIcon, Navigation2Icon } from "lucide-react";
 import { useFormik } from "formik";
 import moment from "moment";
 import DragAndDropImage from "./components/dragAndDrop";
@@ -12,6 +13,9 @@ import ErrorMessageForm from "@/components/ErrorMessageForm/ErrorMessageForm";
 import SubmitButton from "@/components/SubmitButton/SubmitButton";
 import Swal from "sweetalert2";
 import Toast, { TypeToast } from "@/components/Toast/Toast";
+import MapForm from "@/app/create-activity/components/MapForm/MapForm";
+import { useAuthContext } from "@/contexts/authContext";
+import GetCategories from "@/components/GetCategories/GetCategories";
 
 interface FormValues {
   name: string;
@@ -19,12 +23,17 @@ interface FormValues {
   image: File | null;
   date: string;
   time: string;
-  place: string;
+  place:string;
+  categoryId:string;
 }
 
 export default function CreateActivityForm() {
+  const {userId} = useAuthContext();
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-
+  const [location, setLocation] = useState({ lat: 0, lng: 0 });
+  const handleLocationSelect = (lat: number, lng: number) => {
+    setLocation({ lat, lng });
+  };
   const formik = useFormik<FormValues>({
     initialValues: {
       name: "",
@@ -32,12 +41,11 @@ export default function CreateActivityForm() {
       image: null,
       date: "",
       time: "",
-      place: "",
+      place:"",
+      categoryId:""
     },
     validationSchema: validationSchemaNewActivitie,
     onSubmit: async (values, { resetForm }) => {
-      const latitude = "latitud"
-      const longitude = "longitud"
       Swal.fire({
         title: 'Cargando...',
         icon:"info",
@@ -58,10 +66,10 @@ export default function CreateActivityForm() {
     
       const activityData = {
         ...values,
-        creatorId:"61e11dc3-085a-43ef-a40d-649a4046c7c9",
+        creatorId:userId,
         image: imageUrl,
-        latitude,
-        longitude,
+        latitude:String(location.lat),
+        longitude:String(location.lng),
       };
       
       const isSuccess = await PostData(activityData);
@@ -89,6 +97,10 @@ export default function CreateActivityForm() {
                 type="text"
                 text="Nombre de la Actividad"
               />
+            </div>
+
+            <div className="relative">
+            <GetCategories formik={formik}/>
             </div>
 
             <div className="relative">
@@ -131,7 +143,6 @@ export default function CreateActivityForm() {
                 }
               } 
               />
-              <ErrorMessageForm formik={formik} input="image"/>
             </div>
 
             <div className="relative">
@@ -153,27 +164,28 @@ export default function CreateActivityForm() {
             </div>
 
             <div className="relative">
+              <InputWithLabel 
+                formik={formik}
+                name="place"
+                type="text"
+                text="Lugar de la Actividad"
+              />
+            </div>
+            <div className="relative">
               <label
                 htmlFor="place"
-                className="absolute -top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1"
+                className="-top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1"
               >
-                Lugar de la Actividad
+                Ubicacion
               </label>
-              <span className="absolute inset-y-0 left-2 flex items-center pointer-events-none">
-                 <MapPinIcon className="w-5 h-5 text-customPalette-graydark" />
-               </span>
-              <input
-                onBlur={formik.handleBlur}
-                type="text"
-                id="place"
-                value={formik.values.place}
-                onChange={formik.handleChange}
-                className="mt-1 block w-full p-2 pl-10 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark text-sm"
-                placeholder="Ingrese la ubicación"
-              />
-              <ErrorMessageForm formik={formik} input="place"/>
+              <MapForm onLocationSelect={handleLocationSelect} />
+              <div className="text-customPalette-red h-0.5 mt-1 mb-10">
+                Si no cambias este campo , se tomara tu direccion actual
+              </div>
             </div>
-
+            <div>
+            
+        </div>
             <div className="flex justify-center items-center mt-1">
               <SubmitButton text="Crear Actividad"/>
             </div>
@@ -210,9 +222,13 @@ export default function CreateActivityForm() {
                   <ClockIcon className="w-4 h-4 mr-2" />
                   <span>{formik.values.time || "Hora"}</span>
                 </div>
-                <div className="flex items-center text-gray-500">
+                <div className="flex items-center text-gray-500 mb-2">
                   <MapPinIcon className="w-4 h-4 mr-2" />
-                  <span>{formik.values.place || "Lugar"}</span>
+                  <span>{formik.values.place  || "Lugar"}</span>
+                </div>
+                <div className="flex items-center text-gray-500 mb-2">
+                  <Navigation2Icon className="w-4 h-4 mr-2" />
+                  <span>{location.lat && location.lng ? `${location.lat} ${location.lng}` : "Ubicación"}</span>
                 </div>
               </div>
             </div>

@@ -63,12 +63,12 @@ const RegisterForm: React.FC = () => {
       });
       if (result.isConfirmed) {
         Swal.fire({
-          title: 'Cargando...',
-          icon:"info",
+          title: "Cargando...",
+          icon: "info",
           allowOutsideClick: false,
           didOpen: () => {
-            Swal.showLoading(); 
-          }
+            Swal.showLoading();
+          },
         });
         const success = await postData(values);
         Swal.close();
@@ -92,27 +92,30 @@ const RegisterForm: React.FC = () => {
         <form onSubmit={formik.handleSubmit} className="grid grid-cols-2 gap-6">
           <div className="space-y-6">
             <div className="relative">
-              <InputWithLabel 
+              <InputWithLabel
                 formik={formik}
                 name="name"
                 type="text"
-                text="Nombre" />
+                text="Nombre"
+              />
             </div>
 
             <div className="relative">
-              <InputWithLabel 
+              <InputWithLabel
                 formik={formik}
                 name="lastname"
                 type="text"
-                text="Apellido" />
+                text="Apellido"
+              />
             </div>
 
             <div className="relative">
-              <InputWithLabel 
+              <InputWithLabel
                 formik={formik}
                 name="birthdate"
                 type="date"
-                text="Fecha de nacimiento"/>
+                text="Fecha de nacimiento"
+              />
             </div>
 
             <div className="relative">
@@ -140,10 +143,7 @@ const RegisterForm: React.FC = () => {
                   </option>
                 ))}
               </select>
-              <ErrorMessageForm 
-              formik={formik}
-              input="country"
-              />
+              <ErrorMessageForm formik={formik} input="country" />
             </div>
 
             <div className="relative">
@@ -161,60 +161,57 @@ const RegisterForm: React.FC = () => {
                 onBlur={formik.handleBlur}
                 className="block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark  "
               >
-                <option value="">Seleccionar ciudad</option>
+                <option value="">Seleccionar provincia</option>
                 {city.map((city, index) => (
                   <option key={index} value={city}>
                     {city}
                   </option>
                 ))}
               </select>
-              <ErrorMessageForm 
-              formik={formik}
-              input="city"
-              />
+              <ErrorMessageForm formik={formik} input="city" />
             </div>
           </div>
 
           <div className="space-y-6">
             <div className="relative">
-              <InputWithLabel 
+              <InputWithLabel
                 formik={formik}
                 name="email"
                 type="email"
                 text="Correo electrónico"
-                />
+              />
             </div>
 
             <div className="relative">
-              <InputWithLabel 
+              <InputWithLabel
                 formik={formik}
                 name="username"
                 type="text"
                 text="Username"
-                />
+              />
             </div>
 
             <div className="relative">
-              <InputWithLabel 
+              <InputWithLabel
                 formik={formik}
                 name="password"
                 type="password"
                 text="Contraseña"
-                />
+              />
             </div>
 
             <div className="relative">
-              <InputWithLabel 
+              <InputWithLabel
                 formik={formik}
                 name="dni"
                 type="text"
                 text="DNI o pasaporte"
-                 />
+              />
             </div>
           </div>
 
           <SubmitButton text="Registrarse" />
-          
+
           <div className="col-span-2 text-center mt-6">
             <p className="text-sm text-customPalette-black">
               ¿Ya tenés cuenta?&nbsp;

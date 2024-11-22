@@ -6,8 +6,9 @@ export default function Logo() {
     <Image 
         src='/assets/logobuddify.png'
         alt="Logo buddify"
-        width={400}
-        height={200}
+        className="h-full w-full"
+        width={1000}
+        height={1000}
     />
   );
 }

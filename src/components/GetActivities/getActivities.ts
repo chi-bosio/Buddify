@@ -1,44 +1,33 @@
 import Toast, { TypeToast } from "@/components/Toast/Toast";
 
-type data={
-    name: string,
-    lastname: string,
-    birthdate: string,
-    country: string,
-    city: string,
-    email: string,
-    username: string,
-    password: string,
-    dni: string,
-}
-export const postData = async (values:data):Promise<boolean> =>{
-    const data = { ...values, birthdate: new Date(values.birthdate) };
-    const url = `${process.env.NEXT_PUBLIC_API_URL}/auth/signup`;
+export const getActivities = async (userId:string|null) => {
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/activities/user/${userId}`;
+  
     try {
       const response = await fetch(url, {
-        method: "POST",
+        method: "GET",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
       });
-
+  
       if (!response.ok) {
         const errorData = await response.json();
         Toast(TypeToast.Error,errorData.message);
         return false;
       }else{
         const result = await response.json();
-        Toast(TypeToast.Success,result.message);
-        return true;
+        return result;
       }
+  
     } catch (error) {
       let errorMessage = "Error del servidor";
-    
+      
       if (error instanceof Error) {
           errorMessage = error.message;
       }
       Toast(TypeToast.Error,errorMessage)
-      return false;
+      
+      return { success: false, message: "Error del servidor" };
     }
-};
-
-export default postData;
+  };
+  
+  export default getActivities;
