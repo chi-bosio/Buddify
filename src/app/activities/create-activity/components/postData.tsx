@@ -14,7 +14,7 @@ export const PostData = async (activityData: any) => {
     if (!response.ok) {
         const errorData = await response.json();
         if(Array.isArray(errorData.message)){
-          errorData.message.map((men)=>{
+          errorData.message.map((men: string)=>{
             Toast(TypeToast.Error,men);
           })
         }
