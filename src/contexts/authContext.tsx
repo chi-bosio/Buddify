@@ -21,8 +21,9 @@ interface AuthContextType {
   logout: () => void;
   isLoggedIn: boolean;
   authTokens: AuthTokens;
-  userId: string | null; // Aseguramos que el tipo incluya userId
-  userName: string | null; // Aseguramos que el tipo incluya username
+  userId: string | null; 
+  userName: string | null; 
+  avatar: string | null; 
 }
 
 export const AuthContext = createContext<AuthContextType>({
@@ -30,8 +31,9 @@ export const AuthContext = createContext<AuthContextType>({
   logout: () => {},
   isLoggedIn: false,
   authTokens: null,
-  userId: null, // Valor predeterminado para userId
+  userId: null, 
   userName: null,
+  avatar: null,
 });
 
 export default function AuthContextProvider({
@@ -50,24 +52,29 @@ export default function AuthContextProvider({
   );
   const [userId, setUserId] = useState<string | null>(null);
   const [userName, setUserName] = useState<string | null>(null);
+  const [avatar, setAvatar] = useState<string | null>(null);
 
-  // Efecto para leer y rehidratar el userId al cargar la página
   useEffect(() => {
     if (authTokens) {
       const decoded = JSON.parse(atob(authTokens.token.split(".")[1]));
-      const extractedUserId = decoded.sub; // Usamos 'sub' como userId
-      const extractedUserName = decoded.name; // 
-      console.log("User ID extraído del token:", extractedUserId);
+      const extractedUserId = decoded.sub; 
+      const extractedUserName = decoded.name; 
+      const extractedAvatar = decoded.avatar; 
 
       if (extractedUserId) {
-        setUserId(extractedUserId); // Establecer el userId
+        setUserId(extractedUserId); 
       } else {
         console.error("No se encontró el userId en el token");
       }
       if (extractedUserName) {
-        setUserName(extractedUserName); // Establecer el userId
+        setUserName(extractedUserName); 
       } else {
         console.error("No se encontró el userName en el token");
+      }
+      if (extractedAvatar) {
+        setAvatar(extractedAvatar); 
+      } else {
+        console.error("No se encontró el avatar en el token");
       }
     }
   }, [authTokens]);
@@ -80,17 +87,21 @@ export default function AuthContextProvider({
     const decoded = JSON.parse(atob(token.token.split(".")[1]));
     const extractedUserId = decoded.sub;
     const extractedUserName = decoded.name; 
-    console.log("User ID extraído del token:", extractedUserId);
-    console.log("UserName extraído del token:", extractedUserName);
+    const extractedAvatar = decoded.avatar; 
     if (extractedUserId) {
-      setUserId(extractedUserId); // Guardar el userId extraído
+      setUserId(extractedUserId); 
     } else {
       console.error("No se encontró userId en el token");
     }
     if (extractedUserName) {
-      setUserName(extractedUserName); // Guardar el userId extraído
+      setUserName(extractedUserName); 
     } else {
       console.error("No se encontró userId en el token");
+    }
+    if (extractedAvatar) {
+      setAvatar(extractedAvatar); 
+    } else {
+      console.error("No se encontró el avatar en el token");
     }
   }, []);
 
@@ -99,6 +110,7 @@ export default function AuthContextProvider({
     setAuthTokens(null);
     setUserId(null);
     setUserName(null)
+    setAvatar(null)
     router.push("/login");
   }, [router]);
 
@@ -108,16 +120,16 @@ export default function AuthContextProvider({
       logout,
       authTokens,
       isLoggedIn: authTokens !== null,
-      userId, // Exponer el userId en el contexto
-      userName, // Exponer el userName en el contexto
+      userId, 
+      userName, 
+      avatar,
     }),
-    [authTokens, login, logout, userId, userName]
+    [authTokens, login, logout, userId, userName,avatar]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
-// Hook para consumir el contexto de autenticación
 export function useAuthContext() {
   return useContext(AuthContext);
 }

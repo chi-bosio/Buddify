@@ -1,8 +1,12 @@
+"use client";
 /* eslint-disable @next/next/no-img-element */
 import { CalendarIcon, ClockIcon, MapPinIcon, X } from "lucide-react";
 import moment from "moment";
 import { useEffect, useRef } from "react";
 import L from "leaflet";
+import Swal from "sweetalert2";
+import { postData } from "./components/postData";
+import { useAuthContext } from "@/contexts/authContext";
 
 export function ModalActivity({
     isModalOpen,
@@ -34,7 +38,7 @@ export function ModalActivity({
     time: string,
 }) {
     const modalRef = useRef<HTMLDivElement>(null);
-
+    const {userId} = useAuthContext();
     useEffect(() => {
         let map: L.Map | null = null;
 
@@ -59,8 +63,34 @@ export function ModalActivity({
                 map.remove();
             }
         };
-    }, [isModalOpen, latitude, longitude, id]);
-
+    }, [isModalOpen, latitude, longitude, id, userId]);
+    const handlerSubmit = async () => {
+        const result = await Swal.fire({
+            title: "¿Estás seguro?",
+            text: "Considera si puedes ir antes de unirte",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#f97316",
+            cancelButtonColor: "#235789",
+            cancelButtonText: "Cancelar",
+            confirmButtonText: "Unirme",
+          });
+          if (result.isConfirmed) {
+            Swal.fire({
+              title: 'Cargando...',
+              icon:"info",
+              allowOutsideClick: false,
+              didOpen: () => {
+                Swal.showLoading(); 
+              }
+            });
+            const success = await postData({activityId:id,userId:userId});
+            Swal.close();
+            if (success) {
+                onClose()
+            }
+        }
+    }
     const handleClickOutside = (event: React.MouseEvent<HTMLDivElement>) => {
         if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
             onClose();
@@ -126,7 +156,7 @@ export function ModalActivity({
                             Ver en Google Maps
                         </a>
                         <div className="h-full w-full flex items-end justify-end">
-                            <button className="text-lg bg-customPalette-orange text-white px-4 py-2 rounded-md shadow-md hover:bg-customPalette-orangebright duration-300 ease-in-out">
+                            <button onClick={handlerSubmit} className="text-lg bg-customPalette-orange text-white px-4 py-2 rounded-md shadow-md hover:bg-customPalette-orangebright duration-300 ease-in-out">
                                 Unirme
                             </button>
                         </div>
