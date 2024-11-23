@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
-import validationSchemaCompleteProfile from "./components/validationSchema"; // Asegúrate de tener el esquema adecuado
+import validationSchemaCompleteProfile from "./components/validationSchema";
 import postData from "./components/postData";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
@@ -13,7 +13,7 @@ import { useAuthContext } from "@/contexts/authContext";
 
 const CompleteProfile: React.FC = () => {
   const router = useRouter();
-  const { userId } = useAuthContext(); // Extraer el userId del contexto
+  const { userId } = useAuthContext();
   const [countries, setCountries] = useState<{ name: string; city: string[] }[]>([]);
   const [city, setCity] = useState<string[]>([]);
 
@@ -44,7 +44,7 @@ const CompleteProfile: React.FC = () => {
       birthdate: "",
       dni: "",
     },
-    validationSchema: validationSchemaCompleteProfile, // Utiliza el esquema de validación adecuado.
+    validationSchema: validationSchemaCompleteProfile,
     onSubmit: async (values) => {
       try {
         const result = await Swal.fire({
@@ -67,10 +67,7 @@ const CompleteProfile: React.FC = () => {
               Swal.showLoading();
             },
           });
-
-          console.log({ ...values, userId }); // Verifica que el userId esté incluido en los datos
-
-          // Enviando los datos al backend junto con el userId
+          
           const success = await postData({ ...values, userId: userId || undefined });
 
           Swal.close();
@@ -83,7 +80,7 @@ const CompleteProfile: React.FC = () => {
               icon: "success",
               confirmButtonColor: "#f97316",
             }).then(() => {
-              router.push("/"); // Redirige a actividades tras completar el perfil.
+              router.push("/");
             });
           } else {
             Swal.fire({

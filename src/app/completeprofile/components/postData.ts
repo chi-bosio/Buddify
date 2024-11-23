@@ -1,12 +1,12 @@
 import Toast, { TypeToast } from "@/components/Toast/Toast";
-import { jwtDecode } from "jwt-decode";// Corrige el nombre de la importación
+import { jwtDecode } from "jwt-decode";
 
 type data = {
   birthdate: string;
   country: string;
   city: string;
   dni: string;
-  userId?: string; // Hacemos que este campo sea opcional
+  userId?: string;
 };
 
 export const postData = async (values: data): Promise<boolean> => {
@@ -14,21 +14,19 @@ export const postData = async (values: data): Promise<boolean> => {
       throw new Error("NEXT_PUBLIC_API_URL no está definida en el entorno.");
     }
   
-    // Obtener el token correctamente desde localStorage
     const storedToken = localStorage.getItem("NEXT_JS_AUTH");
-    const token = storedToken ? JSON.parse(storedToken).token : null;  // Aquí extraemos el token correctamente
+    const token = storedToken ? JSON.parse(storedToken).token : null;
   
     if (!token) {
       console.error("Token no encontrado en localStorage.");
       return false;
     }
   
-    // Decodificar el token para obtener el userId
   let userId: string | null = null;
 
   try {
     const decodedToken: any = jwtDecode(token);
-    userId = decodedToken.sub; // Asegúrate de que el campo `sub` corresponde al ID del usuario
+    userId = decodedToken.sub; 
   } catch (error) {
     console.error("Error al decodificar el token:", error);
     return false;
@@ -48,7 +46,7 @@ export const postData = async (values: data): Promise<boolean> => {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`, // Añadimos el token aquí
+          "Authorization": `Bearer ${token}`,
         },
         body: JSON.stringify(data),
       });
@@ -68,6 +66,5 @@ export const postData = async (values: data): Promise<boolean> => {
       return false;
     }
   };
-  
 
 export default postData;
