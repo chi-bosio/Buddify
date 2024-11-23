@@ -13,8 +13,13 @@ const LoginForm = () => {
   const { login } = useAuthContext();
   const router = useRouter();
 
+
   const handleResetForm = () => {
     formik.resetForm();
+  };
+
+  const handleGoogleLogin = () => { 
+    router.push(`${process.env.NEXT_PUBLIC_API_URL}/auth/google/login`);
   };
 
   const formik = useFormik({
@@ -32,7 +37,9 @@ const LoginForm = () => {
           Swal.showLoading();
         },
       });
-      const success = await postData(values);
+
+
+        const success = await postData(values);
       Swal.close();
       if (success.success) {
         if (success.token) {
@@ -97,11 +104,19 @@ const LoginForm = () => {
               >
                 Registrate
               </a>
-            </p>
-          </div>
-        </form>
+            </p>  
+            </div>
+            <div className="mt-10 text-center">  
+            <button 
+              onClick={handleGoogleLogin}
+              className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600"
+            >
+              Ingresa con Google
+            </button>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
   );
 };
 

@@ -1,14 +1,8 @@
 "use client";
-import {
-  createContext,
-  useContext,
-  useState,
-  useMemo,
-  ReactNode,
-  useCallback,
-  useEffect,
-} from "react";
+
+import { createContext, useContext, useState, useMemo, ReactNode, useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import {jwtDecode} from "jwt-decode";
 
 type AuthTokens = {
   token: string;
@@ -21,9 +15,9 @@ interface AuthContextType {
   logout: () => void;
   isLoggedIn: boolean;
   authTokens: AuthTokens;
-  userId: string | null; 
-  userName: string | null; 
-  avatar: string | null; 
+  userId: string | null;
+  userName: string | null;
+  avatar: string | null;
 }
 
 export const AuthContext = createContext<AuthContextType>({
@@ -31,7 +25,7 @@ export const AuthContext = createContext<AuthContextType>({
   logout: () => {},
   isLoggedIn: false,
   authTokens: null,
-  userId: null, 
+  userId: null,
   userName: null,
   avatar: null,
 });
@@ -53,66 +47,61 @@ export default function AuthContextProvider({
   const [userId, setUserId] = useState<string | null>(null);
   const [userName, setUserName] = useState<string | null>(null);
   const [avatar, setAvatar] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (authTokens) {
-      const decoded = JSON.parse(atob(authTokens.token.split(".")[1]));
-      const extractedUserId = decoded.sub; 
-      const extractedUserName = decoded.name; 
-      const extractedAvatar = decoded.avatar; 
-
-      if (extractedUserId) {
-        setUserId(extractedUserId); 
-      } else {
-        console.error("No se encontró el userId en el token");
-      }
-      if (extractedUserName) {
-        setUserName(extractedUserName); 
-      } else {
-        console.error("No se encontró el userName en el token");
-      }
-      if (extractedAvatar) {
-        setAvatar(extractedAvatar); 
-      } else {
-        console.error("No se encontró el avatar en el token");
-      }
-    }
-  }, [authTokens]);
+  const [loading, setLoading] = useState(true);
 
   const login = useCallback((token: AuthTokens) => {
     if (!token) return;
+
     window.localStorage.setItem(AUTH_TOKENS_KEY, JSON.stringify(token));
     setAuthTokens(token);
 
-    const decoded = JSON.parse(atob(token.token.split(".")[1]));
-    const extractedUserId = decoded.sub;
-    const extractedUserName = decoded.name; 
-    const extractedAvatar = decoded.avatar; 
-    if (extractedUserId) {
-      setUserId(extractedUserId); 
-    } else {
-      console.error("No se encontró userId en el token");
-    }
-    if (extractedUserName) {
-      setUserName(extractedUserName); 
-    } else {
-      console.error("No se encontró userId en el token");
-    }
-    if (extractedAvatar) {
-      setAvatar(extractedAvatar); 
-    } else {
-      console.error("No se encontró el avatar en el token");
-    }
+    const decodedToken: any = jwtDecode(token.token);
+    setUserId(decodedToken.sub || null);
+    setUserName(decodedToken.name || null);
+    setAvatar(decodedToken.avatar || null);
   }, []);
 
   const logout = useCallback(() => {
     window.localStorage.removeItem(AUTH_TOKENS_KEY);
     setAuthTokens(null);
     setUserId(null);
-    setUserName(null)
-    setAvatar(null)
+    setUserName(null);
+    setAvatar(null);
     router.push("/login");
   }, [router]);
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(window.location.search);
+    const token = queryParams.get("token");
+    const profileComplete = queryParams.get("profileComplete") === "true";
+
+    if (token) {
+      login({ token });
+
+      const cleanURL = window.location.origin + window.location.pathname;
+      window.history.replaceState({}, document.title, cleanURL);
+
+      if (profileComplete) {
+        router.push("/");
+      } else {
+        router.push("/completeprofile");
+      }
+    } else {
+
+      setLoading(false);
+    }
+  }, [login, router]);
+
+  useEffect(() => {
+
+    if (authTokens) {
+      const decodedToken: any = jwtDecode(authTokens.token);
+      setUserId(decodedToken.sub || null);
+      setUserName(decodedToken.name || null);
+      setAvatar(decodedToken.avatar || null);
+      setLoading(false);
+    }
+  }, [authTokens]);
 
   const value = useMemo(
     () => ({
@@ -120,12 +109,16 @@ export default function AuthContextProvider({
       logout,
       authTokens,
       isLoggedIn: authTokens !== null,
-      userId, 
-      userName, 
+      userId,
+      userName,
       avatar,
     }),
-    [authTokens, login, logout, userId, userName,avatar]
+    [authTokens, login, logout, userId, userName, avatar]
   );
+
+  if (loading) {
+    return <div>Loading...</div>; 
+  }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
