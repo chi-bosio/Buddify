@@ -9,7 +9,7 @@ import { useAuthContext } from "../../contexts/authContext";
 import { updateUserProfile } from "./components/postData";
 import Swal from "sweetalert2";
 import Toast, { TypeToast } from "@/components/Toast/Toast";
-import PlansButton from "@/components/Plans/PlansButton";
+import PlansButton from "@/app/stripe/Plans/PlansButton";
 
 interface Avatar {
   id: number;

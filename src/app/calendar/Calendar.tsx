@@ -5,7 +5,7 @@ import getActivities from "../../components/GetActivities/getActivities";
 import { useAuthContext } from "@/contexts/authContext";
 import Swal from "sweetalert2";
 import BigCalendar from "./components/BigCalendar";
-import PlansButton from "@/components/Plans/PlansButton";
+import PlansButton from "@/app/stripe/Plans/PlansButton";
 
 export function Calendar() {
   const [activitiesCreated, setActivitiesCreated] = useState<Activity[]>([]);
