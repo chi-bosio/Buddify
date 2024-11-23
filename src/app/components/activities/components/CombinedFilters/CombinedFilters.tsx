@@ -75,6 +75,7 @@ export function CombinedFilters({setActivities}:{setActivities:(data:Activity[])
             }
           }else{
             const data = await response.json();
+            console.log(data);
             if (Array.isArray(data.data)) {
               setActivities(data.data); 
             } else {

@@ -21,6 +21,7 @@ import Toast, { TypeToast } from "@/components/Toast/Toast";
 import MapForm from "@/app/create-activity/components/MapForm/MapForm";
 import { useAuthContext } from "@/contexts/authContext";
 import GetCategories from "@/components/GetCategories/GetCategories";
+import { useRouter } from "next/navigation";
 import PlansButton from "@/components/Plans/PlansButton";
 
 interface FormValues {
@@ -34,7 +35,8 @@ interface FormValues {
 }
 
 export default function CreateActivityForm() {
-  const { userId } = useAuthContext();
+  const router = useRouter();
+  const {userId} = useAuthContext();
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [location, setLocation] = useState({ lat: 0, lng: 0 });
   const handleLocationSelect = (lat: number, lng: number) => {
@@ -86,6 +88,7 @@ export default function CreateActivityForm() {
       if (isSuccess) {
         resetForm();
         setImagePreview(null);
+        router.push("/my-activities");
       }
     },
   });

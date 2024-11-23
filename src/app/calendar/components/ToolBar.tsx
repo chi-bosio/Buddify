@@ -32,8 +32,7 @@ export const CustomToolbar = (props: any) => {
                   props.view === view ? 'bg-customPalette-blue' : ''
                 }`}
                 onClick={() =>{ 
-                  const mappedView = view === 'week' ? 'week' : view;
-                  onView(mappedView)}}
+                  onView(view)}}
               >
                 {view === 'month'
                   ? 'Mes'
