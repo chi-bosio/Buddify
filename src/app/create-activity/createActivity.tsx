@@ -22,7 +22,7 @@ import MapForm from "@/app/create-activity/components/MapForm/MapForm";
 import { useAuthContext } from "@/contexts/authContext";
 import GetCategories from "@/components/GetCategories/GetCategories";
 import { useRouter } from "next/navigation";
-import PlansButton from "@/components/Plans/PlansButton";
+import PlansButton from "../stripe/Plans/PlansButton";
 
 interface FormValues {
   name: string;
@@ -36,7 +36,7 @@ interface FormValues {
 
 export default function CreateActivityForm() {
   const router = useRouter();
-  const {userId} = useAuthContext();
+  const { userId } = useAuthContext();
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [location, setLocation] = useState({ lat: 0, lng: 0 });
   const handleLocationSelect = (lat: number, lng: number) => {
