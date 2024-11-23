@@ -10,4 +10,10 @@ export interface Activity{
     name: string,
     place: string,
     time: string,
+    status:ActivityStatus,
   }
+export enum ActivityStatus {
+  PENDING = 'pending',
+  CONFIRMED = 'confirmed',
+  CANCELLED = 'cancelled',
+}

@@ -1,4 +1,9 @@
 "use client"
+
+import InsignStatus from "@/components/InsingStatus/InsingStatus";
+import { ActivityStatus } from "@/components/Interfaces/activity.interface";
+import moment from "moment";
+
 /* eslint-disable @next/next/no-img-element */
 
 export function CardActivity({
@@ -7,9 +12,15 @@ export function CardActivity({
     description,
     image,
     creator,
-    category
+    category,
+    date,
+    status,
+    time
 }:
 {
+    date:string;
+    status:string;
+    time:string;
     onClick: () => void;
     name: string;
     description: string;
@@ -22,9 +33,18 @@ export function CardActivity({
     category: {id:string;name:string};
 }
 ){
+    const hours = Number(time.split(":")[0]);
+    const minutes = Number(time.split(":")[1]);
+    const actDate = new Date(date);
+    const formatDate  = moment(actDate).set({ hour: hours, minute: minutes });
     return (
         <div onClick={onClick} className="cursor-pointer hover:blur-0 blur-[.5px] bg-customPalette-gray rounded-lg w-full p-4 mb-10 shadow-lg border border-customPalette-gray">
-          <div className="flex items-center justify-start text-gray-500 mb-2">
+          <div className="relative flex items-center justify-start text-gray-500 mb-2">
+            <InsignStatus 
+                    isCancell={status === ActivityStatus.CANCELLED} 
+                    isConfirm={status === ActivityStatus.CONFIRMED}
+                    isPendig={status === ActivityStatus.PENDING}
+                    date={formatDate} />
               <img 
                 src={creator.avatar} 
                 className="w-8 h-8 mr-2 rounded-full bg-gray-600 flex items-center justify-center" 

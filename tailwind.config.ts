@@ -25,6 +25,7 @@ export default {
           bluelightli: "var(--custom-blue-300)", /* Azul más claro que Azul medio para enlaces */
           orangebright: "var(--custom-orange-500)", /* Naranja brillante */
           red: "var(--custom-red)" /* Rojo */,
+          redlight: "var(--custom-redlight)" /* Rojo */,
           graydark: "var(--custom-gray-dark)" /* Gris oscuro */,
           green: "var(--custom-green)"
         },
