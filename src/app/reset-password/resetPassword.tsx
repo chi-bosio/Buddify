@@ -31,33 +31,26 @@ const ResetPassword = () => {
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      Swal.fire({
-        title: "Procesando...",
-        icon: "info",
-        allowOutsideClick: false,
-        didOpen: () => {
-          Swal.showLoading();
-        },
-      });
-
       try {
-        const success = await postData({
-          newPassword: values.password,
-          token: token!,
+        const result = await Swal.fire({
+          title: "¿Cambiar contraseña?",
+          text: "¿Desea cambiar su contraseña y continuar?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#f97316",
+          cancelButtonColor: "#235789",
+          confirmButtonText: "Confirmar",
+          cancelButtonText: "Cancelar",
         });
-
-        Swal.close();
-
-        if (success.success) {
-          Swal.fire(
-            "¡Éxito!",
-            "Tu contraseña ha sido restablecida correctamente.",
-            "success"
-          ).then(() => {
-            router.push("/login");
+        if (result.isConfirmed) {
+          const success = await postData({
+            newPassword: values.password,
+            token: token!,
           });
-        } else {
-          Swal.fire("Error", success.message, "error");
+          Swal.close();
+          if (success.success) {
+            router.push("/login");
+          }
         }
       } catch (error) {
         Swal.close();

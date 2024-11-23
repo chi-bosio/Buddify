@@ -9,6 +9,7 @@ import { useAuthContext } from "../../contexts/authContext";
 import { updateUserProfile } from "./components/postData";
 import Swal from "sweetalert2";
 import Toast, { TypeToast } from "@/components/Toast/Toast";
+import PlansButton from "@/components/Plans/PlansButton";
 
 interface Avatar {
   id: number;
@@ -105,8 +106,8 @@ const Profile: React.FC = () => {
       text: "Estás a punto de actualizar tu perfil. ¿Deseas continuar?",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
+      confirmButtonColor: "#f97316",
+      cancelButtonColor: "#235789",
       confirmButtonText: "Sí, guardar",
       cancelButtonText: "Cancelar",
     });
@@ -172,6 +173,8 @@ const Profile: React.FC = () => {
         <h1 className="text-center text-3xl font-bold mb-6 text-customPalette-blue">
           Perfil
         </h1>
+
+        <PlansButton />
 
         <Formik
           initialValues={initialValues}
