@@ -39,13 +39,13 @@ export function InputWithLabel({
         value={formik.values[name]}
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
-        className="block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark  "
+        className="block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark"
       />
       {type === "password" && (
         <button
           type="button"
           onClick={handleTogglePassword}
-          className="absolute right-3 top-1"
+          className="absolute right-2 top-1"
         >
           <img
             src={
