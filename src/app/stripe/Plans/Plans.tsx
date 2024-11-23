@@ -55,7 +55,43 @@ export default function Plans() {
                 <div className="group relative flex flex-col mx-auto w-full max-w-sm bg-customPalette-white rounded-2xl shadow-2xl transition-all duration-300 p-8 xl:p-12">
                   <div className="border-b border-solid border-customPalette-graydark pb-9 mb-9">
                     <div className="w-16 h-16 rounded-full bg-customPalette-bluelightli mx-auto flex justify-center items-center transition-all duration-300 group-hover:bg-customPalette-bluedark">
-                      {/* Ícono */}
+                      <svg
+                        className="w-6 h-6 text-customPalette-blue transition-all duration-300 group-hover:text-customPalette-white"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <rect
+                          x="2"
+                          y="7"
+                          width="20"
+                          height="10"
+                          rx="2"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                        />
+                        <path
+                          d="M6 12H6.01"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M18 12H18.01"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <circle
+                          cx="12"
+                          cy="12"
+                          r="3"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                        />
+                      </svg>
                     </div>
                     <h3 className="font-manrope text-2xl font-bold my-7 text-center text-customPalette-bluedark">
                       Plan Gratuito
@@ -111,7 +147,43 @@ export default function Plans() {
                 <div className="group relative flex flex-col mx-auto w-full max-w-sm bg-customPalette-white rounded-2xl shadow-2xl transition-all duration-300 p-8 xl:p-12">
                   <div className="border-b border-solid border-customPalette-graydark pb-9 mb-9">
                     <div className="w-16 h-16 rounded-full bg-customPalette-bluelightli mx-auto flex justify-center items-center transition-all duration-300 group-hover:bg-customPalette-bluedark">
-                      {/* Ícono */}
+                      <svg
+                        className="w-6 h-6 text-customPalette-blue transition-all duration-300 group-hover:text-customPalette-white"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <rect
+                          x="2"
+                          y="4"
+                          width="20"
+                          height="16"
+                          rx="2"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                        />
+                        <path
+                          d="M2 10H22"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M6 16H6.01"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M10 16H14"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
                     </div>
                     <h3 className="font-manrope text-2xl font-bold my-7 text-center text-customPalette-bluedark">
                       Acceso Completo
@@ -171,7 +243,27 @@ export default function Plans() {
                 <div className="group relative flex flex-col mx-auto w-full max-w-sm bg-customPalette-white rounded-2xl shadow-2xl transition-all duration-300 p-8 xl:p-12">
                   <div className="border-b border-solid border-customPalette-graydark pb-9 mb-9">
                     <div className="w-16 h-16 rounded-full bg-customPalette-bluelightli mx-auto flex justify-center items-center transition-all duration-300 group-hover:bg-customPalette-bluedark">
-                      {/* Ícono */}
+                      <svg
+                        className="w-6 h-6 text-customPalette-blue transition-all duration-300 group-hover:text-customPalette-white"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <circle
+                          cx="12"
+                          cy="8"
+                          r="6"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                        />
+                        <path
+                          d="M12 14L9 20L12 18L15 20L12 14Z"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
                     </div>
                     <h3 className="font-manrope text-2xl font-bold my-7 text-center text-customPalette-bluedark">
                       Plan Proactivo
