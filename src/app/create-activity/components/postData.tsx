@@ -24,11 +24,7 @@ export const PostData = async (activityData: ActivityData) => {
     if (!response.ok) {
         const errorData = await response.json();
         if(Array.isArray(errorData.message)){
-<<<<<<< HEAD:src/app/activities/create-activity/components/postData.tsx
-          errorData.message.map((men: string)=>{
-=======
           errorData.message.map((men:string)=>{
->>>>>>> origin/dev:src/app/create-activity/components/postData.tsx
             Toast(TypeToast.Error,men);
           })
         }else{

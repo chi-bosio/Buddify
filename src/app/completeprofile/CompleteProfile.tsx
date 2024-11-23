@@ -83,7 +83,7 @@ const CompleteProfile: React.FC = () => {
               icon: "success",
               confirmButtonColor: "#f97316",
             }).then(() => {
-              router.push("/activities"); // Redirige a actividades tras completar el perfil.
+              router.push("/"); // Redirige a actividades tras completar el perfil.
             });
           } else {
             Swal.fire({
