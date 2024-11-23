@@ -12,7 +12,7 @@ export const getActivities = async (userId:string|null) => {
       if (!response.ok) {
         const errorData = await response.json();
         Toast(TypeToast.Error,errorData.message);
-        return false;
+        return {created:[],joined:[]};
       }else{
         const result = await response.json();
         return result;

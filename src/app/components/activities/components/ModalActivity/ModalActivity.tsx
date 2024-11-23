@@ -4,8 +4,6 @@ import { CalendarIcon, ClockIcon, MapPinIcon, X } from "lucide-react";
 import moment from "moment";
 import { useEffect, useRef } from "react";
 import L from "leaflet";
-import Swal from "sweetalert2";
-import { postData } from "./components/postData";
 import { useAuthContext } from "@/contexts/authContext";
 
 export function ModalActivity({
@@ -22,9 +20,15 @@ export function ModalActivity({
     longitude,
     creator,
     category,
+    textSubmit,
+    handlerSubmit,
+    text
 }: {
+    text?:string;
     isModalOpen: boolean;
     onClose: () => void;
+    handlerSubmit:(d:string,idUser:string|null,onClose:()=>void, text?:string) => Promise<void>;
+    textSubmit:string;
     id: string,
     category: {id:string;name:string},
     creator: {name:string;lastname:string;avatar:string;},
@@ -64,39 +68,11 @@ export function ModalActivity({
             }
         };
     }, [isModalOpen, latitude, longitude, id, userId]);
-    const handlerSubmit = async () => {
-        const result = await Swal.fire({
-            title: "¿Estás seguro?",
-            text: "Considera si puedes ir antes de unirte",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#f97316",
-            cancelButtonColor: "#235789",
-            cancelButtonText: "Cancelar",
-            confirmButtonText: "Unirme",
-          });
-          if (result.isConfirmed) {
-            Swal.fire({
-              title: 'Cargando...',
-              icon:"info",
-              allowOutsideClick: false,
-              didOpen: () => {
-                Swal.showLoading(); 
-              }
-            });
-            const success = await postData({activityId:id,userId:userId});
-            Swal.close();
-            if (success) {
-                onClose()
-            }
-        }
-    }
     const handleClickOutside = (event: React.MouseEvent<HTMLDivElement>) => {
         if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
             onClose();
         }
     };
-
     return (
         <div
             className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
@@ -116,7 +92,7 @@ export function ModalActivity({
                     <img
                         src={creator.avatar}
                         className="w-8 h-8 mr-2 rounded-full bg-gray-600 flex items-center justify-center"
-                        alt={`avatar-${creator.name}-${creator.lastname}`}
+                        alt={`avatar-${creator.name}`}
                     />
                     <span>{`${creator.name} ${creator.lastname}`}</span>
                 </div>
@@ -156,8 +132,8 @@ export function ModalActivity({
                             Ver en Google Maps
                         </a>
                         <div className="h-full w-full flex items-end justify-end">
-                            <button onClick={handlerSubmit} className="text-lg bg-customPalette-orange text-white px-4 py-2 rounded-md shadow-md hover:bg-customPalette-orangebright duration-300 ease-in-out">
-                                Unirme
+                            <button onClick={()=>handlerSubmit(id,userId,onClose,text)} className="text-lg bg-customPalette-orange text-white px-4 py-2 rounded-md shadow-md hover:bg-customPalette-orangebright duration-300 ease-in-out">
+                                {textSubmit}
                             </button>
                         </div>
                     </div>

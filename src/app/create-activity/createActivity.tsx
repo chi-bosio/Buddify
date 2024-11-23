@@ -16,6 +16,7 @@ import Toast, { TypeToast } from "@/components/Toast/Toast";
 import MapForm from "@/app/create-activity/components/MapForm/MapForm";
 import { useAuthContext } from "@/contexts/authContext";
 import GetCategories from "@/components/GetCategories/GetCategories";
+import { useRouter } from "next/navigation";
 
 interface FormValues {
   name: string;
@@ -28,6 +29,7 @@ interface FormValues {
 }
 
 export default function CreateActivityForm() {
+  const router = useRouter();
   const {userId} = useAuthContext();
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [location, setLocation] = useState({ lat: 0, lng: 0 });
@@ -78,6 +80,7 @@ export default function CreateActivityForm() {
   
         resetForm();
         setImagePreview(null);
+        router.push("/my-activities");
       }
     },
   });

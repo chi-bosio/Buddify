@@ -2,7 +2,7 @@ import Toast, { TypeToast } from "@/components/Toast/Toast";
 
 export async function  postData({activityId,userId}:{activityId:string;userId:string|null;}){
     try{
-        const url = `${process.env.NEXT_PUBLIC_API_URL}/activities/${activityId}/join/${userId}`;
+        const url = `${process.env.NEXT_PUBLIC_API_URL}/activities/${activityId}/cancell/${userId}`;
         const response = await fetch(url, {
             method: "POST",
             headers: { "Content-Type": "application/json" },

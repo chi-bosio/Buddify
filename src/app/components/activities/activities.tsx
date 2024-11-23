@@ -5,6 +5,9 @@ import "leaflet/dist/leaflet.css";
 import {  useState } from "react";
 import CombinedFilters from "./components/CombinedFilters/CombinedFilters";
 import { Activity } from "../../../components/Interfaces/activity.interface";
+import Swal from "sweetalert2";
+import { postData } from "./components/ModalActivity/components/postData";
+import ModalInsingStatus from "@/components/ModalInsingStatus/ModalInsingStatus";
 
 export function Activities() {
 const [activities, setActivities] = useState<Activity[]>([]);
@@ -21,7 +24,33 @@ const closeModal = () => {
     setSelectedActivity(null);
     setIsModalOpen(false);
 }
-
+const handlerSubmit = async (id:string,userId:string|null,onClose:()=>void) => {
+  const result = await Swal.fire({
+      title: "¿Estás seguro?",
+      text: "Considera si puedes ir antes de unirte",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#f97316",
+      cancelButtonColor: "#235789",
+      cancelButtonText: "Cancelar",
+      confirmButtonText: "Unirme",
+    });
+    if (result.isConfirmed) {
+      Swal.fire({
+        title: 'Cargando...',
+        icon:"info",
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading(); 
+        }
+      });
+      const success = await postData({activityId:id,userId:userId});
+      Swal.close();
+      if (success) {
+          onClose()
+      }
+  }
+}
   return (
     <section 
     className="relative min-h-screen bg-[url('/assets/textura-fondo.avif')] bg-customPalette-white flex flex-col items-center justify-start w-full ">
@@ -30,6 +59,9 @@ const closeModal = () => {
       <h1 className="text-4xl font-bold text-customPalette-blue text-center mt-4 mb-14">
           Actividades cercanas a ti
       </h1>
+      <div className="rounded lg:absolute lg:top-5 lg:left-5 lg:w-72 lg:h-52 overflow-hidden">
+        <ModalInsingStatus bol={false}/>
+      </div>
       <CombinedFilters setActivities={setActivities}/>
       {activities.length === 0 && (
         <div className="text-customPalette-orange">
@@ -39,18 +71,16 @@ const closeModal = () => {
       {activities.map((activity) => (
                     <CardActivity
                         key={activity.id}
-                        name={activity.name}
-                        description={activity.description}
-                        image={activity.image}
-                        creator={activity.creator}
+                        {...activity}
                         onClick={() => openModal(activity)}
-                        category={activity.category}
                     />
           ))}
     </div>
     {selectedActivity && (
         <ModalActivity
             {...selectedActivity}
+            handlerSubmit={handlerSubmit}
+            textSubmit="Unirme"
             isModalOpen={isModalOpen}
             onClose={closeModal}
         />
