@@ -8,7 +8,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import Swal from "sweetalert2";
 import ModalActivity from "../components/activities/components/ModalActivity/ModalActivity";
 import CardActivity from "./components/CardActivity/CardActivity";
-import PlansButton from "@/components/Plans/PlansButton";
+import PlansButton from "@/app/stripe/Plans/PlansButton";
 
 export function MyActivities() {
   const [avatarUrl, setAvatarUrl] = useState(

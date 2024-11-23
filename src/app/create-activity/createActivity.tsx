@@ -21,7 +21,7 @@ import Toast, { TypeToast } from "@/components/Toast/Toast";
 import MapForm from "@/app/create-activity/components/MapForm/MapForm";
 import { useAuthContext } from "@/contexts/authContext";
 import GetCategories from "@/components/GetCategories/GetCategories";
-import PlansButton from "@/components/Plans/PlansButton";
+import PlansButton from "@/app/stripe/Plans/PlansButton";
 
 interface FormValues {
   name: string;

@@ -5,7 +5,7 @@ import "leaflet/dist/leaflet.css";
 import { useState } from "react";
 import CombinedFilters from "./components/CombinedFilters/CombinedFilters";
 import { Activity } from "../../../components/Interfaces/activity.interface";
-import PlansButton from "@/components/Plans/PlansButton";
+import PlansButton from "@/app/stripe/Plans/PlansButton";
 
 export function Activities() {
   const [activities, setActivities] = useState<Activity[]>([]);
