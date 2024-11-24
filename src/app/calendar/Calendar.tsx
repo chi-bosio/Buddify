@@ -44,21 +44,21 @@ export function Calendar() {
           </h3>
           <div className="flex justify-around items-center w-full lg:flex-col lg:h-full">
             <div className="lg:mb-4 lg:w-full flex items-center justify-around bg-customPalette-orange rounded px-1 py-1 lg:py-4">
-              <span className="text-customPalette-white text-sm lg:text-lg">
+              <span className="text-center text-customPalette-white text-sm lg:text-lg">
                 Hoy
               </span>
             </div>
-            <div className="lg:mb-4 lg:w-full opacity-70 flex items-center justify-center bg-customPalette-graydark rounded px-1 py-1 lg:py-4">
+            <div className="text-center lg:mb-4 lg:w-full opacity-70 flex items-center justify-center bg-customPalette-graydark rounded px-1 py-1 lg:py-4">
               <span className="text-customPalette-white text-sm lg:text-lg">
                 Dias del mes
               </span>
             </div>
-            <div className="lg:mb-4 lg:w-full flex items-center justify-center bg-customPalette-blue rounded px-1 py-1 lg:py-4">
+            <div className="text-center lg:mb-4 lg:w-full flex items-center justify-center bg-customPalette-blue rounded px-1 py-1 lg:py-4">
               <span className="text-customPalette-white text-sm lg:text-lg">
                 Actividades
               </span>
             </div>
-            <div className="lg:mb-4 lg:w-full flex items-center justify-center bg-customPalette-green rounded px-1 py-1 lg:py-4">
+            <div className="text-center lg:mb-4 lg:w-full flex items-center justify-center bg-customPalette-green rounded px-1 py-1 lg:py-4">
               <span className="text-customPalette-white text-sm lg:text-lg">
                 Actividades creadas
               </span>
@@ -66,7 +66,7 @@ export function Calendar() {
           </div>
         </div>
         <div className="h-full w-full">
-          {activitiesCreated.length !== 0 && activitiesJoined.length !== 0 && (
+          {activitiesCreated && activitiesJoined && (
             <BigCalendar
               activitiesCreated={activitiesCreated}
               activitiesJoined={activitiesJoined}

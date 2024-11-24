@@ -5,7 +5,7 @@ import moment from "moment";
 import { useEffect, useRef } from "react";
 import L from "leaflet";
 import { useAuthContext } from "@/contexts/authContext";
-
+import { useRouter } from 'next/navigation';
 export function ModalActivity({
     isModalOpen,
     onClose,
@@ -41,6 +41,7 @@ export function ModalActivity({
     place: string,
     time: string,
 }) {
+    const router = useRouter()
     const modalRef = useRef<HTMLDivElement>(null);
     const {userId} = useAuthContext();
     useEffect(() => {
@@ -73,6 +74,14 @@ export function ModalActivity({
             onClose();
         }
     };
+    const handlerRedirect = ()=>{
+        const dateQuery = moment(date)
+        const hour = Number(time.split(':')[0]);
+        const minutes = Number(time.split(':')[1]);
+        dateQuery.hour(hour);
+        dateQuery.minute(minutes);
+        router.push(`/calendar?date=${dateQuery}`);
+    }
     return (
         <div
             className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
@@ -127,12 +136,15 @@ export function ModalActivity({
                             href={`https://www.google.com/maps?q=${latitude},${longitude}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-customPalette-bluelink underline text-base hover:text-customPalette-bluelight"
+                            className="text-customPalette-bluelink underline text-base hover:text-customPalette-bluelight mb-3"
                         >
                             Ver en Google Maps
                         </a>
                         <div className="h-full w-full flex items-end justify-end">
-                            <button onClick={()=>handlerSubmit(id,userId,onClose,text)} className="text-lg bg-customPalette-orange text-white px-4 py-2 rounded-md shadow-md hover:bg-customPalette-orangebright duration-300 ease-in-out">
+                            <button onClick={handlerRedirect} className="text-xs bg-customPalette-blue text-white px-4 py-2 rounded-md shadow-md hover:bg-customPalette-bluelight duration-300 ease-in-out mr-3">
+                                Ver en el calendario
+                            </button>
+                            <button onClick={()=>handlerSubmit(id,userId,onClose,text)} className="text-xs bg-customPalette-orange text-white px-4 py-2 rounded-md shadow-md hover:bg-customPalette-orangebright duration-300 ease-in-out">
                                 {textSubmit}
                             </button>
                         </div>
