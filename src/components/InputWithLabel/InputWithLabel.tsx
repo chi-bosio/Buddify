@@ -28,7 +28,7 @@ export function InputWithLabel({
   }
 
   return (
-    <div className="relative">
+    <div className="relative mb-12">
       <label
         htmlFor={name}
         className={`${disabled && "cursor-not-allowed opacity-80"} z-10 absolute -top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1`}
@@ -50,7 +50,7 @@ export function InputWithLabel({
         <button
           type="button"
           onClick={handleTogglePassword}
-          className="absolute right-3 top-1"
+          className="absolute right-2 top-1"
         >
           <img
             src={

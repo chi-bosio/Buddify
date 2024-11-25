@@ -37,6 +37,10 @@ const RegisterForm: React.FC = () => {
     }
   };
 
+  const handleGoogleLogin = () => { 
+    router.push(`${process.env.NEXT_PUBLIC_API_URL}/auth/google/login`);
+  };
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -47,6 +51,7 @@ const RegisterForm: React.FC = () => {
       email: "",
       username: "",
       password: "",
+      confirmPassword: "",
       dni: "",
     },
     validationSchema: validationSchemaRegister,
@@ -134,7 +139,7 @@ const RegisterForm: React.FC = () => {
                   handleCountryChange(event);
                 }}
                 onBlur={formik.handleBlur}
-                className="block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark  "
+                className="block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark"
               >
                 <option value="">Seleccionar país</option>
                 {countries.map((country, index) => (
@@ -159,7 +164,7 @@ const RegisterForm: React.FC = () => {
                 value={formik.values.city}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className="block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark  "
+                className="block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark mt-14"
               >
                 <option value="">Seleccionar provincia</option>
                 {city.map((city, index) => (
@@ -194,6 +199,15 @@ const RegisterForm: React.FC = () => {
             <div className="relative">
               <InputWithLabel
                 formik={formik}
+                name="dni"
+                type="text"
+                text="DNI o pasaporte"
+              />
+            </div>
+
+            <div className="relative">
+              <InputWithLabel
+                formik={formik}
                 name="password"
                 type="password"
                 text="Contraseña"
@@ -203,12 +217,21 @@ const RegisterForm: React.FC = () => {
             <div className="relative">
               <InputWithLabel
                 formik={formik}
-                name="dni"
-                type="text"
-                text="DNI o pasaporte"
+                name="confirmPassword"
+                type="password"
+                text="Confirmar Contraseña"
               />
             </div>
           </div>
+
+          <div className="mt-7 text-center">  
+            <button 
+              onClick={handleGoogleLogin}
+              className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600"
+            >
+              Ingresa con Google
+            </button>
+            </div>
 
           <SubmitButton text="Registrarse" />
 
