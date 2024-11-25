@@ -224,8 +224,6 @@ const RegisterForm: React.FC = () => {
             </div>
           </div>
 
-          <SubmitButton text="Registrarse" />
-
           <div className="mt-7 text-center">  
             <button 
               onClick={handleGoogleLogin}
@@ -234,6 +232,8 @@ const RegisterForm: React.FC = () => {
               Ingresa con Google
             </button>
             </div>
+
+          <SubmitButton text="Registrarse" />
 
           <div className="col-span-2 text-center mt-6">
             <p className="text-sm text-customPalette-black">
