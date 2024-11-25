@@ -7,6 +7,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useAuthContext } from "../../contexts/authContext";
 import { Menu, X } from "lucide-react";
+import Swal from "sweetalert2";
 
 export default function NavBar() {
   const [openAvatar, setOpenAvatar] = useState(false);
@@ -65,8 +66,24 @@ export default function NavBar() {
   }, [pathname, links,avatar,setAvatar]);
 
   const handleLogout = () => {
+    Swal.fire({
+      title: "Cargando...",
+      icon: "info",
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+    const timeoutId = setTimeout(() => {
+      Swal.close();
+    }, 500);
+
+    setTimeout(() => {
+      clearInterval(timeoutId); 
+    }, 700);
     logout();
     router.push("/login");
+    setOpenAvatar(false);
   };
 
   const handlerOnClickMenu = () => {
@@ -78,6 +95,38 @@ export default function NavBar() {
     setOpenMenu(false); 
     setOpenAvatar(!openAvatar);
   };
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (openAvatar && !event.target.closest(".avatar-modal")) {
+        setOpenAvatar(false);
+      }
+    };
+
+    document.addEventListener("click", handleOutsideClick);
+    
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, [openAvatar]);
+  const handlerRedirectProfile = () => {
+    Swal.fire({
+      title: "Cargando...",
+      icon: "info",
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+    const timeoutId = setTimeout(() => {
+      Swal.close();
+    }, 500);
+
+    setTimeout(() => {
+      clearInterval(timeoutId); 
+    }, 700);
+      setOpenAvatar(false);
+      router.push("/profile");
+  }
 
   if (!isClient) {
     return <div>Cargando...</div>;
@@ -94,20 +143,25 @@ export default function NavBar() {
           <div className="z-50 lg:z-20 relative flex items-center justify-center">
             <img
               onClick={handlerOnClickAvatar}
-              className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center"
+              className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center cursor-pointer"
               src={urlAvatar}
               alt="Avatar"
             />
             <div
               className={`${
                 openAvatar ? "flex" : "hidden"
-              } bg-customPalette-black rounded px-3 py-2 absolute top-10 -left-9  lg:-left-36 lg:top-14 sm:left-0 items-start shadow border border-customPalette-white justify-center flex-col w-44`}
+              } avatar-modal bg-customPalette-black rounded px-3 py-2 absolute top-10 -left-14  lg:-left-40 md:top-16 sm:left-0 items-start shadow border border-customPalette-white justify-center flex-col w-48`}
             >
-              <span className="lg:mr-3 text-customPalette-white">{userName}</span>
-              <Link href='/password' className="underline hover:text-customPalette-bluelight text-customPalette-bluelightst">Cambiar contraseña</Link>
+              <Link href='profile' className="lg:mr-3 text-customPalette-white hover:text-customPalette-whitelight">{userName}</Link>
+              <button
+                onClick={handlerRedirectProfile}
+                className="w-full min-w-20  bg-customPalette-blue text-customPalette-white text-xs lg:text-sm font-semibold py-1 px-1 lg:px-4 rounded hover:bg-customPalette-bluelight mt-10 mb-5"
+              >
+                Cambiar contraseña
+              </button>
               <button
                 onClick={handleLogout}
-                className="w-auto min-w-20  bg-customPalette-orange text-customPalette-white text-xs lg:text-sm font-semibold py-1 px-8 lg:px-4 rounded hover:bg-customPalette-orangebright mt-5 mb-5 mx-auto"
+                className="min-w-20  bg-customPalette-orange text-customPalette-white text-xs lg:text-sm font-semibold py-1 px-8 lg:px-4 rounded hover:bg-customPalette-orangebright mt-5 mb-5 w-full"
               >
                 Cerrar sesión
               </button>
