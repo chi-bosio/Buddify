@@ -1,3 +1,5 @@
+import { ArrowLeft, ArrowRight } from "lucide-react";
+
 export const CustomToolbar = (props: any) => {
     const { label, onNavigate, onView, views } = props;
     return (
@@ -13,14 +15,14 @@ export const CustomToolbar = (props: any) => {
             className="lg:text-lg lg:px-3 text-sm customPalette-graydark border border-customPalette-blue hover:bg-customPalette-blue transition-all ease-in-out duration-300 p-1 rounded text-customPalette-white"
             onClick={() => onNavigate('PREV')}
           >
-            Anterior
+            <ArrowLeft className="h-5 w-5"/>
           </button>
           <span className="lg:text-lg lg:px-3 text-sm mx-2">{label}</span>
           <button
             className="lg:text-lg lg:px-3 text-sm customPalette-graydark border border-customPalette-blue hover:bg-customPalette-blue transition-all ease-in-out duration-300 p-1 rounded text-customPalette-white"
             onClick={() => onNavigate('NEXT')}
           >
-            Siguiente
+            <ArrowRight className="h-5 w-5"/>
           </button>
         </div>
   

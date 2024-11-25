@@ -13,7 +13,7 @@ export default function PlansButton() {
       {/* Botón flotante */}
       <div
         onClick={handleTogglePlans}
-        className="fixed bottom-10 right-10 bg-customPalette-blue text-customPalette-white rounded-full shadow-lg p-4  cursor-pointer hover:bg-customPalette-bluedark transition-all flex items-center justify-center group   overflow-hidden duration-300  hover:w-32 hover:rounded-lg"
+        className="fixed bottom-10 right-10 bg-customPalette-blue text-customPalette-white rounded-full shadow-lg p-4 cursor-pointer hover:bg-customPalette-bluedark transition-all flex items-center justify-center group  overflow-hidden duration-300  hover:w-32 hover:rounded-lg"
         aria-label="Toggle Plans"
       >
         {/* Icono */}
@@ -30,16 +30,18 @@ export default function PlansButton() {
         </svg>
 
         {/* Texto "Ver Planes" */}
-        <div className="absolute right-7 bottom-4 transform translate-x-full opacity-0 text-white text-sm font-semibold transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100">
+        <div className="absolute right-7 bottom-4 transform translate-x-full opacity-0 text-customPalette-white text-sm font-semibold transition-all duration-300 group-hover:rounded-full group-hover:translate-x-0 group-hover:opacity-100">
           Ver Planes
         </div>
       </div>
 
       {/* Contenedor de los planes */}
       {showPlans && (
-        <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
-          <div className="relative w-100 h-[80vh] rounded-lg">
-            <Plans />
+        <div className="fixed inset-0 flex justify-center items-start bg-black bg-opacity-50 z-50">
+          <div className="relative w-auto h-[100vh] rounded-lg overflow-y-scroll overflow-x-hidden">
+              <div className="h-full w-full">
+                <Plans />
+              </div>
             <button
               onClick={handleTogglePlans}
               className="absolute top-4 right-4 hover:bg-customPalette-bluedark text-customPalette-white text-3xl rounded-full w-9 h-9 flex justify-center items-center"

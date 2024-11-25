@@ -47,13 +47,28 @@ const ResetPassword = () => {
             newPassword: values.password,
             token: token!,
           });
-          Swal.close();
+          const timeoutId = setTimeout(() => {
+            Swal.close();
+          }, 500);
+    
+          setTimeout(() => {
+            clearInterval(timeoutId); 
+          }, 700);
           if (success.success) {
-            router.push("/login");
+      
+            setTimeout(() => {
+              router.push("/login");
+            }, 900);
           }
         }
       } catch (error) {
-        Swal.close();
+        const timeoutId = setTimeout(() => {
+          Swal.close();
+        }, 500);
+  
+        setTimeout(() => {
+          clearInterval(timeoutId); 
+        }, 700);
         Swal.fire("Error", "Hubo un problema con la solicitud", "error");
       }
     },

@@ -5,7 +5,7 @@ import getActivities from "../../components/GetActivities/getActivities";
 import { useAuthContext } from "@/contexts/authContext";
 import Swal from "sweetalert2";
 import BigCalendar from "./components/BigCalendar";
-import PlansButton from "@/app/stripe/Plans/PlansButton";
+import PlansButton from "@/app/plans/PlansButton";
 
 export function Calendar() {
   const [activitiesCreated, setActivitiesCreated] = useState<Activity[]>([]);
@@ -27,7 +27,13 @@ export function Calendar() {
       setActivitiesJoined(result.joined);
     }
 
-    Swal.close();
+    const timeoutId = setTimeout(() => {
+      Swal.close();
+    }, 500);
+
+    setTimeout(() => {
+      clearInterval(timeoutId); 
+    }, 700);
   }, [userId]);
   useEffect(() => {
     if (userId) {

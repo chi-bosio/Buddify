@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useState, useEffect } from "react";
@@ -9,7 +10,9 @@ import { useAuthContext } from "../../contexts/authContext";
 import { updateUserProfile } from "./components/postData";
 import Swal from "sweetalert2";
 import Toast, { TypeToast } from "@/components/Toast/Toast";
-import PlansButton from "@/app/stripe/Plans/PlansButton";
+import PlansButton from "@/app/plans/PlansButton";
+import { useRouter } from "next/navigation";
+import moment from "moment";
 
 interface Avatar {
   id: number;
@@ -22,6 +25,7 @@ interface Country {
 }
 
 const Profile: React.FC = () => {
+  const router = useRouter()
   const [avatars, setAvatars] = useState<Avatar[]>([]);
   const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null);
   const [countries, setCountries] = useState<Country[]>([]);
@@ -35,13 +39,28 @@ const Profile: React.FC = () => {
     if (userId) {
       const loadUserData = async () => {
         try {
+          Swal.fire({
+            title: "Cargando...",
+            icon: "info",
+            allowOutsideClick: false,
+            didOpen: () => {
+              Swal.showLoading();
+            },
+          });
           const response = await fetch(
             `${process.env.NEXT_PUBLIC_API_URL}/users/${userId}`
           );
+          const timeoutId = setTimeout(() => {
+          Swal.close();
+        }, 500);
+  
+        setTimeout(() => {
+          clearInterval(timeoutId); 
+        }, 700);
           const data = await response.json();
-          console.log("User data:", data);
           setUserData(data);
         } catch (error) {
+          Toast(TypeToast.Error,"Error fetching user data");
           console.error("Error fetching user data:", error);
         }
       };
@@ -85,11 +104,10 @@ const Profile: React.FC = () => {
     loadAvatars();
     loadCountries();
   }, [userData]);
-
   const initialValues = {
     name: userData?.name || "",
     lastname: userData?.lastname || "",
-    birthdate: userData?.birthdate || "",
+    birthdate: userData?.birthdate ? moment(userData?.birthdate).format("YYYY-MM-DD") : "",
     dni: userData?.dni || "",
     country: userData?.country || "",
     city: userData?.city || "",
@@ -118,14 +136,35 @@ const Profile: React.FC = () => {
 
     try {
       if (userId) {
+        Swal.fire({
+          title: "Cargando...",
+          icon: "info",
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        });
         await updateUserProfile(userId, updatedData);
+        const timeoutId = setTimeout(() => {
+          Swal.close();
+        }, 500);
+  
+        setTimeout(() => {
+          clearInterval(timeoutId); 
+        }, 700);
+        setTimeout(() => {
+          setUserData(updatedData);
+          Toast(TypeToast.Success, "Perfil actualizado con exito");
+          setIsEditing(false);
+        }, 900);
+        
       } else {
-        console.error("User ID is null");
+        Toast(TypeToast.Error, "No estas logeado");
+        setTimeout(() => {
+        router.push('/login')
+      }, 900);
       }
 
-      setUserData(updatedData);
-      Toast(TypeToast.Success, "Perfil actualizado con exito");
-      setIsEditing(false);
     } catch (error) {
       Toast(TypeToast.Error, "Error al actualizar el perfil");
     }
@@ -166,7 +205,7 @@ const Profile: React.FC = () => {
   };
 
   if (!userData) return null;
-
+  const eighteenYearsAgo = moment().subtract(18, 'years').format('YYYY-MM-DD');
   return (
     <div className="bg-[url('/assets/textura-fondo.avif')] min-h-screen flex items-center justify-center bg-customPalette-white">
       <div className="w-full max-w-4xl p-8 bg-customPalette-white rounded-xl shadow-lg border border-customPalette-white">
@@ -210,6 +249,7 @@ const Profile: React.FC = () => {
                   formik={formik}
                   text="Fecha de nacimiento"
                   disabled={!isEditing}
+                  max={eighteenYearsAgo}
                 />
 
                 {/* DNI */}
@@ -225,12 +265,7 @@ const Profile: React.FC = () => {
                 <div className="relative">
                   <label
                     htmlFor="country"
-                    className={`absolute left-3 px-1 text-sm font-medium transition-all 
-                   ${
-                     formik.values.country
-                       ? "-top-2 bg-white"
-                       : "top-3 text-gray-500"
-                   }`}
+                    className={`${!isEditing && "cursor-not-allowed opacity-80"} z-10 absolute -top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1`}
                   >
                     País
                   </label>
@@ -243,9 +278,7 @@ const Profile: React.FC = () => {
                       handleCountryChange(event, formik);
                     }}
                     onBlur={formik.handleBlur}
-                    className={`block w-full p-2 pt-6 pb-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue${
-                      !isEditing ? "bg-gray-100 cursor-not-allowed" : ""
-                    }`}
+                    className={`${!isEditing ? "cursor-not-allowed opacity-80" : "cursor-pointer"}  block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark  `}
                     disabled={!isEditing}
                   >
                     <option value="">Seleccionar país</option>
@@ -262,12 +295,7 @@ const Profile: React.FC = () => {
                 <div className="relative">
                   <label
                     htmlFor="city"
-                    className={`absolute left-3 px-1 text-sm font-medium transition-all 
-                  ${
-                    formik.values.city
-                      ? "-top-2 bg-white"
-                      : "top-3 text-gray-500"
-                  }`}
+                    className={`${!isEditing && "cursor-not-allowed opacity-80"} z-10 absolute -top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1`}
                   >
                     Provincia
                   </label>
@@ -277,11 +305,7 @@ const Profile: React.FC = () => {
                     value={formik.values.city}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-                    className={`block w-full p-2 pt-6 pb-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue ${
-                      !isEditing || availableCities.length === 0
-                        ? "bg-gray-100 cursor-not-allowed"
-                        : ""
-                    }`}
+                    className={`${!isEditing ? "cursor-not-allowed opacity-80" : "cursor-pointer"} block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark  `}
                     disabled={!isEditing || availableCities.length === 0}
                   >
                     <option value="">Seleccionar provincia</option>
@@ -307,18 +331,19 @@ const Profile: React.FC = () => {
                   ) : (
                     <div className="flex gap-4">
                       <button
-                        type="submit"
-                        className="px-6 py-2 text-white bg-customPalette-blue rounded-md"
-                      >
-                        Guardar cambios
-                      </button>
-                      <button
                         type="button"
                         onClick={() => handleCancelClick(formik)}
-                        className="px-6 py-2 text-white bg-red-500 rounded-md"
+                        className="px-6 py-2 text-customPalette-white bg-customPalette-blue rounded-md"
                       >
                         Cancelar
                       </button>
+                      <button
+                        type="submit"
+                        className="px-6 py-2 text-customPalette-white bg-customPalette-orange rounded-md"
+                      >
+                        Guardar cambios
+                      </button>
+                      
                     </div>
                   )}
                 </div>
@@ -333,7 +358,9 @@ const Profile: React.FC = () => {
                   <img
                     src={selectedAvatar || userData.avatar}
                     alt="Avatar seleccionado"
-                    className="w-32 h-32 mx-auto rounded-full border-2 border-customPalette-gray object-cover"
+                    className={`w-32 h-32 mx-auto rounded-full border-2 border-customPalette-gray object-cover ${
+                        !isEditing && 'filter grayscale contrast-200 '
+                      }`}
                   />
                 </div>
                 <div className="flex flex-wrap justify-center gap-2">
@@ -343,10 +370,12 @@ const Profile: React.FC = () => {
                       src={avatar.url}
                       alt={`Avatar ${avatar.id}`}
                       onClick={() => setSelectedAvatar(avatar.url)}
-                      className={`w-12 h-12 rounded-full cursor-pointer border-2 ${
+                      className={`w-12 h-12 rounded-full border-2 filter-${
                         selectedAvatar === avatar.url
                           ? "border-customPalette-blue"
-                          : "border-gray-300"
+                          : "border-customPalette-gray"
+                      } ${
+                        !isEditing ? 'filter grayscale contrast-200 cursor-not-allowed' : 'cursor-pointer'
                       }`}
                     />
                   ))}

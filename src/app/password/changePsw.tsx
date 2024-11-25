@@ -5,8 +5,12 @@ import validationSchema from "./components/validationSchema";
 import InputWithLabel from "@/components/InputWithLabel/InputWithLabel";
 import postData from "./components/postData";
 import SubmitButton from "@/components/SubmitButton/SubmitButton";
+import { useAuthContext } from "@/contexts/authContext";
+import { useRouter } from "next/navigation";
 
 const ChangePsw = () => {
+  const { logout } = useAuthContext();
+  const router = useRouter();
   const formik = useFormik({
     initialValues: {
       currentPassword: "",
@@ -32,15 +36,33 @@ const ChangePsw = () => {
         if (!result.isConfirmed) {
           return;
         }
-
+        Swal.fire({
+          title: "Cargando...",
+          icon: "info",
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        });
         const success = await postData({
           currentPassword,
           newPassword,
           confirmPassword,
         });
-
+        const timeoutId = setTimeout(() => {
+          Swal.close();
+        }, 500);
+  
+        setTimeout(() => {
+          clearInterval(timeoutId); 
+        }, 700);
         if (success) {
-          resetForm();
+    
+          setTimeout(() => {
+            resetForm();
+            logout();
+            router.push("/login");
+          }, 900);
         }
       } catch (error) {
         await Swal.fire({
