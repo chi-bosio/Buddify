@@ -25,7 +25,7 @@ export function InputWithLabel({
   }
 
   return (
-    <div className="relative">
+    <div className="relative mb-12">
       <label
         htmlFor={name}
         className="absolute -top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1"
@@ -39,7 +39,7 @@ export function InputWithLabel({
         value={formik.values[name]}
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
-        className="block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark"
+        className="block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark pr-10"
       />
       {type === "password" && (
         <button

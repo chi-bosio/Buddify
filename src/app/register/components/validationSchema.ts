@@ -27,6 +27,9 @@ import * as Yup from "yup";
     password: Yup.string()
     .required("Requerido")
     .matches(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/, "La contraseña debe tener al menos 6 caracteres, una mayúscula, una minúscula, un número y un carácter especial"),
+    confirmPassword: Yup.string()
+    .oneOf([Yup.ref('password')], 'Las contraseñas deben coincidir')
+    .required("Requerido"),
     dni: Yup.string()
     .required("Requerido")
     .matches(/^[0-9]{7,20}$/, "El dni debe tener entre 7 y 20 dígitos")
