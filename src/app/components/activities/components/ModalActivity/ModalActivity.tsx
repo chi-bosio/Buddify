@@ -103,7 +103,7 @@ export function ModalActivity({
                         className="w-8 h-8 mr-2 rounded-full bg-gray-600 flex items-center justify-center"
                         alt={`avatar-${creator.name}`}
                     />
-                    <span>{`${creator.name} ${creator.lastname}`}</span>
+                    <span className="text-customPalette-black">{`${creator.name} ${creator.lastname}`}</span>
                 </div>
                 <div className="grid grid-cols-1 gap-2 md:grid-cols-2 w-full">
                     <div className="w-full h-full flex items-start justify-start flex-col">
@@ -116,20 +116,20 @@ export function ModalActivity({
                             alt={`ubicacion-${name}`}
                             className="w-full h-48 object-cover"
                         />
-                        <p className="w-full text-gray-600 mb-4">{description}</p>
-                        <div className="w-full flex items-center text-gray-500 mb-2">
+                        <p className="w-full text-customPalette-graydark mb-4">{description}</p>
+                        <div className="w-full flex items-center mb-2">
                             <CalendarIcon className="w-4 h-4 mr-2" />
-                            <span>{moment(date, "YYYY-MM-DD").format("DD/MM/YYYY")}</span>
+                            <span className="text-customPalette-graydark">{moment(date, "YYYY-MM-DD").format("DD/MM/YYYY")}</span>
                         </div>
-                        <div className="w-full flex items-center text-gray-500 mb-2">
+                        <div className="w-full flex items-center mb-2">
                             <ClockIcon className="w-4 h-4 mr-2" />
-                            <span>{time}</span>
+                            <span className="text-customPalette-graydark">{time}</span>
                         </div>
                     </div>
                     <div className="w-full h-full flex items-start justify-start flex-col">
-                        <div className="flex items-center text-gray-500 mb-3 pt-1">
+                        <div className="flex items-center  mb-3 pt-1">
                             <MapPinIcon className="w-4 h-4 mr-2" />
-                            <span>{place}</span>
+                            <span className="text-customPalette-graydark">{place}</span>
                         </div>
                         <div id={`map-${id}`} className="h-48 w-full mb-2 flex-shrink-0"></div>
                         <a

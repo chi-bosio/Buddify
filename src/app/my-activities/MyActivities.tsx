@@ -10,9 +10,12 @@ import ModalActivity from "../components/activities/components/ModalActivity/Mod
 import CardActivity from "./components/CardActivity/CardActivity";
 import ModalInsingStatus from "@/components/ModalInsingStatus/ModalInsingStatus";
 import { postData } from "./components/postData";
-import PlansButton from "../stripe/Plans/PlansButton";
+import PlansButton from "../plans/PlansButton";
+import { CircleFadingPlus } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export function MyActivities() {
+  const router = useRouter()
   const [avatarUrl, setAvatarUrl] = useState(
     "https://res.cloudinary.com/dtlmrtzpa/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1731928071/avatar16_dsdi8v.png"
   );
@@ -47,8 +50,15 @@ export function MyActivities() {
       setActivitiesCreated(result.created);
       setActivitiesJoined(result.joined);
     }
-    Swal.close();
+    const timeoutId = setTimeout(() => {
+      Swal.close();
+    }, 500);
+
+    setTimeout(() => {
+      clearInterval(timeoutId); 
+    }, 700);
   }, [userId]);
+
   async function handlerSubmit(
     id: string,
     idUser: string | null,
@@ -75,7 +85,13 @@ export function MyActivities() {
         },
       });
       const success = await postData({ activityId: id, userId: idUser });
-      Swal.close();
+      const timeoutId = setTimeout(() => {
+        Swal.close();
+      }, 500);
+
+      setTimeout(() => {
+        clearInterval(timeoutId); 
+      }, 700);
       if (success) {
         onClose();
       }
@@ -96,12 +112,21 @@ export function MyActivities() {
     memoizedSetAvatar();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [avatar]);
+
+  const handlerRedirectHome = () => {
+    router.push(`/`);
+  }
+
+  const handlerRedirectCreateAct = () => {
+    router.push(`/create-activity`);
+  }
+
   return (
     <section className="w-full min-h-screen relative bg-[url('/assets/textura-fondo.avif')] py-6 px-3">
       <section className="flex flex-col lg:flex-row">
         <ModalInsingStatus bol={true} />
         <div className="w-full">
-          <section className="mb-5 rounded flex flex-col items-start justify-center px-4 py-2 bg-customPalette-white shadow-lg border border-customPalette-white">
+          <section className="relative mb-6 rounded flex flex-col items-start justify-center px-4 py-2 bg-customPalette-white shadow-lg border border-customPalette-white">
             <h1 className="mb-3 font-bold text-lg text-customPalette-blue">
               Mis eventos
             </h1>
@@ -129,6 +154,9 @@ export function MyActivities() {
               </div>
             )}
             <div className="lg:grid lg:grid-cols-3 w-full gap-2">
+              <div className="rounded bg-customPalette-green cursor-pointer hover:opacity-70 p-0.5 transition-all ease-in-out duration-300 absolute -top-4 right-0 ">
+                <CircleFadingPlus onClick={handlerRedirectCreateAct} className="rounded bg-customPalette-green text-customPalette-white h-8 w-8  py-1 px-1 border border-customPalette-white"/>
+              </div>
               {activitiesCreated &&
                 activitiesCreated.map((activity) => (
                   <CardActivity
@@ -148,7 +176,7 @@ export function MyActivities() {
               <PlansButton />
             </div>
           </section>
-          <section className="mb-5 rounded flex flex-col items-start justify-center px-4 py-2 bg-customPalette-white shadow-lg border border-customPalette-white">
+          <section className="relative  mb-6 rounded flex flex-col items-start justify-center px-4 py-2 bg-customPalette-white shadow-lg border border-customPalette-white">
             <h1 className="mb-3 font-bold text-lg text-customPalette-blue">
               Eventos a los que asistire
             </h1>
@@ -176,6 +204,9 @@ export function MyActivities() {
               </div>
             )}
             <div className="lg:grid lg:grid-cols-3 w-full gap-2">
+              <div className="rounded bg-customPalette-green cursor-pointer hover:opacity-70 p-0.5 transition-all ease-in-out duration-300 absolute -top-4 right-0 ">
+                <CircleFadingPlus onClick={handlerRedirectHome} className="rounded bg-customPalette-green text-customPalette-white h-8 w-8 py-1 px-1 border border-customPalette-white"/>
+              </div>
               {activitiesJoined &&
                 activitiesJoined.map((activity) => (
                   <CardActivity

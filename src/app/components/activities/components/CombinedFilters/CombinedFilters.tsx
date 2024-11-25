@@ -166,9 +166,9 @@ export function CombinedFilters({setActivities}:{setActivities:(data:Activity[])
                             onBlur={formik.handleBlur}
                             className="block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark  "
                           >
-                            <option value="10" >&nbsp;&nbsp;10km&nbsp;&nbsp;</option>
+                            <option value="10" className="text-customPalette-graydark">&nbsp;&nbsp;10km&nbsp;&nbsp;</option>
                             {radius.map((op, index) => (
-                              <option key={index} value={op.id}>
+                              <option key={index} value={op.id} className="text-customPalette-graydark">
                                &nbsp;&nbsp;{op.name}&nbsp;&nbsp;
                               </option>
                             ))}

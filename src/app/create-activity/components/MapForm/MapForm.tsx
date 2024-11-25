@@ -80,7 +80,7 @@ export function MapForm({ onLocationSelect }: MapProps) {
     };
   }, []); 
 
-  return <div ref={mapRef} style={{ width: "100%", height: "300px" }} />;
+  return <div ref={mapRef} className="rounded" style={{ width: "100%", height: "300px" }} />;
 }
 
 export default MapForm;

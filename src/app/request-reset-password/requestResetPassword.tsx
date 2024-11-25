@@ -25,15 +25,25 @@ const RequestPasswordReset = () => {
       try {
         const success = await postData(values);
 
-        Swal.close();
+        const timeoutId = setTimeout(() => {
+          Swal.close();
+        }, 500);
+  
+        setTimeout(() => {
+          clearInterval(timeoutId); 
+        }, 700);
 
         if (success.success) {
-          Swal.fire(
-            "¡Éxito!",
-            "Te hemos enviado un enlace para restablecer tu contraseña. Revisa tu correo electrónico.",
-            "success"
-          );
-          formik.resetForm();
+    
+          setTimeout(() => {
+            Swal.fire(
+              "¡Éxito!",
+              "Te hemos enviado un enlace para restablecer tu contraseña. Revisa tu correo electrónico.",
+              "success"
+            );
+            formik.resetForm();
+          }, 900);
+          
         } else {
           Swal.fire("Error", success.message, "error");
         }

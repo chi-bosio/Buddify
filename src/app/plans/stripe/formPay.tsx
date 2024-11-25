@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 import { jwtDecode } from "jwt-decode";
 import { Formik, Form } from "formik";
-import { useAuthContext } from "../../contexts/authContext";
+import { useAuthContext } from "../../../contexts/authContext";
 
 const PaymentForm: React.FC = () => {
   const [loading, setLoading] = useState(false);
@@ -180,7 +180,7 @@ const PaymentForm: React.FC = () => {
   };
 
   return (
-    <section className="py-5 relative flex justify-center items-center">
+    <section className="py-5 relative flex justify-center items-center min-h-screen">
       <div className="absolute h-full w-full top-0 bg-gradient-to-r from-customPalette-bluedark to-customPalette-bluelight -z-10 rounded-2xl"></div>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8">
@@ -210,10 +210,11 @@ const PaymentForm: React.FC = () => {
             <Form className="space-y-6">
               <div className="mb-6">
                 <CardElement
+                className="!text-customPalette-white"
                   options={{
                     style: {
                       base: {
-                        color: "#32325d",
+                        color: "#FDFFFC",
                         fontFamily: "Manrope, sans-serif",
                         fontSmoothing: "antialiased",
                         fontSize: "16px",
@@ -230,7 +231,7 @@ const PaymentForm: React.FC = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting || loading}
-                  className={`py-3 px-6 bg-customPalette-bluelightli rounded-full text-lg text-customPalette-blue font-semibold w-fit mx-auto ${
+                  className={`py-3 px-6 bg-customPalette-orange rounded-full text-lg text-customPalette-white hover:bg-customPalette-orangebright font-semibold w-fit mx-auto ${
                     loading
                       ? "opacity-50 cursor-not-allowed"
                       : "transition-all duration-300"
