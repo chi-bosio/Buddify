@@ -101,12 +101,13 @@ export default function NavBar() {
             <div
               className={`${
                 openAvatar ? "flex" : "hidden"
-              } bg-customPalette-black lg:flex rounded px-3 py-2 absolute top-10 lg:top-0 -left-9 sm:left-0 lg:relative items-start lg:items-center justify-center flex-col w-44 lg:w-auto lg:flex-row`}
+              } bg-customPalette-black rounded px-3 py-2 absolute top-10 -left-9  lg:-left-36 lg:top-14 sm:left-0 items-start shadow border border-customPalette-white justify-center flex-col w-44`}
             >
-              <span className="lg:mr-3">{userName}</span>
+              <span className="lg:mr-3 text-customPalette-white">{userName}</span>
+              <Link href='/password' className="underline hover:text-customPalette-bluelight text-customPalette-bluelightst">Cambiar contraseña</Link>
               <button
                 onClick={handleLogout}
-                className="w-auto min-w-20  bg-customPalette-orange text-customPalette-white text-xs lg:text-sm font-semibold py-1 px-8 lg:px-4 rounded hover:bg-customPalette-orangebright lg:m-0  mt-5 mb-5 mx-auto lg:block"
+                className="w-auto min-w-20  bg-customPalette-orange text-customPalette-white text-xs lg:text-sm font-semibold py-1 px-8 lg:px-4 rounded hover:bg-customPalette-orangebright mt-5 mb-5 mx-auto"
               >
                 Cerrar sesión
               </button>

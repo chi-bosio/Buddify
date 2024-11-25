@@ -40,6 +40,6 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
-.rbc-label{
+.rbc-label,.rbc-header span{
   color:#020100 !important
 }

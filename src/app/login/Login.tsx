@@ -40,13 +40,22 @@ const LoginForm = () => {
 
 
         const success = await postData(values);
-      Swal.close();
+        const timeoutId = setTimeout(() => {
+          Swal.close();
+        }, 500);
+  
+        setTimeout(() => {
+          clearInterval(timeoutId); 
+        }, 700);
       if (success.success) {
-        if (success.token) {
-          login({ token: success.token });
-        }
-        handleResetForm();
-        router.push("/");
+        setTimeout(() => {
+          if (success.token) {
+            login({ token: success.token });
+          }
+          handleResetForm();
+          router.push("/");
+        }, 900);
+        
       } else {
         console.log("Error:", success.message);
       }
@@ -54,13 +63,13 @@ const LoginForm = () => {
   });
 
   return (
-    <div
-      className="flex justify-end items-start h-screen"
+    <section
+      className="flex justify-end items-start min-h-screen w-full"
       style={{ backgroundImage: "url(/assets/fondo2.webp)" }}
     >
-      <div className="flex justify-start items-center h-screen">
+      <div className="flex justify-start items-center flex-col w-full lg:w-auto  bg-customPalette-white p-8 min-h-screen">
         <form
-          className="w-auto h-full bg-customPalette-white p-8"
+          className="w-full lg:w-auto h-full"
           onSubmit={formik.handleSubmit}
         >
           <h1 className="text-4xl font-bold text-customPalette-blue text-center mt-2 mb-24">
@@ -95,6 +104,7 @@ const LoginForm = () => {
           </div>
 
           <SubmitButton text="Ingresar" />
+          </form>
           <div className="mt-1 text-center">
             <p className="text-base text-customPalette-black">
               ¿Todavia no tenes cuenta?&nbsp;
@@ -113,10 +123,9 @@ const LoginForm = () => {
             >
               Ingresa con Google
             </button>
-            </div>
-          </form>
+          </div>
         </div>
-      </div>
+      </section>
   );
 };
 

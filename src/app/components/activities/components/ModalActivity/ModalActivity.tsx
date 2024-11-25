@@ -5,7 +5,7 @@ import moment from "moment";
 import { useEffect, useRef } from "react";
 import L from "leaflet";
 import { useAuthContext } from "@/contexts/authContext";
-
+import { useRouter } from 'next/navigation';
 export function ModalActivity({
     isModalOpen,
     onClose,
@@ -41,6 +41,7 @@ export function ModalActivity({
     place: string,
     time: string,
 }) {
+    const router = useRouter()
     const modalRef = useRef<HTMLDivElement>(null);
     const {userId} = useAuthContext();
     useEffect(() => {
@@ -73,6 +74,14 @@ export function ModalActivity({
             onClose();
         }
     };
+    const handlerRedirect = ()=>{
+        const dateQuery = moment(date)
+        const hour = Number(time.split(':')[0]);
+        const minutes = Number(time.split(':')[1]);
+        dateQuery.hour(hour);
+        dateQuery.minute(minutes);
+        router.push(`/calendar?date=${dateQuery}`);
+    }
     return (
         <div
             className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
@@ -94,7 +103,7 @@ export function ModalActivity({
                         className="w-8 h-8 mr-2 rounded-full bg-gray-600 flex items-center justify-center"
                         alt={`avatar-${creator.name}`}
                     />
-                    <span>{`${creator.name} ${creator.lastname}`}</span>
+                    <span className="text-customPalette-black">{`${creator.name} ${creator.lastname}`}</span>
                 </div>
                 <div className="grid grid-cols-1 gap-2 md:grid-cols-2 w-full">
                     <div className="w-full h-full flex items-start justify-start flex-col">
@@ -107,32 +116,35 @@ export function ModalActivity({
                             alt={`ubicacion-${name}`}
                             className="w-full h-48 object-cover"
                         />
-                        <p className="w-full text-gray-600 mb-4">{description}</p>
-                        <div className="w-full flex items-center text-gray-500 mb-2">
+                        <p className="w-full text-customPalette-graydark mb-4">{description}</p>
+                        <div className="w-full flex items-center mb-2">
                             <CalendarIcon className="w-4 h-4 mr-2" />
-                            <span>{moment(date, "YYYY-MM-DD").format("DD/MM/YYYY")}</span>
+                            <span className="text-customPalette-graydark">{moment(date, "YYYY-MM-DD").format("DD/MM/YYYY")}</span>
                         </div>
-                        <div className="w-full flex items-center text-gray-500 mb-2">
+                        <div className="w-full flex items-center mb-2">
                             <ClockIcon className="w-4 h-4 mr-2" />
-                            <span>{time}</span>
+                            <span className="text-customPalette-graydark">{time}</span>
                         </div>
                     </div>
                     <div className="w-full h-full flex items-start justify-start flex-col">
-                        <div className="flex items-center text-gray-500 mb-3 pt-1">
+                        <div className="flex items-center  mb-3 pt-1">
                             <MapPinIcon className="w-4 h-4 mr-2" />
-                            <span>{place}</span>
+                            <span className="text-customPalette-graydark">{place}</span>
                         </div>
                         <div id={`map-${id}`} className="h-48 w-full mb-2 flex-shrink-0"></div>
                         <a
                             href={`https://www.google.com/maps?q=${latitude},${longitude}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-customPalette-bluelink underline text-base hover:text-customPalette-bluelight"
+                            className="text-customPalette-bluelink underline text-base hover:text-customPalette-bluelight mb-3"
                         >
                             Ver en Google Maps
                         </a>
                         <div className="h-full w-full flex items-end justify-end">
-                            <button onClick={()=>handlerSubmit(id,userId,onClose,text)} className="text-lg bg-customPalette-orange text-white px-4 py-2 rounded-md shadow-md hover:bg-customPalette-orangebright duration-300 ease-in-out">
+                            <button onClick={handlerRedirect} className="text-xs bg-customPalette-blue text-white px-4 py-2 rounded-md shadow-md hover:bg-customPalette-bluelight duration-300 ease-in-out mr-3">
+                                Ver en el calendario
+                            </button>
+                            <button onClick={()=>handlerSubmit(id,userId,onClose,text)} className="text-xs bg-customPalette-orange text-white px-4 py-2 rounded-md shadow-md hover:bg-customPalette-orangebright duration-300 ease-in-out">
                                 {textSubmit}
                             </button>
                         </div>

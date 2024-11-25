@@ -38,7 +38,7 @@ export function CardActivity({
     const actDate = new Date(date);
     const formatDate  = moment(actDate).set({ hour: hours, minute: minutes });
     return (
-        <div onClick={onClick} className="cursor-pointer hover:blur-0 blur-[.5px] bg-customPalette-gray rounded-lg w-full p-4 mb-10 shadow-lg border border-customPalette-gray">
+        <div onClick={onClick} className="cursor-pointer hover:blur-[.5px] bg-customPalette-gray rounded-lg w-full p-4 mb-10 shadow-lg border border-customPalette-gray">
           <div className="relative flex items-center justify-start text-gray-500 mb-2">
             <InsignStatus 
                     isCancell={status === ActivityStatus.CANCELLED} 
@@ -62,7 +62,7 @@ export function CardActivity({
                       alt={`ubicacion-${name}`}
                       className="w-full h-48 object-cover"
                   />
-                  <p className="w-full text-gray-600 mb-4">
+                  <p className="w-full text-customPalette-graydark mb-4">
                       {description}
                   </p>
             </div>

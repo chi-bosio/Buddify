@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { stripePromise } from "../../utils/stripe-client";
+import { stripePromise } from "../../../utils/stripe-client";
 
 const CheckoutButton: React.FC = () => {
   const [loading, setLoading] = useState(false);

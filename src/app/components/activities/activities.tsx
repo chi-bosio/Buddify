@@ -8,9 +8,11 @@ import { Activity } from "../../../components/Interfaces/activity.interface";
 import Swal from "sweetalert2";
 import { postData } from "./components/ModalActivity/components/postData";
 import ModalInsingStatus from "@/components/ModalInsingStatus/ModalInsingStatus";
-import PlansButton from "../../stripe/Plans/PlansButton";
+import PlansButton from "../../plans/PlansButton";
+import { useRouter } from "next/navigation";
 
 export function Activities() {
+  const router = useRouter()
   const [activities, setActivities] = useState<Activity[]>([]);
 
   const [selectedActivity, setSelectedActivity] = useState<Activity | null>(
@@ -52,9 +54,21 @@ export function Activities() {
         },
       });
       const success = await postData({ activityId: id, userId: userId });
-      Swal.close();
+
+      const timeoutId = setTimeout(() => {
+        Swal.close();
+      }, 500);
+
+      setTimeout(() => {
+        clearInterval(timeoutId); 
+      }, 700);
+
       if (success) {
         onClose();
+        setTimeout(() => {
+          router.push(`/my-activities`);
+        }, 900);
+        
       }
     }
   };
@@ -71,7 +85,7 @@ export function Activities() {
         <PlansButton />
         {activities.length === 0 && (
           <div className="text-customPalette-orange">
-            No hay actividades por el momento...
+            No hay actividades cerca de ti por el momento...
           </div>
         )}
         {activities.map((activity) => (
