@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 import { useState } from "react";
 import {
@@ -39,9 +38,11 @@ export default function CreateActivityForm() {
   const { userId } = useAuthContext();
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [location, setLocation] = useState({ lat: 0, lng: 0 });
+
   const handleLocationSelect = (lat: number, lng: number) => {
     setLocation({ lat, lng });
   };
+
   const formik = useFormik<FormValues>({
     initialValues: {
       name: "",
@@ -54,6 +55,18 @@ export default function CreateActivityForm() {
     },
     validationSchema: validationSchemaNewActivitie,
     onSubmit: async (values, { resetForm }) => {
+      const activitiesCount = userId ? await checkUserActivities(userId) : 0;
+
+      if (typeof activitiesCount === "number" && activitiesCount >= 3) {
+        Swal.fire({
+          title: "Límite de actividades alcanzado",
+          text: "Ya has creado 3 actividades este mes. Para crear más, considera suscribirte a un plan Premium.",
+          icon: "warning",
+          confirmButtonText: "Aceptar",
+        });
+        return;
+      }
+
       Swal.fire({
         title: "Cargando...",
         icon: "info",
@@ -62,6 +75,7 @@ export default function CreateActivityForm() {
           Swal.showLoading();
         },
       });
+
       let imageUrl = "";
       if (values.image) {
         imageUrl = await UploadImageToCloudinary(values.image);
@@ -69,9 +83,9 @@ export default function CreateActivityForm() {
           const timeoutId = setTimeout(() => {
             Swal.close();
           }, 500);
-    
+
           setTimeout(() => {
-            clearInterval(timeoutId); 
+            clearInterval(timeoutId);
           }, 700);
           Toast(
             TypeToast.Error,
@@ -96,7 +110,7 @@ export default function CreateActivityForm() {
       }, 500);
 
       setTimeout(() => {
-        clearInterval(timeoutId); 
+        clearInterval(timeoutId);
       }, 700);
       if (isSuccess) {
         setTimeout(() => {
@@ -104,10 +118,27 @@ export default function CreateActivityForm() {
           setImagePreview(null);
           router.push("/my-activities");
         }, 900);
-        
       }
     },
   });
+
+  const checkUserActivities = async (userId: string) => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/activities/count-created/${userId}`
+      );
+      const data = await response.json();
+
+      if (data.isPremium) {
+        return true;
+      }
+
+      return data.count < 3;
+    } catch (error) {
+      console.error("Error al verificar actividades del usuario:", error);
+      return false;
+    }
+  };
 
   return (
     <div className="bg-[url('/assets/textura-fondo.avif')] min-h-screen flex items-center justify-center bg-customPalette-white">
@@ -117,7 +148,10 @@ export default function CreateActivityForm() {
         <h1 className="text-center text-3xl font-bold mb-6 text-customPalette-blue">
           Crear Nueva Actividad
         </h1>
-        <form onSubmit={formik.handleSubmit} className="flex flex-col lg:flex-row gap-5">
+        <form
+          onSubmit={formik.handleSubmit}
+          className="flex flex-col lg:flex-row gap-5"
+        >
           <div className="flex items-center justify-center flex-col w-full pt-3">
             <div className="relative w-full">
               <InputWithLabel
@@ -172,7 +206,7 @@ export default function CreateActivityForm() {
                   }
                 }}
               />
-               <ErrorMessageForm formik={formik} input="image" />
+              <ErrorMessageForm formik={formik} input="image" />
             </div>
 
             <div className="relative w-full">
@@ -201,10 +235,9 @@ export default function CreateActivityForm() {
                 text="Lugar de la Actividad"
               />
             </div>
-            
           </div>
-          <div className="flex items-start justify-center flex-col w-full"> 
-          <div className="relative w-full">
+          <div className="flex items-start justify-center flex-col w-full">
+            <div className="relative w-full">
               <label
                 htmlFor="place"
                 className="-top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1"
@@ -224,49 +257,15 @@ export default function CreateActivityForm() {
                 {imagePreview && (
                   <img
                     src={imagePreview}
-                    alt="Vista previa"
-                    className="w-full h-48 object-cover"
+                    alt="Vista Previa"
+                    className="object-cover w-full h-48"
                   />
                 )}
-                <div className="p-4">
-                  <h3 className="text-xl font-semibold text-customPalette-bluedark mb-2">
-                    {formik.values.name || "Nombre de la Actividad"}
-                  </h3>
-                  <p className="text-gray-600 mb-4">
-                    {formik.values.description || "Descripción de la actividad"}
-                  </p>
-                  <div className="flex items-center text-customPalette-graydark mb-2">
-                    <CalendarIcon className="w-4 h-4 mr-2" />
-                    <span>
-                      {formik.values.date
-                        ? moment(formik.values.date, "YYYY-MM-DD").format(
-                            "DD/MM/YYYY"
-                          )
-                        : "Fecha"}
-                    </span>
-                  </div>
-                  <div className="flex items-center text-customPalette-graydark mb-2">
-                    <ClockIcon className="w-4 h-4 mr-2" />
-                    <span>{formik.values.time || "Hora"}</span>
-                  </div>
-                  <div className="flex items-center text-customPalette-graydark mb-2">
-                    <MapPinIcon className="w-4 h-4 mr-2" />
-                    <span>{formik.values.place || "Lugar"}</span>
-                  </div>
-                  <div className="flex items-center text-customPalette-graydark mb-2">
-                    <Navigation2Icon className="w-4 h-4 mr-2" />
-                    <span>
-                      {location.lat && location.lng
-                        ? `${location.lat} ${location.lng}`
-                        : "Ubicación"}
-                    </span>
-                  </div>
-                </div>
               </div>
             </div>
             <div className="flex justify-center items-center w-full">
               <SubmitButton text="Crear Actividad" />
-            </div>           
+            </div>
           </div>
         </form>
       </div>
