@@ -1,11 +1,10 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 import { jwtDecode } from "jwt-decode";
-import { Formik, Form } from "formik";
+import { Formik, Form, Field } from "formik";
 import { useAuthContext } from "../../../contexts/authContext";
 
 const PaymentForm: React.FC = () => {
@@ -27,7 +26,7 @@ const PaymentForm: React.FC = () => {
   const stripe = useStripe();
   const elements = useElements();
   const router = useRouter();
-  const { logout } = useAuthContext(); // Mueve esta línea aquí para que el hook se llame dentro del componente
+  const { logout } = useAuthContext();
 
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
@@ -82,7 +81,23 @@ const PaymentForm: React.FC = () => {
       return;
     }
 
+    const confirm = await Swal.fire({
+      title: "Confirmar pago",
+      text: `Estás a punto de pagar $${planDetails.price} por el plan ${planDetails.name}. ¿Deseas continuar?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí, pagar",
+      cancelButtonText: "Cancelar",
+    });
+
+    if (!confirm.isConfirmed) {
+      router.push("/");
+      setLoading(false);
+      return;
+    }
+
     try {
+      const date = new Date().toISOString();
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/stripe/create-payment-intent`,
         {
@@ -96,6 +111,8 @@ const PaymentForm: React.FC = () => {
             planPrice: planDetails.price,
             userId: userInfo?.id,
             userName: userInfo?.name,
+            cardholderName: values.name,
+            paymentDate: date,
             currency: "usd",
           }),
         }
@@ -129,6 +146,7 @@ const PaymentForm: React.FC = () => {
           "Tu pago fue procesado correctamente.",
           "success"
         );
+
         try {
           const updateResponse = await fetch(
             `${process.env.NEXT_PUBLIC_API_URL}/users/${userInfo?.id}/premium-status`,
@@ -151,12 +169,7 @@ const PaymentForm: React.FC = () => {
               text: "Ahora eres un usuario premium.",
               icon: "success",
               confirmButtonText: "Aceptar",
-              customClass: {
-                confirmButton:
-                  "bg-customPalette-bluelightli text-customPalette-white px-4 py-2 rounded-lg font-medium",
-              },
             }).then(() => {
-              // Llamar a logout y redirigir a la página de login después de la actualización de premium
               logout();
               router.push("/login");
             });
@@ -180,7 +193,7 @@ const PaymentForm: React.FC = () => {
   };
 
   return (
-    <section className="py-5 relative flex justify-center items-center min-h-screen">
+    <section className="pt-10 relative flex justify-center items-center min-h-[85vh]">
       <div className="absolute h-full w-full top-0 bg-gradient-to-r from-customPalette-bluedark to-customPalette-bluelight -z-10 rounded-2xl"></div>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8">
@@ -208,23 +221,38 @@ const PaymentForm: React.FC = () => {
         >
           {({ isSubmitting }) => (
             <Form className="space-y-6">
-              <div className="mb-6">
-                <CardElement
-                className="!text-customPalette-white"
-                  options={{
-                    style: {
-                      base: {
-                        color: "#FDFFFC",
-                        fontFamily: "Manrope, sans-serif",
-                        fontSmoothing: "antialiased",
-                        fontSize: "16px",
-                        "::placeholder": {
-                          color: "#aab7c4",
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-customPalette-white mb-2">
+                    Nombre del titular de la tarjeta:
+                  </label>
+                  <Field
+                    type="text"
+                    name="name"
+                    placeholder="Tu nombre completo"
+                    className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="block text-customPalette-white mb-2">
+                    Número de tarjeta:
+                  </label>
+                  <CardElement
+                    options={{
+                      style: {
+                        base: {
+                          color: "#FDFFFC",
+                          fontFamily: "Manrope, sans-serif",
+                          fontSize: "14px",
+                          "::placeholder": {
+                            color: "#aab7c4",
+                          },
                         },
                       },
-                    },
-                  }}
-                />
+                    }}
+                    className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
               </div>
 
               <div className="text-center">
