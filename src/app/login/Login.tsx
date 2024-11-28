@@ -63,11 +63,23 @@ const LoginForm = () => {
   });
 
   return (
-    <section
-      className="flex justify-end items-start min-h-screen w-full"
-      style={{ backgroundImage: "url(/assets/fondo2.webp)" }}
-    >
-      <div className="flex justify-start items-center flex-col w-full lg:w-auto  bg-customPalette-white p-8 min-h-screen">
+<section
+  className="flex justify-end items-start min-h-screen w-full"
+  style={{ position: "relative" }}
+>
+  <video
+    className="absolute top-0 left-0 h-full max-w-[85%] object-cover"
+    autoPlay
+    loop
+    muted
+    playsInline
+    style={{filter: "brightness(0.5)"}}
+    poster="/assets/poster.png"
+  >
+    <source src="https://res.cloudinary.com/dwh8oup8f/video/upload/v1732804599/BUDDIFY2_g2z9wp.mp4" type="video/mp4" />
+    Tu navegador no soporta videos.
+  </video>
+      <div className="relative z-10 flex justify-start items-center flex-col w-full lg:w-auto  bg-customPalette-white p-8 min-h-screen">
         <form
           className="w-full lg:w-auto h-full"
           onSubmit={formik.handleSubmit}
