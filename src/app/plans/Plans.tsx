@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import { Formik, Form, Field } from "formik";
 import Swal from "sweetalert2";
 
-export default function Plans() {
+export default function Plans({setShowPlans}:{setShowPlans:(bol:boolean)=>void}) {
   const router = useRouter();
 
   const handlePlanSelection = (plan: {
@@ -20,6 +20,7 @@ export default function Plans() {
       }).then(() => {
         const timeoutId = setTimeout(() => {
           Swal.close();
+          setShowPlans(false);
         }, 500);
   
         setTimeout(() => {
@@ -35,6 +36,7 @@ export default function Plans() {
         name: plan.name,
         price: plan.price.toString(),
       }).toString();
+      console.log(query);
       Swal.fire({
         title: "Cargando...",
         icon: "info",
@@ -42,6 +44,9 @@ export default function Plans() {
         didOpen: () => {
           Swal.showLoading();
         },
+      }).then(()=>{
+        setShowPlans(false);
+        router.push(`/plans/stripe?${query}`);
       });
       const timeoutId = setTimeout(() => {
         Swal.close();
@@ -50,9 +55,6 @@ export default function Plans() {
       setTimeout(() => {
         clearInterval(timeoutId); 
       }, 700);
-      setTimeout(() => {
-        router.push(`/plans/stripe?${query}`);
-      }, 900);
       
     }
   };

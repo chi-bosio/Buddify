@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import ErrorMessageForm from "@/components/ErrorMessageForm/ErrorMessageForm";
 import SubmitButton from "@/components/SubmitButton/SubmitButton";
 import InputWithLabel from "@/components/InputWithLabel/InputWithLabel";
-import { useAuthContext } from "@/contexts/authContext";
+import { useAuthContext } from "@/hooks/authContext";
 import moment from "moment";
 
 const CompleteProfile: React.FC = () => {

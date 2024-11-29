@@ -5,7 +5,7 @@ import { Search } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import GetCategories from "@/components/GetCategories/GetCategories";
-import { useAuthContext } from "@/contexts/authContext";
+import { useAuthContext } from "@/hooks/authContext";
 import Toast, { TypeToast } from "@/components/Toast/Toast";
 import { Activity } from "../../../../../components/Interfaces/activity.interface";
 import moment from "moment";
@@ -75,7 +75,6 @@ export function CombinedFilters({setActivities}:{setActivities:(data:Activity[])
             }
           }else{
             const data = await response.json();
-            console.log(data);
             if (Array.isArray(data.data)) {
               setActivities(data.data); 
             } else {

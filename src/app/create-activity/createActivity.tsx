@@ -18,7 +18,7 @@ import SubmitButton from "@/components/SubmitButton/SubmitButton";
 import Swal from "sweetalert2";
 import Toast, { TypeToast } from "@/components/Toast/Toast";
 import MapForm from "@/app/create-activity/components/MapForm/MapForm";
-import { useAuthContext } from "@/contexts/authContext";
+import { useAuthContext } from "@/hooks/authContext";
 import GetCategories from "@/components/GetCategories/GetCategories";
 import { useRouter } from "next/navigation";
 import PlansButton from "../plans/PlansButton";

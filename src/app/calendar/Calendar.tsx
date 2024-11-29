@@ -2,7 +2,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { Activity } from "@/components/Interfaces/activity.interface";
 import getActivities from "../../components/GetActivities/getActivities";
-import { useAuthContext } from "@/contexts/authContext";
+import { useAuthContext } from "@/hooks/authContext";
 import Swal from "sweetalert2";
 import BigCalendar from "./components/BigCalendar";
 import PlansButton from "@/app/plans/PlansButton";

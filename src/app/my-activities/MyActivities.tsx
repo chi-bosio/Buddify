@@ -2,7 +2,7 @@
 
 import getActivities from "@/components/GetActivities/getActivities";
 import { Activity } from "@/components/Interfaces/activity.interface";
-import { useAuthContext } from "@/contexts/authContext";
+import { useAuthContext } from "@/hooks/authContext";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Swal from "sweetalert2";
@@ -19,7 +19,13 @@ export function MyActivities() {
   const [avatarUrl, setAvatarUrl] = useState(
     "https://res.cloudinary.com/dtlmrtzpa/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1731928071/avatar16_dsdi8v.png"
   );
-  const { userId, avatar } = useAuthContext();
+  const { userId, avatar,isPremium } = useAuthContext();
+  const [premium,setPremium] = useState(false);
+  useEffect(()=>{
+    if(isPremium){
+      setPremium(isPremium)
+    }
+  },[isPremium])
   const [activitiesCreated, setActivitiesCreated] = useState<Activity[]>([]);
   const [activitiesJoined, setActivitiesJoined] = useState<Activity[]>([]);
   const [selectedActivity, setSelectedActivity] = useState<Activity | null>(
@@ -93,7 +99,10 @@ export function MyActivities() {
         clearInterval(timeoutId); 
       }, 700);
       if (success) {
-        onClose();
+        setTimeout(() => {
+          onClose();
+          fetchData();
+        }, 900);
       }
     }
   }
@@ -234,7 +243,7 @@ export function MyActivities() {
           handlerSubmit={handlerSubmit}
           textSubmit="Cancelar Actividad"
           {...selectedActivity}
-          creator={{ name: "Tú", lastname: "", avatar: avatarUrl }}
+          creator={{ name: "Tú", lastname: "", avatar: avatarUrl , isPremium: premium}}
           isModalOpen={isModalOpen}
           onClose={closeModal}
         />

@@ -4,8 +4,10 @@ import { CalendarIcon, ClockIcon, MapPinIcon, X } from "lucide-react";
 import moment from "moment";
 import { useEffect, useRef } from "react";
 import L from "leaflet";
-import { useAuthContext } from "@/contexts/authContext";
+import { useAuthContext } from "@/hooks/authContext";
 import { useRouter } from 'next/navigation';
+import { ActivityStatus } from "@/components/Interfaces/activity.interface";
+import { Crown } from "@/components/Crown/crown";
 export function ModalActivity({
     isModalOpen,
     onClose,
@@ -22,7 +24,8 @@ export function ModalActivity({
     category,
     textSubmit,
     handlerSubmit,
-    text
+    text,
+    status
 }: {
     text?:string;
     isModalOpen: boolean;
@@ -31,7 +34,7 @@ export function ModalActivity({
     textSubmit:string;
     id: string,
     category: {id:string;name:string},
-    creator: {name:string;lastname:string;avatar:string;},
+    creator: {name:string;lastname:string;avatar:string;isPremium:boolean;},
     date: string,
     description: string,
     image: string,
@@ -40,6 +43,7 @@ export function ModalActivity({
     name: string,
     place: string,
     time: string,
+    status:ActivityStatus
 }) {
     const router = useRouter()
     const modalRef = useRef<HTMLDivElement>(null);
@@ -84,7 +88,7 @@ export function ModalActivity({
     }
     return (
         <div
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 "
             onClick={handleClickOutside}
         >
             <div
@@ -98,11 +102,14 @@ export function ModalActivity({
                     <X className="h-5 w-5" />
                 </button>
                 <div className="flex items-center justify-start text-gray-500 mb-2">
-                    <img
-                        src={creator.avatar}
-                        className="w-8 h-8 mr-2 rounded-full bg-gray-600 flex items-center justify-center"
-                        alt={`avatar-${creator.name}`}
-                    />
+                    <div className="relative">
+                        <img 
+                            src={creator.avatar} 
+                            className="relative w-8 h-8 mr-2 rounded-full bg-gray-600 flex items-center justify-center" 
+                            alt={`avatar-${creator.name}-${creator.lastname}`}
+                            />
+                        <Crown isPremium={creator.isPremium} className="-top-2.5 -left-2.5"/>
+                    </div>
                     <span className="text-customPalette-black">{`${creator.name} ${creator.lastname}`}</span>
                 </div>
                 <div className="grid grid-cols-1 gap-2 md:grid-cols-2 w-full">
@@ -144,7 +151,10 @@ export function ModalActivity({
                             <button onClick={handlerRedirect} className="text-xs bg-customPalette-blue text-white px-4 py-2 rounded-md shadow-md hover:bg-customPalette-bluelight duration-300 ease-in-out mr-3">
                                 Ver en el calendario
                             </button>
-                            <button onClick={()=>handlerSubmit(id,userId,onClose,text)} className="text-xs bg-customPalette-orange text-white px-4 py-2 rounded-md shadow-md hover:bg-customPalette-orangebright duration-300 ease-in-out">
+                            <button 
+                            onClick={status !== ActivityStatus.CANCELLED && status !== ActivityStatus.SUCCESS  ? ()=>handlerSubmit(id,userId,onClose,text) : undefined} 
+                            className={`text-xs text-white px-4 py-2 rounded-md shadow-md duration-300 ease-in-out
+                            ${status !== ActivityStatus.CANCELLED && status !== ActivityStatus.SUCCESS  ? "bg-customPalette-orange hover:bg-customPalette-orangebright cursor-pointer" : "bg-customPalette-graydark cursor-not-allowed"}`}>
                                 {textSubmit}
                             </button>
                         </div>
