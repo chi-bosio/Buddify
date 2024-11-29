@@ -1,8 +1,16 @@
 "use client";
 
-import { createContext, useContext, useState, useMemo, ReactNode, useCallback, useEffect } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useMemo,
+  ReactNode,
+  useCallback,
+  useEffect,
+} from "react";
 import { useRouter } from "next/navigation";
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 type AuthTokens = {
   token: string;
@@ -18,6 +26,7 @@ interface AuthContextType {
   userId: string | null;
   userName: string | null;
   avatar: string | null;
+  isPremium: boolean;
 }
 
 export const AuthContext = createContext<AuthContextType>({
@@ -28,6 +37,7 @@ export const AuthContext = createContext<AuthContextType>({
   userId: null,
   userName: null,
   avatar: null,
+  isPremium: false,
 });
 
 export default function AuthContextProvider({
@@ -48,6 +58,7 @@ export default function AuthContextProvider({
   const [userName, setUserName] = useState<string | null>(null);
   const [avatar, setAvatar] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isPremium, setIsPremium] = useState<boolean>(false);
 
   const login = useCallback((token: AuthTokens) => {
     if (!token) return;
@@ -87,18 +98,17 @@ export default function AuthContextProvider({
         router.push("/completeprofile");
       }
     } else {
-
       setLoading(false);
     }
   }, [login, router]);
 
   useEffect(() => {
-
     if (authTokens) {
       const decodedToken: any = jwtDecode(authTokens.token);
       setUserId(decodedToken.sub || null);
       setUserName(decodedToken.name || null);
       setAvatar(decodedToken.avatar || null);
+      setIsPremium(decodedToken.isPremium || false);
       setLoading(false);
     }
   }, [authTokens]);
@@ -112,12 +122,13 @@ export default function AuthContextProvider({
       userId,
       userName,
       avatar,
+      isPremium,
     }),
-    [authTokens, login, logout, userId, userName, avatar]
+    [authTokens, login, logout, userId, userName, avatar, isPremium]
   );
 
   if (loading) {
-    return <div>Loading...</div>; 
+    return <div>Loading...</div>;
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
