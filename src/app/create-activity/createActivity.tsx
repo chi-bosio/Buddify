@@ -1,6 +1,5 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   CalendarIcon,
   ClockIcon,
@@ -23,6 +22,7 @@ import { useAuthContext } from "@/contexts/authContext";
 import GetCategories from "@/components/GetCategories/GetCategories";
 import { useRouter } from "next/navigation";
 import PlansButton from "../plans/PlansButton";
+import { Preahvihear } from "next/font/google";
 
 interface FormValues {
   name: string;
@@ -36,12 +36,43 @@ interface FormValues {
 
 export default function CreateActivityForm() {
   const router = useRouter();
-  const { userId } = useAuthContext();
+  const { userId, isPremium } = useAuthContext();
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [location, setLocation] = useState({ lat: 0, lng: 0 });
+  const [isLimitReached, setIsLimitReached] = useState<boolean>(false);
+  const [premium, setPremium] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (isPremium) {
+      setPremium(isPremium);
+    }
+  }, [isPremium]);
+
   const handleLocationSelect = (lat: number, lng: number) => {
     setLocation({ lat, lng });
   };
+
+  // Verificar cuántas actividades ha creado el usuario y si ha alcanzado el límite
+  useEffect(() => {
+    const checkActivitiesLimit = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/activities/count-created?userId=${userId}`
+        );
+        const data = await response.json();
+        if (data && data.count !== undefined) {
+          setIsLimitReached(data.count >= 3); // Aquí 3 es el límite de actividades para usuarios no premium
+        }
+      } catch (error) {
+        console.error("Error al verificar el límite de actividades", error);
+      }
+    };
+
+    if (userId) {
+      checkActivitiesLimit();
+    }
+  }, [userId, isPremium]);
+
   const formik = useFormik<FormValues>({
     initialValues: {
       name: "",
@@ -54,56 +85,78 @@ export default function CreateActivityForm() {
     },
     validationSchema: validationSchemaNewActivitie,
     onSubmit: async (values, { resetForm }) => {
-      Swal.fire({
-        title: "Cargando...",
-        icon: "info",
-        allowOutsideClick: false,
-        didOpen: () => {
-          Swal.showLoading();
-        },
-      });
-      let imageUrl = "";
-      if (values.image) {
-        imageUrl = await UploadImageToCloudinary(values.image);
-        if (!imageUrl) {
-          const timeoutId = setTimeout(() => {
-            Swal.close();
-          }, 500);
+      console.log(isLimitReached, premium);
+      if (isLimitReached && !premium) {
+        // Mostrar el mensaje de SweetAlert2
+        Swal.fire({
+          title: "¡Límite alcanzado!",
+          text: "Has alcanzado el límite de actividades creadas este mes. ¡Hazte Premium y crea más actividades!",
+          icon: "info",
+          showCancelButton: true,
+          cancelButtonText: "Cerrar",
+          confirmButtonText: "Ir a Premium",
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // Redirigir a la página de Premium si el usuario decide pasarse
+            router.push("/plans");
+          }
+        });
+        return;
+      } else {
+        Swal.fire({
+          title: "Cargando...",
+          icon: "info",
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        });
 
-          setTimeout(() => {
-            clearInterval(timeoutId);
-          }, 700);
-          Toast(
-            TypeToast.Error,
-            "No se pudo subir la imagen. Verifica e intenta nuevamente."
-          );
-          return;
+        let imageUrl = "";
+        if (values.image) {
+          imageUrl = await UploadImageToCloudinary(values.image);
+          if (!imageUrl) {
+            const timeoutId = setTimeout(() => {
+              Swal.close();
+            }, 500);
+
+            setTimeout(() => {
+              clearInterval(timeoutId);
+            }, 700);
+            Toast(
+              TypeToast.Error,
+              "No se pudo subir la imagen. Verifica e intenta nuevamente."
+            );
+            return;
+          }
         }
-      }
 
-      const activityData = {
-        ...values,
-        creatorId: userId,
-        image: imageUrl,
-        latitude: String(location.lat),
-        longitude: String(location.lng),
-      };
+        const activityData = {
+          ...values,
+          creatorId: userId,
+          image: imageUrl,
+          latitude: String(location.lat),
+          longitude: String(location.lng),
+        };
 
-      const isSuccess = await PostData(activityData);
+        const isSuccess = await PostData(activityData);
 
-      const timeoutId = setTimeout(() => {
-        Swal.close();
-      }, 500);
+        const timeoutId = setTimeout(() => {
+          Swal.close();
+        }, 500);
 
-      setTimeout(() => {
-        clearInterval(timeoutId);
-      }, 700);
-      if (isSuccess) {
         setTimeout(() => {
-          resetForm();
-          setImagePreview(null);
-          router.push("/my-activities");
-        }, 900);
+          clearInterval(timeoutId);
+        }, 700);
+        if (isSuccess) {
+          setTimeout(() => {
+            resetForm();
+            setImagePreview(null);
+            router.push("/my-activities");
+          }, 900);
+        }
       }
     },
   });
@@ -112,10 +165,15 @@ export default function CreateActivityForm() {
     <div className="bg-[url('/assets/textura-fondo.avif')] min-h-screen flex items-center justify-center bg-customPalette-white">
       <div className="w-full max-w-4xl p-8 bg-customPalette-white rounded-xl shadow-lg border border-customPalette-gray">
         <PlansButton />
-
         <h1 className="text-center text-3xl font-bold mb-6 text-customPalette-blue">
           Crear Nueva Actividad
         </h1>
+        {/* Mostrar un mensaje si el límite ha sido alcanzado */}
+        {isLimitReached && !premium && (
+          <div className="bg-red-100 text-red-800 text-center p-2 rounded-lg mb-4">
+            Has alcanzado el límite de actividades GRATUITAS creadas este mes.
+          </div>
+        )}
         <form
           onSubmit={formik.handleSubmit}
           className="flex flex-col lg:flex-row gap-5"
@@ -153,6 +211,7 @@ export default function CreateActivityForm() {
               <ErrorMessageForm formik={formik} input="description" />
             </div>
 
+            {/* Resto del formulario */}
             <div className="relative w-full">
               <label
                 htmlFor="image-upload"
@@ -214,7 +273,7 @@ export default function CreateActivityForm() {
               </label>
               <MapForm onLocationSelect={handleLocationSelect} />
               <div className="text-customPalette-red h-0.5 mt-1 mb-10">
-                Si no cambias este campo , se tomara tu direccion actual
+                Si no cambias este campo, se tomara tu dirección actual
               </div>
             </div>
             <div className="flex-1 mt-5">
