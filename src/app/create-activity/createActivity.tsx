@@ -52,7 +52,6 @@ export default function CreateActivityForm() {
     setLocation({ lat, lng });
   };
 
-  // Verificar cuántas actividades ha creado el usuario y si ha alcanzado el límite
   useEffect(() => {
     const checkActivitiesLimit = async () => {
       try {
@@ -61,7 +60,7 @@ export default function CreateActivityForm() {
         );
         const data = await response.json();
         if (data && data.count !== undefined) {
-          setIsLimitReached(data.count >= 3); // Aquí 3 es el límite de actividades para usuarios no premium
+          setIsLimitReached(data.count >= 3);
         }
       } catch (error) {
         console.error("Error al verificar el límite de actividades", error);
@@ -87,7 +86,6 @@ export default function CreateActivityForm() {
     onSubmit: async (values, { resetForm }) => {
       console.log(isLimitReached, premium);
       if (isLimitReached && !premium) {
-        // Mostrar el mensaje de SweetAlert2
         Swal.fire({
           title: "¡Límite alcanzado!",
           text: "Has alcanzado el límite de actividades creadas este mes. ¡Hazte Premium y crea más actividades!",
@@ -99,7 +97,6 @@ export default function CreateActivityForm() {
           cancelButtonColor: "#d33",
         }).then((result) => {
           if (result.isConfirmed) {
-            // Redirigir a la página de Premium si el usuario decide pasarse
             router.push("/plans");
           }
         });
