@@ -6,7 +6,7 @@ import { Elements } from "@stripe/react-stripe-js"; // Importa Elements
 import { stripePromise } from "../utils/stripe-client"; // Importa la configuración de stripe
 import "./globals.css";
 import "react-toastify/dist/ReactToastify.css";
-import AuthContextProvider from "../hooks/authContext";
+import AuthContextProvider from "../contexts/authContext";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (

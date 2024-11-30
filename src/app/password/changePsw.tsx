@@ -5,7 +5,7 @@ import validationSchema from "./components/validationSchema";
 import InputWithLabel from "@/components/InputWithLabel/InputWithLabel";
 import postData from "./components/postData";
 import SubmitButton from "@/components/SubmitButton/SubmitButton";
-import { useAuthContext } from "@/hooks/authContext";
+import { useAuthContext } from "@/contexts/authContext";
 import { useRouter } from "next/navigation";
 
 const ChangePsw = () => {

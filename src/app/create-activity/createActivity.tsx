@@ -18,11 +18,10 @@ import SubmitButton from "@/components/SubmitButton/SubmitButton";
 import Swal from "sweetalert2";
 import Toast, { TypeToast } from "@/components/Toast/Toast";
 import MapForm from "@/app/create-activity/components/MapForm/MapForm";
-import { useAuthContext } from "@/hooks/authContext";
+import { useAuthContext } from "@/contexts/authContext";
 import GetCategories from "@/components/GetCategories/GetCategories";
 import { useRouter } from "next/navigation";
 import PlansButton from "../plans/PlansButton";
-import { Preahvihear } from "next/font/google";
 
 interface FormValues {
   name: string;
@@ -52,7 +51,6 @@ export default function CreateActivityForm() {
     setLocation({ lat, lng });
   };
 
-  // Verificar cuántas actividades ha creado el usuario y si ha alcanzado el límite
   useEffect(() => {
     const checkActivitiesLimit = async () => {
       try {
@@ -61,7 +59,7 @@ export default function CreateActivityForm() {
         );
         const data = await response.json();
         if (data && data.count !== undefined) {
-          setIsLimitReached(data.count >= 3); // Aquí 3 es el límite de actividades para usuarios no premium
+          setIsLimitReached(data.count >= 3);
         }
       } catch (error) {
         console.error("Error al verificar el límite de actividades", error);
@@ -85,9 +83,7 @@ export default function CreateActivityForm() {
     },
     validationSchema: validationSchemaNewActivitie,
     onSubmit: async (values, { resetForm }) => {
-      console.log(isLimitReached, premium);
       if (isLimitReached && !premium) {
-        // Mostrar el mensaje de SweetAlert2
         Swal.fire({
           title: "¡Límite alcanzado!",
           text: "Has alcanzado el límite de actividades creadas este mes. ¡Hazte Premium y crea más actividades!",
@@ -99,7 +95,6 @@ export default function CreateActivityForm() {
           cancelButtonColor: "#d33",
         }).then((result) => {
           if (result.isConfirmed) {
-            // Redirigir a la página de Premium si el usuario decide pasarse
             router.push("/plans");
           }
         });
@@ -282,6 +277,7 @@ export default function CreateActivityForm() {
               </h2>
               <div className="bg-customPalette-white rounded-lg shadow-md overflow-hidden">
                 {imagePreview && (
+                  // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={imagePreview}
                     alt="Vista previa"

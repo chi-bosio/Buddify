@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 import validationSchemaLogin from "./components/validationSchema";
 import postData from "./components/postData";
 import React from "react";
-import { useAuthContext } from "@/hooks/authContext";
+import { useAuthContext } from "@/contexts/authContext";
 import { useRouter } from "next/navigation";
 import SubmitButton from "@/components/SubmitButton/SubmitButton";
 import InputWithLabel from "@/components/InputWithLabel/InputWithLabel";

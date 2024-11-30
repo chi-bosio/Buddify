@@ -1,4 +1,4 @@
-import { BadgeAlert, BadgeCheck, BadgeX, CheckCheck } from "lucide-react";
+import {  BadgeCheck, BadgeHelp, BadgeMinus, BadgeX, } from "lucide-react";
 
 export function ModalInsingStatus({bol = false}:{bol:boolean;}){
     return (
@@ -9,7 +9,7 @@ export function ModalInsingStatus({bol = false}:{bol:boolean;}){
                 <>
                     <div className="py-3 flex items-center justify-center">
                         <div className="bg-customPalette-white rounded-full border border-customPalette-orange mr-2">
-                            <CheckCheck className="h-7 w-7 text-customPalette-orange"/>
+                            <BadgeCheck className="h-7 w-7 text-customPalette-orange"/>
                         </div>
                         <span className="text-sm text-customPalette-black w-full">Ya fuiste a esta actividad!!!</span>
                     </div>
@@ -23,13 +23,13 @@ export function ModalInsingStatus({bol = false}:{bol:boolean;}){
             }
             <div className="py-3 flex items-center justify-center">
                 <div className="bg-customPalette-white rounded-full border border-customPalette-green mr-2">
-                    <BadgeCheck className="h-7 w-7 text-customPalette-green"/>
+                    <BadgeMinus className="h-7 w-7 text-customPalette-green"/>
                 </div>
                 <span className="text-sm text-customPalette-black w-full">La actividad tiene al menos 4 participantes y esta confirmada </span>
             </div>
             <div className="py-3 flex items-center justify-center">
                 <div className="bg-customPalette-white rounded-full border border-customPalette-graydark mr-2">
-                    <BadgeAlert className="h-7 w-7 text-customPalette-graydark"/>
+                    <BadgeHelp className="h-7 w-7 text-customPalette-graydark"/>
                 </div>
                 <span className="text-sm text-customPalette-black w-full">La actividad tiene menos de 4 integrantes y aun no esta confirmada</span>
             </div>

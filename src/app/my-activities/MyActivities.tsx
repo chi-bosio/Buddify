@@ -2,9 +2,9 @@
 
 import getActivities from "@/components/GetActivities/getActivities";
 import { Activity } from "@/components/Interfaces/activity.interface";
-import { useAuthContext } from "@/hooks/authContext";
+import { useAuthContext } from "@/contexts/authContext";
 import Link from "next/link";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import ModalActivity from "../components/activities/components/ModalActivity/ModalActivity";
 import CardActivity from "./components/CardActivity/CardActivity";
@@ -16,16 +16,7 @@ import { useRouter } from "next/navigation";
 
 export function MyActivities() {
   const router = useRouter()
-  const [avatarUrl, setAvatarUrl] = useState(
-    "https://res.cloudinary.com/dtlmrtzpa/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1731928071/avatar16_dsdi8v.png"
-  );
-  const { userId, avatar,isPremium } = useAuthContext();
-  const [premium,setPremium] = useState(false);
-  useEffect(()=>{
-    if(isPremium){
-      setPremium(isPremium)
-    }
-  },[isPremium])
+  const { userId} = useAuthContext();
   const [activitiesCreated, setActivitiesCreated] = useState<Activity[]>([]);
   const [activitiesJoined, setActivitiesJoined] = useState<Activity[]>([]);
   const [selectedActivity, setSelectedActivity] = useState<Activity | null>(
@@ -107,20 +98,11 @@ export function MyActivities() {
     }
   }
 
-  const memoizedSetAvatar = useMemo(() => {
-    return () => {
-      if (avatar) setAvatarUrl(avatar);
-    };
-  }, [avatar]);
   useEffect(() => {
     if (userId) fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
 
-  useEffect(() => {
-    memoizedSetAvatar();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [avatar]);
 
   const handlerRedirectHome = () => {
     router.push(`/`);
@@ -243,7 +225,6 @@ export function MyActivities() {
           handlerSubmit={handlerSubmit}
           textSubmit="Cancelar Actividad"
           {...selectedActivity}
-          creator={{ name: "Tú", lastname: "", avatar: avatarUrl , isPremium: premium}}
           isModalOpen={isModalOpen}
           onClose={closeModal}
         />

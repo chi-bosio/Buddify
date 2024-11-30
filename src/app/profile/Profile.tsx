@@ -6,7 +6,7 @@ import { Formik, Form, FormikProps } from "formik";
 import InputWithLabel from "../../components/InputWithLabel/InputWithLabel";
 import ErrorMessageForm from "../../components/ErrorMessageForm/ErrorMessageForm";
 import validationSchema from "./components/validationSchema";
-import { useAuthContext } from "../../hooks/authContext";
+import { useAuthContext } from "../../contexts/authContext";
 import { updateUserProfile } from "./components/postData";
 import Swal from "sweetalert2";
 import Toast, { TypeToast } from "@/components/Toast/Toast";

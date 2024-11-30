@@ -2,9 +2,9 @@
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import moment from "moment";
-import { useAuthContext } from "../hooks/authContext";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
+import { useAuthContext } from "@/contexts/authContext";
 
 const useTokenExpiration = () => {
   const { authTokens, logout } = useAuthContext();
@@ -16,7 +16,6 @@ const useTokenExpiration = () => {
     const checkTokenExpiration = () => {
       const decodedToken: any = jwtDecode(authTokens.token);
       const expirationTime = moment(decodedToken.exp * 1000);
-      console.log(expirationTime); 
       const currentTime = moment();
 
       if (currentTime.isAfter(expirationTime)) {

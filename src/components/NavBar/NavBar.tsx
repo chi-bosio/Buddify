@@ -5,7 +5,7 @@ import Logo from "./components/Logo";
 import NavLink from "./components/NavLink";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { useAuthContext } from "../../hooks/authContext";
+import { useAuthContext } from "../../contexts/authContext";
 import { Menu, X } from "lucide-react";
 import Swal from "sweetalert2";
 import { Crown } from "../Crown/crown";

@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 import { jwtDecode } from "jwt-decode";
 import { Formik, Form, Field } from "formik";
-import { useAuthContext } from "../../../hooks/authContext";
+import { useAuthContext } from "../../../contexts/authContext";
 
 const PaymentForm: React.FC = () => {
   const {setterIsPremiumTrue}= useAuthContext();

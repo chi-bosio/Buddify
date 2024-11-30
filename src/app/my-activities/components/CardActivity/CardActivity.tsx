@@ -1,7 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
-"use client"
+"use client";
 import InsignStatus from "@/components/InsingStatus/InsingStatus";
-import { Activity, ActivityStatus } from "@/components/Interfaces/activity.interface";
+import {
+  Activity,
+  ActivityStatus,
+} from "@/components/Interfaces/activity.interface";
 import { Eye, Trash2 } from "lucide-react";
 export function CardActivity ({activity,handlerOnView,handlerOnCancel}:{activity:Activity;handlerOnView:()=>void;handlerOnCancel:()=>void}){
     return(
@@ -24,9 +27,8 @@ export function CardActivity ({activity,handlerOnView,handlerOnCancel}:{activity
                 </div>
             </div>
             </div>
-        </div>
-    );
-
+      </div>
+  );
 }
 
-export default CardActivity ;
+export default CardActivity;
