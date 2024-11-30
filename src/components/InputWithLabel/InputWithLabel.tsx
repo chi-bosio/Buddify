@@ -18,7 +18,6 @@ export function InputWithLabel({
   disabled?: boolean;
   max?:string
 }) {
-  console.log(max)
   const [showPassword, setShowPassword] = useState(false);
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
@@ -28,10 +27,10 @@ export function InputWithLabel({
   }
 
   return (
-    <div className="relative mb-12">
+    <div className="transition-all ease-in-out duration-300 relative mb-12">
       <label
         htmlFor={name}
-        className={`${disabled && "cursor-not-allowed opacity-80"} z-10 absolute -top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1`}
+        className={`${disabled && "cursor-not-allowed opacity-80"} transition-all ease-in-out duration-300 z-10 absolute -top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1`}
       >
         {text}
       </label>
@@ -44,7 +43,7 @@ export function InputWithLabel({
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
         disabled={disabled}
-        className={`${disabled && "cursor-not-allowed opacity-80"} block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark`}
+        className={`${disabled && "cursor-not-allowed opacity-80"} transition-all ease-in-out duration-300 block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark`}
       />
       {type === "password" && (
         <button
@@ -59,7 +58,7 @@ export function InputWithLabel({
                 : "/assets/ojoscerrado.png"
             }
             alt={showPassword ? "Ojo cerrado" : "Ojo abierto"}
-            className="w-9 h-9"
+            className="w-9 h-9 transition-all ease-in-out duration-300"
           />
         </button>
       )}

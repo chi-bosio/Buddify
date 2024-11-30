@@ -40,7 +40,7 @@ export default function PlansButton() {
         <div className="fixed inset-0 flex justify-center items-start bg-black bg-opacity-50 z-50">
           <div className="relative w-auto h-[100vh] rounded-lg overflow-y-scroll overflow-x-hidden">
               <div className="h-full w-full">
-                <Plans />
+                <Plans setShowPlans={setShowPlans}/>
               </div>
             <button
               onClick={handleTogglePlans}

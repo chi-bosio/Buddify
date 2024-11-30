@@ -1,22 +1,20 @@
 "use client";
 import { CrownIcon } from "lucide-react";
-import { useAuthContext } from "@/contexts/authContext";
 import { useEffect, useState } from "react";
 
-export function Crown() {
-  const { isPremium } = useAuthContext();
+export function Crown({className,isPremium}:{className:string,isPremium:boolean}) {
   const [premium, setIsPremium] = useState(false);
   useEffect(() => {
     if (isPremium) {
       setIsPremium(isPremium);
     }
-  });
+  }, [isPremium]);
   if (!premium) {
     return null;
   }
   return (
-    <div className="absolute top-0 -left-3 -rotate-45">
-      <CrownIcon className="text-yellow-300 h-3 w-3" />
+    <div className={`z-20 absolute ${ className } -rotate-45`}>
+      <CrownIcon className="text-customPalette-orange h-4 w-4" />
     </div>
   );
 }

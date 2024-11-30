@@ -3,9 +3,9 @@
 import { useParams } from "next/navigation";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useState, useEffect } from "react";
-import { useAuthContext } from "../../contexts/authContext";
 import validationSchema from "./components/validationSchema";
 import Swal from "sweetalert2";
+import { useAuthContext } from "@/contexts/authContext";
 
 export default function ReportPage() {
   const { activityId } = useParams() || {};
@@ -87,12 +87,12 @@ export default function ReportPage() {
         </h1>
         <div className="space-y-4">
           <div>
-            <p className="text-lg">
+            <p className="text-lg text-customPalette-black">
               Estás reportando la actividad con ID:{" "}
               <span className="font-semibold text-red-500">{activityId}</span>
             </p>
-            <p className="mt-2">
-              <span className="font-semibold text-gray-700">Creador:</span>{" "}
+            <p className="mt-2 text-customPalette-black">
+              <span className="font-semibold text-customPalette-graydark">Creador:</span>{" "}
               {creatorName} {creatorLastname}
             </p>
           </div>
@@ -116,7 +116,7 @@ export default function ReportPage() {
                     as="textarea"
                     name="description"
                     id="description"
-                    className="w-full h-32 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-400 border-gray-300"
+                    className="text-customPalette-graydark resize-none w-full h-32 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-400 border-gray-300"
                     placeholder="Describe el problema con la actividad..."
                   />
                   <ErrorMessage
@@ -129,7 +129,7 @@ export default function ReportPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="bg-red-500 text-white px-6 py-3 rounded-md shadow-md hover:bg-red-600 duration-300 ease-in-out w-full"
+                  className="bg-customPalette-orange text-customPalette-white px-6 py-3 rounded-md shadow-md hover:bg-customPalette-orangebright duration-300 ease-in-out w-full"
                 >
                   {isSubmitting ? "Enviando..." : "Enviar Reporte"}
                 </button>

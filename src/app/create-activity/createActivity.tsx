@@ -22,7 +22,6 @@ import { useAuthContext } from "@/contexts/authContext";
 import GetCategories from "@/components/GetCategories/GetCategories";
 import { useRouter } from "next/navigation";
 import PlansButton from "../plans/PlansButton";
-import { Preahvihear } from "next/font/google";
 
 interface FormValues {
   name: string;
@@ -84,7 +83,6 @@ export default function CreateActivityForm() {
     },
     validationSchema: validationSchemaNewActivitie,
     onSubmit: async (values, { resetForm }) => {
-      console.log(isLimitReached, premium);
       if (isLimitReached && !premium) {
         Swal.fire({
           title: "¡Límite alcanzado!",
@@ -279,6 +277,7 @@ export default function CreateActivityForm() {
               </h2>
               <div className="bg-customPalette-white rounded-lg shadow-md overflow-hidden">
                 {imagePreview && (
+                  // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={imagePreview}
                     alt="Vista previa"
