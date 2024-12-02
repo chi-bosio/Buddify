@@ -15,8 +15,8 @@ import { CircleFadingPlus } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export function MyActivities() {
-  const router = useRouter()
-  const { userId} = useAuthContext();
+  const router = useRouter();
+  const { userId } = useAuthContext();
   const [activitiesCreated, setActivitiesCreated] = useState<Activity[]>([]);
   const [activitiesJoined, setActivitiesJoined] = useState<Activity[]>([]);
   const [selectedActivity, setSelectedActivity] = useState<Activity | null>(
@@ -52,7 +52,7 @@ export function MyActivities() {
     }, 500);
 
     setTimeout(() => {
-      clearInterval(timeoutId); 
+      clearInterval(timeoutId);
     }, 700);
   }, [userId]);
 
@@ -61,39 +61,72 @@ export function MyActivities() {
     idUser: string | null,
     onClose: () => void,
     text?: string
-  ) {
-    const result = await Swal.fire({
-      title: "¿Estás seguro?",
-      text: text,
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#f97316",
-      cancelButtonColor: "#235789",
-      cancelButtonText: "Cancelar",
-      confirmButtonText: "Aceptar",
-    });
-    if (result.isConfirmed) {
-      Swal.fire({
-        title: "Cargando...",
-        icon: "info",
-        allowOutsideClick: false,
-        didOpen: () => {
-          Swal.showLoading();
-        },
+  ): Promise<void> {
+    try {
+      const result = await Swal.fire({
+        title: "¿Estás seguro?",
+        text: text,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#f97316",
+        cancelButtonColor: "#235789",
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Aceptar",
       });
-      const success = await postData({ activityId: id, userId: idUser });
-      const timeoutId = setTimeout(() => {
-        Swal.close();
-      }, 500);
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Cargando...",
+          icon: "info",
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        });
+        const success = await postData({ activityId: id, userId: idUser });
+        const timeoutId = setTimeout(() => {
+          Swal.close();
+        }, 500);
 
-      setTimeout(() => {
-        clearInterval(timeoutId); 
-      }, 700);
-      if (success) {
         setTimeout(() => {
-          onClose();
-          fetchData();
-        }, 900);
+          clearInterval(timeoutId);
+        }, 700);
+        if (success) {
+          setTimeout(() => {
+            onClose();
+            fetchData();
+          }, 900);
+        }
+      }
+    } catch (error) {
+      if (
+        typeof error === "object" &&
+        error !== null &&
+        "errorCode" in error &&
+        error.errorCode === "LIMIT_REACHED"
+      ) {
+        await Swal.fire({
+          title: "Límite alcanzado",
+          text: "Los usuarios no Premium solo pueden unirse a 3 actividades al mes. ¿Quieres mejorar a Premium para disfrutar de beneficios ilimitados?",
+          icon: "info",
+          showCancelButton: true,
+          confirmButtonColor: "#f97316",
+          cancelButtonColor: "#235789",
+          cancelButtonText: "Cancelar",
+          confirmButtonText: "Mejorar a Premium",
+        }).then((upgradeResult) => {
+          if (upgradeResult.isConfirmed) {
+            router.push("/plans");
+          }
+        });
+      } else {
+        Swal.fire({
+          title: "Error",
+          text:
+            (error as Error)?.message ||
+            "Ocurrió un error al unirse a la actividad.",
+          icon: "error",
+          confirmButtonText: "Aceptar",
+        });
       }
     }
   }
@@ -103,14 +136,13 @@ export function MyActivities() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
 
-
   const handlerRedirectHome = () => {
     router.push(`/`);
-  }
+  };
 
   const handlerRedirectCreateAct = () => {
     router.push(`/create-activity`);
-  }
+  };
 
   return (
     <section className="w-full min-h-screen relative bg-[url('/assets/textura-fondo.avif')] py-6 px-3">
@@ -124,7 +156,7 @@ export function MyActivities() {
             {activitiesCreated ? (
               activitiesCreated.length === 0 && (
                 <div className="text-customPalette-orange">
-                  No create ninguna actividad aun{" "}
+                  No creastes ninguna actividad aun{" "}
                   <Link
                     href="/create-activity"
                     className="underline text-customPalette-bluelightst cursor-pointer"
@@ -135,7 +167,7 @@ export function MyActivities() {
               )
             ) : (
               <div className="text-customPalette-orange">
-                No create ninguna actividad aun{" "}
+                No creastes ninguna actividad aun{" "}
                 <Link
                   href="/create-activity"
                   className="underline text-customPalette-bluelightst cursor-pointer"
@@ -146,7 +178,10 @@ export function MyActivities() {
             )}
             <div className="lg:grid lg:grid-cols-3 w-full gap-2">
               <div className="rounded bg-customPalette-green cursor-pointer hover:opacity-70 p-0.5 transition-all ease-in-out duration-300 absolute -top-4 right-0 ">
-                <CircleFadingPlus onClick={handlerRedirectCreateAct} className="rounded bg-customPalette-green text-customPalette-white h-8 w-8  py-1 px-1 border border-customPalette-white"/>
+                <CircleFadingPlus
+                  onClick={handlerRedirectCreateAct}
+                  className="rounded bg-customPalette-green text-customPalette-white h-8 w-8  py-1 px-1 border border-customPalette-white"
+                />
               </div>
               {activitiesCreated &&
                 activitiesCreated.map((activity) => (
@@ -196,7 +231,10 @@ export function MyActivities() {
             )}
             <div className="lg:grid lg:grid-cols-3 w-full gap-2">
               <div className="rounded bg-customPalette-green cursor-pointer hover:opacity-70 p-0.5 transition-all ease-in-out duration-300 absolute -top-4 right-0 ">
-                <CircleFadingPlus onClick={handlerRedirectHome} className="rounded bg-customPalette-green text-customPalette-white h-8 w-8 py-1 px-1 border border-customPalette-white"/>
+                <CircleFadingPlus
+                  onClick={handlerRedirectHome}
+                  className="rounded bg-customPalette-green text-customPalette-white h-8 w-8 py-1 px-1 border border-customPalette-white"
+                />
               </div>
               {activitiesJoined &&
                 activitiesJoined.map((activity) => (
