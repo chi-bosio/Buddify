@@ -27,7 +27,7 @@ interface AuthContextType {
   userName: string | null;
   avatar: string | null;
   isPremium: boolean;
-  setterAvatar: (newAvatar:string) => void;
+  setterAvatar: (newAvatar: string) => void;
   setterIsPremiumTrue: () => void;
   setterIsPremiumFalse: () => void;
 }
@@ -43,7 +43,9 @@ export const AuthContext = createContext<AuthContextType>({
   isPremium: false,
   setterIsPremiumTrue: () => {},
   setterIsPremiumFalse: () => {},
-  setterAvatar: (newAvatar:string) => {if(false) console.log(newAvatar)},
+  setterAvatar: (newAvatar: string) => {
+    if (false) console.log(newAvatar);
+  },
 });
 
 export default function AuthContextProvider({
@@ -68,11 +70,11 @@ export default function AuthContextProvider({
   const [authTokens, setAuthTokens] = useState<AuthTokens>(
     authTokensInLocalStorage ? JSON.parse(authTokensInLocalStorage) : null
   );
-  
+
   const [isPremium, setIsPremium] = useState<boolean>(
     isPremiunInLocalStorage ? JSON.parse(isPremiunInLocalStorage) : false
   );
-  
+
   const [avatar, setAvatar] = useState<string | null>(
     AvatarInLocalStorage ? JSON.parse(AvatarInLocalStorage) : null
   );
@@ -81,8 +83,8 @@ export default function AuthContextProvider({
   const [userName, setUserName] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
-
   const login = useCallback((token: AuthTokens) => {
+    console.log(isPremium);
     if (!token) return;
 
     window.localStorage.setItem(AUTH_TOKENS_KEY, JSON.stringify(token));
@@ -98,6 +100,7 @@ export default function AuthContextProvider({
     const isPremiumValue = decodedToken.isPremium == true;
     window.localStorage.setItem(ISPREMIUM_KEY, JSON.stringify(isPremiumValue));
     setIsPremium(isPremiumValue);
+    console.log(isPremium, "seteo");
   }, []);
 
   const logout = useCallback(() => {
@@ -121,10 +124,10 @@ export default function AuthContextProvider({
     setIsPremium(false);
     window.localStorage.setItem(ISPREMIUM_KEY, JSON.stringify(false));
   }, []);
-  const setterAvatar = useCallback((newAvatar:string)=>{
-    setAvatar(newAvatar)
-    window.localStorage.setItem(AVATAR_KEY, JSON.stringify(newAvatar)); 
-  },[])
+  const setterAvatar = useCallback((newAvatar: string) => {
+    setAvatar(newAvatar);
+    window.localStorage.setItem(AVATAR_KEY, JSON.stringify(newAvatar));
+  }, []);
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
     const token = queryParams.get("token");
@@ -150,8 +153,14 @@ export default function AuthContextProvider({
       const decodedToken: any = jwtDecode(authTokens.token);
       setUserId(decodedToken.sub || null);
       setUserName(decodedToken.name || null);
+      const isPremiumValue = decodedToken.isPremium === "true";
+      window.localStorage.setItem(
+        ISPREMIUM_KEY,
+        JSON.stringify(isPremiumValue)
+      );
+      setIsPremium(isPremiumValue);
       setLoading(false);
-    } 
+    }
   }, [authTokens, isPremium, logout, router]);
 
   const value = useMemo(
@@ -168,7 +177,18 @@ export default function AuthContextProvider({
       avatar,
       isPremium,
     }),
-    [setterAvatar,login, logout, authTokens, setterIsPremiumTrue, setterIsPremiumFalse, userId, userName, avatar, isPremium]
+    [
+      setterAvatar,
+      login,
+      logout,
+      authTokens,
+      setterIsPremiumTrue,
+      setterIsPremiumFalse,
+      userId,
+      userName,
+      avatar,
+      isPremium,
+    ]
   );
 
   if (loading) {
