@@ -26,6 +26,7 @@ interface Country {
 
 const Profile: React.FC = () => {
   const router = useRouter()
+  const {setterAvatar} = useAuthContext();
   const [avatars, setAvatars] = useState<Avatar[]>([]);
   const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null);
   const [countries, setCountries] = useState<Country[]>([]);
@@ -156,6 +157,7 @@ const Profile: React.FC = () => {
           setUserData(updatedData);
           Toast(TypeToast.Success, "Perfil actualizado con exito");
           setIsEditing(false);
+          setterAvatar(selectedAvatar || userData.avatar);
         }, 900);
         
       } else {
@@ -265,7 +267,7 @@ const Profile: React.FC = () => {
                 <div className="relative">
                   <label
                     htmlFor="country"
-                    className={`${!isEditing && "cursor-not-allowed opacity-80"} z-10 absolute -top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1`}
+                    className={`${!isEditing && "cursor-not-allowed opacity-80"} transition-all ease-in-out duration-300 z-10 absolute -top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1`}
                   >
                     País
                   </label>
@@ -278,7 +280,7 @@ const Profile: React.FC = () => {
                       handleCountryChange(event, formik);
                     }}
                     onBlur={formik.handleBlur}
-                    className={`${!isEditing ? "cursor-not-allowed opacity-80" : "cursor-pointer"}  block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark  `}
+                    className={`${!isEditing ? "cursor-not-allowed opacity-80" : "cursor-pointer"}transition-all ease-in-out duration-300  block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark  `}
                     disabled={!isEditing}
                   >
                     <option value="">Seleccionar país</option>
@@ -295,7 +297,7 @@ const Profile: React.FC = () => {
                 <div className="relative">
                   <label
                     htmlFor="city"
-                    className={`${!isEditing && "cursor-not-allowed opacity-80"} z-10 absolute -top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1`}
+                    className={`${!isEditing && "cursor-not-allowed opacity-80"} transition-all ease-in-out duration-300 z-10 absolute -top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1`}
                   >
                     Provincia
                   </label>
@@ -305,7 +307,7 @@ const Profile: React.FC = () => {
                     value={formik.values.city}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-                    className={`${!isEditing ? "cursor-not-allowed opacity-80" : "cursor-pointer"} block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark  `}
+                    className={`${!isEditing ? "cursor-not-allowed opacity-80" : "cursor-pointer"} transition-all ease-in-out duration-300 block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark  `}
                     disabled={!isEditing || availableCities.length === 0}
                   >
                     <option value="">Seleccionar provincia</option>
@@ -318,35 +320,6 @@ const Profile: React.FC = () => {
                   <ErrorMessageForm formik={formik} input="city" />
                 </div>
 
-                {/* Botones */}
-                <div className="flex justify-between mt-4">
-                  {!isEditing ? (
-                    <button
-                      type="button"
-                      onClick={handleEditClick}
-                      className="px-6 py-2 text-white bg-customPalette-blue rounded-md"
-                    >
-                      Modificar
-                    </button>
-                  ) : (
-                    <div className="flex gap-4">
-                      <button
-                        type="button"
-                        onClick={() => handleCancelClick(formik)}
-                        className="px-6 py-2 text-customPalette-white bg-customPalette-blue rounded-md"
-                      >
-                        Cancelar
-                      </button>
-                      <button
-                        type="submit"
-                        className="px-6 py-2 text-customPalette-white bg-customPalette-orange rounded-md"
-                      >
-                        Guardar cambios
-                      </button>
-                      
-                    </div>
-                  )}
-                </div>
               </div>
 
               {/* Avatar */}
@@ -358,7 +331,7 @@ const Profile: React.FC = () => {
                   <img
                     src={selectedAvatar || userData.avatar}
                     alt="Avatar seleccionado"
-                    className={`w-32 h-32 mx-auto rounded-full border-2 border-customPalette-gray object-cover ${
+                    className={`transition-all ease-in-out duration-300 w-32 h-32 mx-auto rounded-full border-2 border-customPalette-gray object-cover ${
                         !isEditing && 'filter grayscale contrast-200 '
                       }`}
                   />
@@ -369,8 +342,8 @@ const Profile: React.FC = () => {
                       key={avatar.id}
                       src={avatar.url}
                       alt={`Avatar ${avatar.id}`}
-                      onClick={() => setSelectedAvatar(avatar.url)}
-                      className={`w-12 h-12 rounded-full border-2 filter-${
+                      onClick={!isEditing ?undefined:() => setSelectedAvatar(avatar.url)}
+                      className={`w-12 h-12 rounded-full border-2 transition-all ease-in-out duration-300 filter-${
                         selectedAvatar === avatar.url
                           ? "border-customPalette-blue"
                           : "border-customPalette-gray"
@@ -379,6 +352,36 @@ const Profile: React.FC = () => {
                       }`}
                     />
                   ))}
+                </div>
+                {/* Botones */}
+                <div className="flex items-center justify-between mt-5 w-full transition-all ease-in-out duration-300">
+                  {!isEditing ? (
+                    <button
+                      type="button"
+                      onClick={handleEditClick}
+                      className="w-full px-6 py-2 text-white bg-customPalette-blue rounded-md"
+                    >
+                      Modificar
+                    </button>
+                  ) : (
+                    <div className="flex gap-4  w-full">
+                      <button
+                        type="button"
+                        onClick={() => handleCancelClick(formik)}
+                        className="w-full px-6 py-2 text-customPalette-white bg-customPalette-blue rounded-md transition-all ease-in-out duration-300"
+                      >
+                        Cancelar
+                      </button>
+                      <button
+                        type="submit"
+                        className={`w-full px-6 py-2 text-customPalette-white rounded-md transition-all ease-in-out duration-300
+                          ${formik.dirty || selectedAvatar !== userData.avatar ? "bg-customPalette-orange hover:bg-customPalette-orangebright cursor-pointer" : "bg-customPalette-graydark cursor-not-allowed"}`}
+                      >
+                        Guardar cambios
+                      </button>
+                      
+                    </div>
+                  )}
                 </div>
               </div>
             </Form>

@@ -1,8 +1,8 @@
 "use client"
 
+import { Crown } from "@/components/Crown/crown";
 import InsignStatus from "@/components/InsingStatus/InsingStatus";
 import { ActivityStatus } from "@/components/Interfaces/activity.interface";
-import moment from "moment";
 
 /* eslint-disable @next/next/no-img-element */
 
@@ -13,9 +13,7 @@ export function CardActivity({
     image,
     creator,
     category,
-    date,
     status,
-    time
 }:
 {
     date:string;
@@ -29,27 +27,24 @@ export function CardActivity({
       name: string;
       lastname: string;
       avatar:string;
+      isPremium:boolean;
     }
     category: {id:string;name:string};
 }
 ){
-    const hours = Number(time.split(":")[0]);
-    const minutes = Number(time.split(":")[1]);
-    const actDate = new Date(date);
-    const formatDate  = moment(actDate).set({ hour: hours, minute: minutes });
     return (
         <div onClick={onClick} className="cursor-pointer hover:blur-[.5px] bg-customPalette-gray rounded-lg w-full p-4 mb-10 shadow-lg border border-customPalette-gray">
           <div className="relative flex items-center justify-start text-gray-500 mb-2">
-            <InsignStatus 
-                    isCancell={status === ActivityStatus.CANCELLED} 
-                    isConfirm={status === ActivityStatus.CONFIRMED}
-                    isPendig={status === ActivityStatus.PENDING}
-                    date={formatDate} />
+            
+            <InsignStatus status={status as ActivityStatus} />
+            <div className="relative">
               <img 
                 src={creator.avatar} 
-                className="w-8 h-8 mr-2 rounded-full bg-gray-600 flex items-center justify-center" 
+                className="relative w-8 h-8 mr-2 rounded-full bg-gray-600 flex items-center justify-center" 
                 alt={`avatar-${creator.name}-${creator.lastname}`}
-              />
+                />
+                <Crown isPremium={creator.isPremium} className="-top-2.5 -left-2.5"/>
+            </div>
               <span>{ `${creator.name} ${creator.lastname}`}</span>
           </div> 
           <div className="w-full h-full flex items-start justify-start flex-col">
