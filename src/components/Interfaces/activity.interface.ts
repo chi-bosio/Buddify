@@ -1,7 +1,7 @@
 export interface Activity{
     id: string,
     category: {id:string;name:string},
-    creator: {name:string;lastname:string;avatar:string;},
+    creator: {name:string;lastname:string;avatar:string;isPremium:boolean;},
     date: string,
     description: string,
     image: string,
@@ -13,6 +13,7 @@ export interface Activity{
     status:ActivityStatus,
   }
 export enum ActivityStatus {
+  SUCCESS = 'success',
   PENDING = 'pending',
   CONFIRMED = 'confirmed',
   CANCELLED = 'cancelled',

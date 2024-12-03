@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import { Formik, Form, Field } from "formik";
 import Swal from "sweetalert2";
 
-export default function Plans() {
+export default function Plans({setShowPlans}:{setShowPlans:(bol:boolean)=>void}) {
   const router = useRouter();
 
   const handlePlanSelection = (plan: {
@@ -20,10 +20,11 @@ export default function Plans() {
       }).then(() => {
         const timeoutId = setTimeout(() => {
           Swal.close();
+          setShowPlans(false);
         }, 500);
-  
+
         setTimeout(() => {
-          clearInterval(timeoutId); 
+          clearInterval(timeoutId);
         }, 700);
         setTimeout(() => {
           router.push("/");
@@ -42,17 +43,17 @@ export default function Plans() {
         didOpen: () => {
           Swal.showLoading();
         },
+      }).then(()=>{
+        setShowPlans(false);
+        router.push(`/plans/stripe?${query}`);
       });
       const timeoutId = setTimeout(() => {
         Swal.close();
       }, 500);
 
       setTimeout(() => {
-        clearInterval(timeoutId); 
+        clearInterval(timeoutId);
       }, 700);
-      setTimeout(() => {
-        router.push(`/plans/stripe?${query}`);
-      }, 900);
       
     }
   };
@@ -136,10 +137,6 @@ export default function Plans() {
                       <span className="w-1.5 h-1.5 rounded-full bg-customPalette-blue"></span>
                       <span>Hasta 3 actividades por mes</span>
                     </li>
-                    <li className="flex items-center space-x-3.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-customPalette-blue"></span>
-                      <span>2 actividades por semana</span>
-                    </li>
                   </ul>
                   <Field
                     type="radio"
@@ -216,7 +213,7 @@ export default function Plans() {
                     </h3>
                     <div className="flex items-center justify-center">
                       <span className="font-manrope text-4xl font-medium text-customPalette-black">
-                        $49.99
+                        $10.00
                       </span>
                       <span className="text-xl text-customPalette-graydark ml-3">
                         |&nbsp; Mes
@@ -231,10 +228,6 @@ export default function Plans() {
                     <li className="flex items-center space-x-3.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-customPalette-blue"></span>
                       <span>Acceso ilimitado a otras actividades</span>
-                    </li>
-                    <li className="flex items-center space-x-3.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-customPalette-blue"></span>
-                      <span>2 semanas de prueba gratis</span>
                     </li>
                   </ul>
                   <Field
@@ -264,7 +257,6 @@ export default function Plans() {
                     Seleccionar Plan
                   </button>
                 </div>
-
               </div>
             </Form>
           )}

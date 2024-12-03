@@ -14,7 +14,7 @@ const ResetPassword = () => {
 
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
-    const tokenFromURL = queryParams.get("token");
+    const tokenFromURL = queryParams.get("tokenreset");
 
     if (!tokenFromURL) {
       Swal.fire("Error", "Token no válido o inexistente", "error");
