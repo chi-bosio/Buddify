@@ -52,12 +52,11 @@ const ChangePsw = () => {
         const timeoutId = setTimeout(() => {
           Swal.close();
         }, 500);
-  
+
         setTimeout(() => {
-          clearInterval(timeoutId); 
+          clearInterval(timeoutId);
         }, 700);
         if (success) {
-    
           setTimeout(() => {
             resetForm();
             logout();
@@ -67,12 +66,12 @@ const ChangePsw = () => {
       } catch (error) {
         await Swal.fire({
           title: "Error",
-          text: error.message,
+          text: (error as Error).message,
           icon: "error",
           confirmButtonText: "Aceptar",
         });
 
-        if (error.message.includes("sesión ha expirado")) {
+        if ((error as Error).message.includes("sesión ha expirado")) {
           window.location.href = "/login";
         }
       }

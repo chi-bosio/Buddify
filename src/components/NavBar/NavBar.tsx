@@ -16,18 +16,23 @@ export default function NavBar() {
   const [linkActive, setLinkActive] = useState<string>("");
   const pathname = usePathname();
   const router = useRouter();
-  const { isLoggedIn = false, logout, userName, avatar, isPremium } = useAuthContext();
-  const [premium,setPremium] = useState(false);
-  useEffect(()=>{
-    if(isPremium){
-      setPremium(isPremium)
+  const {
+    isLoggedIn = false,
+    logout,
+    userName,
+    avatar,
+    isPremium,
+  } = useAuthContext();
+  const [premium, setPremium] = useState(false);
+  useEffect(() => {
+    if (isPremium) {
+      setPremium(isPremium);
     }
-  },[isPremium])
+  }, [isPremium]);
   const [isClient, setIsClient] = useState(false);
   const [urlAvatar, setUrlAvatar] = useState(
     "https://res.cloudinary.com/dtlmrtzpa/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1731928071/avatar16_dsdi8v.png"
   );
-
   const links = useMemo(() => {
     if (!isClient) return [];
     return [
@@ -104,9 +109,13 @@ export default function NavBar() {
     setOpenMenu(false);
     setOpenAvatar(!openAvatar);
   };
+
   useEffect(() => {
-    const handleOutsideClick = (event) => {
-      if (openAvatar && !event.target.closest(".avatar-modal")) {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (
+        openAvatar &&
+        !(event.target as HTMLElement).closest(".avatar-modal")
+      ) {
         setOpenAvatar(false);
       }
     };
@@ -152,7 +161,10 @@ export default function NavBar() {
       <div className="flex lg:flex-row-reverse ">
         {isLoggedIn && (
           <div className="z-50 lg:z-20 relative flex items-center justify-center">
-            <Crown isPremium={premium} className="-top-2 -left-2 sm:-top-1.5 sm:-left-2.5 md:-top-1 md:-left-3 lg:top-3 lg:-left-2"/>
+            <Crown
+              isPremium={premium}
+              className="-top-2 -left-2 sm:-top-1.5 sm:-left-2.5 md:-top-1 md:-left-3 lg:top-3 lg:-left-2"
+            />
             <img
               onClick={handlerOnClickAvatar}
               className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center cursor-pointer"
