@@ -18,6 +18,7 @@ interface AuthContextType {
   userId: string | null;
   userName: string | null;
   avatar: string | null;
+  loading: boolean;
 }
 
 export const AuthContext = createContext<AuthContextType>({
@@ -28,6 +29,7 @@ export const AuthContext = createContext<AuthContextType>({
   userId: null,
   userName: null,
   avatar: null,
+  loading: false
 });
 
 export default function AuthContextProvider({
@@ -112,6 +114,7 @@ export default function AuthContextProvider({
       userId,
       userName,
       avatar,
+      loading
     }),
     [authTokens, login, logout, userId, userName, avatar]
   );
