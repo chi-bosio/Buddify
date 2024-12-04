@@ -58,7 +58,7 @@ export default function Plans({
   }) => {
     if (plan.id === "free") {
       Swal.fire({
-        title: "¡Plan Gratuito Seleccionado!",
+        title: "¡Plan gratuito seleccionado!",
         text: "Has elegido el plan gratuito. Serás redirigido al inicio.",
         icon: "info",
         confirmButtonText: "Aceptar",
