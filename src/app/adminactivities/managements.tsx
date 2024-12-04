@@ -2,7 +2,7 @@
 import React from "react";
 import UserList from "./userList";
 
-const AdminUsersBan: React.FC<{fetchData:()=>void}> = ({fetchData}) => {
+const AdminActivities: React.FC<{fetchData:()=>void}> = ({fetchData}) => {
   return (
     <main>
       <UserList fetchData={fetchData} />
@@ -10,4 +10,4 @@ const AdminUsersBan: React.FC<{fetchData:()=>void}> = ({fetchData}) => {
   );
 };
 
-export default AdminUsersBan;
+export default AdminActivities;
