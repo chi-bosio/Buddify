@@ -259,7 +259,7 @@ export default function CreateActivityForm() {
             </div>
           </div>
           <div className="flex items-start justify-center flex-col w-full">
-            <div className="relative w-full">
+            <div className="relative w-full z-40">
               <label
                 htmlFor="place"
                 className="-top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1"
