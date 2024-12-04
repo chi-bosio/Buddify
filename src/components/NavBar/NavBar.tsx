@@ -151,7 +151,7 @@ export default function NavBar() {
       clearInterval(timeoutId);
     }, 700);
     setOpenAvatar(false);
-    router.push("/profile");
+    router.push("/profile/password");
   };
   const handlerRedirectDashboardAdmin = (rot: string) => {
     Swal.fire({
