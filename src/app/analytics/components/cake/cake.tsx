@@ -1,10 +1,10 @@
 // components/Cake.tsx
 import { PieChart, Pie, ResponsiveContainer } from "recharts";
 
-export function Cake({data}:{data:{country: string;premiumCount: number}[]}) {
+export function Cake({data}:{data:{name: string;total: number}[]}) {
   const formattedData = data.map((item) => ({
-    name: item.country,  
-    value: item.premiumCount,    
+    name: item.name,  
+    value: parseFloat(item.total.toString()),    
   }));
   return (
     <ResponsiveContainer width="100%" height={200}>

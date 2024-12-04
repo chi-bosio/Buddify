@@ -1,8 +1,8 @@
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, ResponsiveContainer, ReferenceLine } from 'recharts';
 
-export const EarningsChart = ({ data }: { data: { month: string; total: number }[] }) => {
+export const EarningsChart = ({ data }: { data: { name: string; total: number }[] }) => {
   const formattedData = data.map((item) => ({
-    name: item.month,  
+    name: item.name,  
     uv: parseFloat(item.total.toString()),    
   }));
   return (

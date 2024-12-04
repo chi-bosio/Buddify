@@ -2,10 +2,10 @@
 import React from "react";
 import UserList from "./userList";
 
-const UsersPage: React.FC = () => {
+const UsersPage: React.FC<{fetchData:()=>void}> = ({fetchData}) => {
   return (
     <main>
-      <UserList />
+      <UserList fetchData={fetchData} />
     </main>
   );
 };
