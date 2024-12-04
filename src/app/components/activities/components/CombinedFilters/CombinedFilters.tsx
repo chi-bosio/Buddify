@@ -24,7 +24,7 @@ export function CombinedFilters({setActivities}:{setActivities:(data:Activity[])
             name:"100km"
         },
         {
-          id:"",
+          id:"100000",
           name:"Todo el mundo"
       },
     ];
