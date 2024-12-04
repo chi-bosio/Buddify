@@ -28,6 +28,7 @@ interface AuthContextType {
   avatar: string | null;
   loading: boolean;
   isPremium: boolean;
+  isAdmin: boolean;
   setterAvatar: (newAvatar: string) => void;
   setterIsPremiumTrue: () => void;
   setterIsPremiumFalse: () => void;
@@ -41,6 +42,7 @@ export const AuthContext = createContext<AuthContextType>({
   userId: null,
   userName: null,
   avatar: null,
+  isAdmin: false,
   loading: false,
   isPremium: false,
   setterIsPremiumTrue: () => {},
@@ -81,12 +83,13 @@ export default function AuthContextProvider({
     AvatarInLocalStorage ? JSON.parse(AvatarInLocalStorage) : null
   );
 
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+
   const [userId, setUserId] = useState<string | null>(null);
   const [userName, setUserName] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   const login = useCallback((token: AuthTokens) => {
-    console.log(isPremium);
     if (!token) return;
 
     window.localStorage.setItem(AUTH_TOKENS_KEY, JSON.stringify(token));
@@ -99,10 +102,11 @@ export default function AuthContextProvider({
     window.localStorage.setItem(AVATAR_KEY, JSON.stringify(avatarValue));
     setAvatar(avatarValue);
 
-    const isPremiumValue = decodedToken.isPremium == true;
+    const isPremiumValue = decodedToken.isPremium === true;
     window.localStorage.setItem(ISPREMIUM_KEY, JSON.stringify(isPremiumValue));
     setIsPremium(isPremiumValue);
-    console.log(isPremium, "seteo");
+
+    setIsAdmin(decodedToken.isAdmin === true);
   }, []);
 
   const logout = useCallback(() => {
@@ -114,6 +118,7 @@ export default function AuthContextProvider({
     setUserName(null);
     setAvatar(null);
     setIsPremium(false);
+    setIsAdmin(false);
     router.push("/login");
   }, [router]);
 
@@ -155,7 +160,8 @@ export default function AuthContextProvider({
       const decodedToken: any = jwtDecode(authTokens.token);
       setUserId(decodedToken.sub || null);
       setUserName(decodedToken.name || null);
-      const isPremiumValue = decodedToken.isPremium === "true";
+      setIsAdmin(decodedToken.isAdmin === true);
+      const isPremiumValue = decodedToken.isPremium === true;
       window.localStorage.setItem(
         ISPREMIUM_KEY,
         JSON.stringify(isPremiumValue)
@@ -179,6 +185,7 @@ export default function AuthContextProvider({
       avatar,
       loading,
       isPremium,
+      isAdmin
     }),
     [
       setterAvatar,
@@ -191,6 +198,8 @@ export default function AuthContextProvider({
       userName,
       avatar,
       isPremium,
+      isAdmin,
+      loading
     ]
   );
 
