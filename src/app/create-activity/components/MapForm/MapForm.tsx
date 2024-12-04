@@ -41,7 +41,7 @@ export function MapForm({ onLocationSelect }: MapProps) {
 
             onLocationSelect(latitude, longitude);
           } else {
-            leafletMap.current.setView([latitude, longitude], 13); 
+            leafletMap.current.setView([latitude, longitude], 13);
           }
         }
       },
@@ -49,13 +49,13 @@ export function MapForm({ onLocationSelect }: MapProps) {
         if (error.code === error.PERMISSION_DENIED) {
           Swal.fire({
             title: "Ubicación requerida",
-            text: "Debes permitir el acceso a tu ubicación para crear una actividad.",
+            text: "Debés permitir el acceso a tu ubicación para crear una actividad.",
             icon: "warning",
             confirmButtonText: "Reintentar",
-            allowOutsideClick:false
+            allowOutsideClick: false,
           }).then((result) => {
             if (result.isConfirmed) {
-              requestLocation(); 
+              requestLocation();
             }
           });
         } else {
@@ -78,9 +78,15 @@ export function MapForm({ onLocationSelect }: MapProps) {
         leafletMap.current = null;
       }
     };
-  }, []); 
+  }, []);
 
-  return <div ref={mapRef} className="rounded" style={{ width: "100%", height: "300px" }} />;
+  return (
+    <div
+      ref={mapRef}
+      className="rounded"
+      style={{ width: "100%", height: "300px" }}
+    />
+  );
 }
 
 export default MapForm;
