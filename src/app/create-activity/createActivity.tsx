@@ -41,6 +41,31 @@ export default function CreateActivityForm() {
   const [isLimitReached, setIsLimitReached] = useState<boolean>(false);
   const [premium, setPremium] = useState<boolean>(false);
 
+  const { isLoggedIn, loading } = useAuthContext();
+  useEffect(() => {
+    if (!loading && !isLoggedIn) {
+      router.push("/login");
+    }
+  }, [isLoggedIn, loading, router]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!isLoggedIn) {
+    return (
+      <div className="flex flex-col items-center justify-center p-8 bg-red-100 border border-red-300 rounded-lg max-w-lg mx-auto text-center">
+        <h2 className="text-2xl font-bold text-red-700">
+          No tienes acceso a esta página
+        </h2>
+        <p className="text-lg text-red-700 mb-4">
+          Serás redirigido al inicio de sesión...
+        </p>
+        <div className="border-4 border-t-4 border-gray-200 border-t-red-700 rounded-full w-10 h-10 animate-spin"></div>
+      </div>
+    );
+  }
+
   useEffect(() => {
     if (isPremium) {
       setPremium(isPremium);

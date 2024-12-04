@@ -7,10 +7,19 @@ import postData from "./components/postData";
 import SubmitButton from "@/components/SubmitButton/SubmitButton";
 import { useAuthContext } from "@/contexts/authContext";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const ChangePsw = () => {
-  const { logout } = useAuthContext();
+  const { logout, isLoggedIn } = useAuthContext();
+
   const router = useRouter();
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      router.push("/login");
+    }
+  }, [isLoggedIn]);
+
   const formik = useFormik({
     initialValues: {
       currentPassword: "",

@@ -32,7 +32,7 @@ export function Calendar() {
     }, 500);
 
     setTimeout(() => {
-      clearInterval(timeoutId); 
+      clearInterval(timeoutId);
     }, 700);
   }, [userId]);
   useEffect(() => {
