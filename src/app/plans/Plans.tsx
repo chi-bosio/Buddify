@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation";
 import { Formik, Form, Field } from "formik";
 import Swal from "sweetalert2";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function Plans({
   setShowPlans,
@@ -12,6 +12,7 @@ export default function Plans({
   const router = useRouter();
   const [isMobile, setIsMobile] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const plansRef = useRef<HTMLDivElement | null>(null);
   const plans = [
     {
       id: "free",
@@ -41,6 +42,23 @@ export default function Plans({
     };
   }, []);
 
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (
+        plansRef.current &&
+        !plansRef.current.contains(event.target as Node)
+      ) {
+        setShowPlans(false);
+      }
+    };
+
+    document.addEventListener("click", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, [setShowPlans]);
+
   const handlePrev = () => {
     setActiveIndex(
       (prevIndex) => (prevIndex - 1 + plans.length) % plans.length
@@ -58,7 +76,7 @@ export default function Plans({
   }) => {
     if (plan.id === "free") {
       Swal.fire({
-        title: "¡Plan Gratuito Seleccionado!",
+        title: "¡Plan gratuito seleccionado!",
         text: "Has elegido el plan gratuito. Serás redirigido al inicio.",
         icon: "info",
         confirmButtonText: "Aceptar",
@@ -103,8 +121,11 @@ export default function Plans({
   };
 
   return (
-    <section className="py-5 relative flex justify-center items-center">
-      <div className="absolute h-full w-full top-0 bg-gradient-to-r from-customPalette-bluedark to-customPalette-bluelight -z-10 "></div>
+    <section
+      className="py-5 relative h:20rem flex justify-center items-center z-50"
+      ref={plansRef}
+    >
+      <div className="absolute h-full w-full top-0 bg-gradient-to-r from-customPalette-bluedark to-customPalette-bluelight -z-10"></div>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-12">
           <h2 className="font-manrope text-5xl text-center font-bold text-customPalette-white mb-8">
@@ -291,7 +312,7 @@ export default function Plans({
           >
             {({ setFieldValue }) => (
               <Form>
-                <div className="space-y-8 lg:grid lg:grid-cols-2 sm:gap-6 xl:gap-8 lg:space-y-0 lg:items-start">
+                <div className="space-y-8 lg:grid lg:grid-cols-2 sm:gap-6 xl:gap-8 lg:space-y-0 lg:items-start z-50">
                   {plans.map((plan) => (
                     <div
                       key={plan.id}
@@ -377,9 +398,9 @@ export default function Plans({
                             </svg>
                           )}
                         </div>
-                        <h3 className="font-manrope text-2xl font-bold my-7 text-center text-customPalette-bluedark">
+                        <h4 className="font-manrope text-2xl font-bold my-7 text-center text-customPalette-bluedark">
                           {plan.name}
-                        </h3>
+                        </h4>
                         <div className="flex items-center justify-center">
                           <span className="font-manrope text-4xl font-medium text-customPalette-black">
                             ${plan.price}

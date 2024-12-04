@@ -23,6 +23,10 @@ export function CombinedFilters({setActivities}:{setActivities:(data:Activity[])
             id:"50",
             name:"100km"
         },
+        {
+          id:"",
+          name:"Todo el mundo"
+      },
     ];
     const fetchActivities = async (
       {

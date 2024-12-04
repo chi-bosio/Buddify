@@ -33,7 +33,7 @@ const ChangePsw = () => {
       try {
         const result = await Swal.fire({
           title: "¿Cambiar contraseña?",
-          text: "Desea cambiar su contraseña?",
+          text: "¿Desea cambiar su contraseña?",
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#f97316",
@@ -80,7 +80,7 @@ const ChangePsw = () => {
           confirmButtonText: "Aceptar",
         });
 
-        if ((error as Error).message.includes("sesión ha expirado")) {
+        if ((error as Error).message.includes("Su sesión ha expirado")) {
           window.location.href = "/login";
         }
       }

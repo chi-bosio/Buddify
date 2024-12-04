@@ -17,17 +17,24 @@ export default function NavBar() {
   const pathname = usePathname();
   const router = useRouter();
   const isAnalyticsPage = pathname === "/analytics";
-  const { isLoggedIn = false, logout, userName, avatar, isPremium , isAdmin} = useAuthContext();
+  const {
+    isLoggedIn = false,
+    logout,
+    userName,
+    avatar,
+    isPremium,
+    isAdmin,
+  } = useAuthContext();
   const [admin, setAdmin] = useState<boolean>(false);
-  useEffect(()=>{
-    if(isAdmin){
-      setAdmin(isAdmin)
+  useEffect(() => {
+    if (isAdmin) {
+      setAdmin(isAdmin);
     }
-  },[isAdmin])
-  const [premium,setPremium] = useState(false);
-  useEffect(()=>{
-    if(isPremium){
-      setPremium(isPremium)
+  }, [isAdmin]);
+  const [premium, setPremium] = useState(false);
+  useEffect(() => {
+    if (isPremium) {
+      setPremium(isPremium);
     }
   }, [isPremium]);
   const [isClient, setIsClient] = useState(false);
@@ -144,9 +151,9 @@ export default function NavBar() {
       clearInterval(timeoutId);
     }, 700);
     setOpenAvatar(false);
-    router.push("/profile");
+    router.push("/profile/password");
   };
-  const handlerRedirectDashboardAdmin = (rot:string) => {
+  const handlerRedirectDashboardAdmin = (rot: string) => {
     Swal.fire({
       title: "Cargando...",
       icon: "info",
@@ -178,122 +185,135 @@ export default function NavBar() {
         <Logo />
       </Link>
       {admin && isLoggedIn && (
-          <button className={`${
-            pathname === "/analytics" ? 
-            `bg-customPalette-orange 
+        <button
+          className={`${
+            pathname === "/analytics"
+              ? `bg-customPalette-orange 
             hover:bg-customPalette-orangebright
-            text-customPalette-white rounded px-2` :
-            `bg-customPalette-white 
+            text-customPalette-white rounded px-2`
+              : `bg-customPalette-white 
             hover:bg-customPalette-whitelight 
             text-customPalette-black rounded `
-           } 
+          } 
             duration-300 ease-in-out transition-all px-3 py-1 text-xs xl:text-lg
-              `} 
-            onClick={() => {
-              // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-              pathname === "/analytics" ? 
-                handlerRedirectDashboardAdmin("/") : 
-                handlerRedirectDashboardAdmin("analytics");
-            }}
-          >
-              {pathname === "/analytics" ? "Ver como usuario" : "Ver como Admin"}
-          </button>
+              `}
+          onClick={() => {
+            // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+            pathname === "/analytics"
+              ? handlerRedirectDashboardAdmin("/")
+              : handlerRedirectDashboardAdmin("analytics");
+          }}
+        >
+          {pathname === "/analytics" ? "Ver como usuario" : "Ver como Admin"}
+        </button>
       )}
       {!isAnalyticsPage && (
         <>
-        <div className="flex lg:flex-row-reverse ">
-          {isLoggedIn && (
-            <div className="z-50 lg:z-20 relative flex items-center justify-center">
-              <Crown isPremium={premium} className="-top-2 -left-2 sm:-top-1.5 sm:-left-2.5 md:-top-1 md:-left-3 lg:top-3 lg:-left-2"/>
-              <img
-                onClick={handlerOnClickAvatar}
-                className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center cursor-pointer"
-                src={urlAvatar}
-                alt="Avatar"
-              />
-              <div
-                className={`${
-                  openAvatar ? "flex" : "hidden"
-                } avatar-modal bg-customPalette-black rounded px-3 py-2 absolute top-10 -left-14  lg:-left-40 md:top-16 sm:left-0 items-start shadow border border-customPalette-white justify-center flex-col w-48`}
-              >
-                <Link
-                  href="profile"
-                  className="lg:mr-3 text-customPalette-white hover:text-customPalette-whitelight"
+          <div className="flex lg:flex-row-reverse z-10">
+            {isLoggedIn && (
+              <div className="z-50 lg:z-20 relative flex items-center justify-center">
+                <Crown
+                  isPremium={premium}
+                  className="-top-2 -left-2 sm:-top-1.5 sm:-left-2.5 md:-top-1 md:-left-3 lg:top-3 lg:-left-2"
+                />
+                <img
+                  onClick={handlerOnClickAvatar}
+                  className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center cursor-pointer"
+                  src={urlAvatar}
+                  alt="Avatar"
+                />
+                <div
+                  className={`${
+                    openAvatar ? "flex" : "hidden"
+                  } avatar-modal bg-customPalette-black rounded px-3 py-2 absolute top-10 -left-14  lg:-left-40 md:top-16 sm:left-0 items-start shadow border border-customPalette-white justify-center flex-col w-48`}
                 >
-                  {userName}
-                </Link>
-                <button
-                  onClick={handlerRedirectProfile}
-                  className="w-full min-w-20  bg-customPalette-blue text-customPalette-white text-xs lg:text-sm font-semibold py-1 px-1 lg:px-4 rounded hover:bg-customPalette-bluelight mt-10 mb-5"
-                >
-                  Cambiar contraseña
-                </button>
-                <button
-                  onClick={handleLogout}
-                  className="min-w-20  bg-customPalette-orange text-customPalette-white text-xs lg:text-sm font-semibold py-1 px-8 lg:px-4 rounded hover:bg-customPalette-orangebright mt-5 mb-5 w-full"
-                >
-                  Cerrar sesión
-                </button>
+                  <Link
+                    href="profile"
+                    className="lg:mr-3 text-customPalette-white hover:text-customPalette-whitelight"
+                  >
+                    {userName}
+                  </Link>
+                  <button
+                    onClick={handlerRedirectProfile}
+                    className="w-full min-w-20  bg-customPalette-blue text-customPalette-white text-xs lg:text-sm font-semibold py-1 px-1 lg:px-4 rounded hover:bg-customPalette-bluelight mt-10 mb-5"
+                  >
+                    Cambiar contraseña
+                  </button>
+                  <button
+                    onClick={handleLogout}
+                    className="min-w-20  bg-customPalette-orange text-customPalette-white text-xs lg:text-sm font-semibold py-1 px-8 lg:px-4 rounded hover:bg-customPalette-orangebright mt-5 mb-5 w-full"
+                  >
+                    Cerrar sesión
+                  </button>
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
-          <div
-            className={`z-40 absolute lg:relative flex-col justify-center items-center lg:flex-row top-0 left-0 right-0 bg-customPalette-black lg:bg-transparent px-4 py-6 transition-all duration-300 ease-in-out h-screen lg:h-auto ${
-              openMenu ? "flex" : "hidden"
+            <div
+              className={`z-40 absolute lg:relative lg:z-10 flex-col justify-center items-center lg:flex-row top-0 left-0 right-0 bg-customPalette-black lg:bg-transparent px-4 py-6 transition-all duration-300 ease-in-out h-screen lg:h-auto ${
+                openMenu ? "flex" : "hidden"
               } lg:flex `}
-              >
-            <ul
-              className={`flex flex-col items-center justify-center lg:flex-row  gap-4 w-full mb-5 lg:mb-0  ${
-                isLoggedIn ? "lg:mr-20" : "lg:mr-96"
+            >
+              <ul
+                className={`flex flex-col items-center justify-center lg:flex-row  gap-4 w-full mb-5 lg:mb-0  ${
+                  isLoggedIn ? "lg:mr-20" : "lg:mr-96"
                 }`}
-                >
-              {links.map((link) => (
-                <li key={link.href} className="flex items-center justify-center">
-                  {link.title !== "Registro" && link.title !== "Login" && (
-                    <NavLink
-                    href={link.href}
-                    title={link.title}
-                    active={linkActive === link.title}
-                    />
-                  )}
-                </li>
-              ))}
-            </ul>
-            <ul className="flex flex-col item-center justify-center lg:flex-row gap-4 lg:w-auto w-full">
-              {!isLoggedIn && (
-                <>
-                  <li key="registro" className="flex items-center justify-center">
-                    <NavLink
-                      href="/register"
-                      title="Registro"
-                      active={linkActive === "Registro"}
+              >
+                {links.map((link) => (
+                  <li
+                    key={link.href}
+                    className="flex items-center justify-center"
+                  >
+                    {link.title !== "Registro" && link.title !== "Login" && (
+                      <NavLink
+                        href={link.href}
+                        title={link.title}
+                        active={linkActive === link.title}
                       />
+                    )}
                   </li>
-                  <li key="login" className="flex items-center justify-center">
-                    <NavLink
-                      href="/login"
-                      title="Login"
-                      active={linkActive === "Login"}
+                ))}
+              </ul>
+              <ul className="flex flex-col item-center justify-center lg:flex-row gap-4 lg:w-auto w-full">
+                {!isLoggedIn && (
+                  <>
+                    <li
+                      key="registro"
+                      className="flex items-center justify-center"
+                    >
+                      <NavLink
+                        href="/register"
+                        title="Registro"
+                        active={linkActive === "Registro"}
                       />
-                  </li>
-                </>
-              )}
-            </ul>
+                    </li>
+                    <li
+                      key="login"
+                      className="flex items-center justify-center"
+                    >
+                      <NavLink
+                        href="/login"
+                        title="Login"
+                        active={linkActive === "Login"}
+                      />
+                    </li>
+                  </>
+                )}
+              </ul>
+            </div>
           </div>
-        </div>
-        <button
-        onClick={handlerOnClickMenu}
-        className="lg:hidden text-white flex items-center justify-center"
-        aria-label="Abrir menú"
-        >
-          {openMenu ? (
-            <X className="z-50 h-6 w-6" />
-          ) : (
-            <Menu className="z-50 h-6 w-6" />
-          )}
-        </button>
-      </>
+          <button
+            onClick={handlerOnClickMenu}
+            className="lg:hidden text-white flex items-center justify-center"
+            aria-label="Abrir menú"
+          >
+            {openMenu ? (
+              <X className="z-50 h-6 w-6" />
+            ) : (
+              <Menu className="z-50 h-6 w-6" />
+            )}
+          </button>
+        </>
       )}
     </nav>
   );

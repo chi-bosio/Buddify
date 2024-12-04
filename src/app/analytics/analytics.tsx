@@ -13,12 +13,14 @@ import getDataCountActivitiesCountries from "./components/getDataCountActivities
 import getDataUsersTotal from "./components/getDataUsersTotal";
 import getDataCountUsersCountries from "./components/getDataCountUsersCountries";
 import getDataUsersBannedTotal from "./components/getDataUsersBannedTotal";
-import UsersPage from "../baneousuario/managements";
+import  AdminUsersBan from "../baneousuario/managements";
 import Swal from "sweetalert2";
 import getDataActivitiesSuccess from "./components/getDataActivitiesSuccess";
 import getDataActivitiesPending from "./components/getDataActivitiesPending";
 import getDataActivitiesConfirmed from "./components/getDataActivitiesConfirmed";
 import getDataActivitiesCancelled from "./components/getDataActivitiesCancelled";
+import AdminUsersToAdmin from "../toadmin/manegements";
+import AdminActivities from "../adminactivities/managements";
 
 export function Analytics() {
   const { authTokens } = useAuthContext();
@@ -145,7 +147,10 @@ export function Analytics() {
                 <Cake data={coutUsersCountries} />
             </div>
             <div className="h-auto w-full p-8 bg-customPalette-white rounded-xl shadow-lg border border-customPalette-white">
-               <UsersPage fetchData={fetchData}/>
+               <AdminUsersBan fetchData={fetchData}/>
+            </div>
+            <div className="h-auto w-full p-8 bg-customPalette-white rounded-xl shadow-lg border border-customPalette-white">
+               <AdminUsersToAdmin />
             </div>
           </section>
           <section className="flex items-start justify-start flex-col gap-4">
@@ -156,6 +161,9 @@ export function Analytics() {
               <div className="h-auto w-full p-8 bg-customPalette-white rounded-xl shadow-lg border border-customPalette-white">
                 <h2 className="text-center text-lg text-customPalette-blue font-semibold">Actividades creadas por País</h2>
                   <Cake data={coutActivitiesCountries} />
+              </div>
+              <div className="h-auto w-full p-8 bg-customPalette-white rounded-xl shadow-lg border border-customPalette-white">
+                <AdminActivities fetchData={fetchData}/>
               </div>
           </section>
         </section>

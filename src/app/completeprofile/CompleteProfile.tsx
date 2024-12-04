@@ -52,7 +52,7 @@ const CompleteProfile: React.FC = () => {
       try {
         const result = await Swal.fire({
           title: "¿Estás seguro?",
-          text: "Revisa los datos antes de completar tu perfil",
+          text: "Revisá los datos antes de completar tu perfil",
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#f97316",

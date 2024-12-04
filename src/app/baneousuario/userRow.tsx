@@ -1,8 +1,9 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Formik, Form, Field } from "formik";
 import { banUser, unbanUser } from "./postData";
 import Swal from "sweetalert2";
+import { useAuthContext } from "@/contexts/authContext";
 
 interface User {
   id: string;
@@ -14,14 +15,24 @@ interface User {
 interface UserProps {
   user: User;
   onUserUpdate: () => void;
-  fetchData:()=>void;
+  fetchData: () => void;
 }
 
 const UserRow: React.FC<UserProps> = ({ user, onUserUpdate, fetchData }) => {
+  const [token, setToken ] = useState("")
+  const {authTokens} = useAuthContext();
+  useEffect(()=>{
+    if(authTokens?.token){
+      setToken(authTokens?.token)
+    }
+  },[authTokens?.token])
+
   const handleBanToggle = async (isBanned: boolean) => {
     const result = await Swal.fire({
       title: "¿Estás seguro?",
-      text: `Estas a punto de ${!isBanned ? "banear" : "desbanear"} a ${user.name} ${user.lastname}!`,
+      text: `Estás a punto de ${!isBanned ? "banear" : "desbanear"} a ${
+        user.name
+      } ${user.lastname}!`,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#f97316",
@@ -29,7 +40,7 @@ const UserRow: React.FC<UserProps> = ({ user, onUserUpdate, fetchData }) => {
       cancelButtonText: "Cancelar",
       confirmButtonText: "Confirmar",
     });
-    if(!result.isConfirmed) return
+    if (!result.isConfirmed) return;
     try {
       Swal.fire({
         title: "Cargando...",
@@ -41,7 +52,7 @@ const UserRow: React.FC<UserProps> = ({ user, onUserUpdate, fetchData }) => {
       });
       setTimeout(async () => {
       if (isBanned) {
-        await unbanUser(user.id);
+        await unbanUser(user.id,token);
         Swal.close();
         user.isBanned = false; // Sincroniza el estado local con el backend
         Swal.fire({
@@ -52,19 +63,20 @@ const UserRow: React.FC<UserProps> = ({ user, onUserUpdate, fetchData }) => {
           confirmButtonColor: "#f97316",
         }).then(()=>fetchData());
       } else {
-        await banUser(user.id);
+        await banUser(user.id,token);
         Swal.close();
         user.isBanned = true; // Sincroniza el estado local con el backend
 
-        Swal.fire({
-          title: "Usuario Baneado",
-          text: `${user.name} ${user.lastname} ha sido baneado exitosamente.`,
-          icon: "success",
-          confirmButtonText: "Ok",
-          confirmButtonColor: "#f97316",
-        }).then(()=>fetchData());;
-      }
-      onUserUpdate();},600) // Refresca la lista de usuarios
+          Swal.fire({
+            title: "Usuario baneado",
+            text: `${user.name} ${user.lastname} ha sido baneado exitosamente.`,
+            icon: "success",
+            confirmButtonText: "Ok",
+            confirmButtonColor: "#f97316",
+          }).then(() => fetchData());
+        }
+        onUserUpdate();
+      }, 600); // Refresca la lista de usuarios
     } catch (error) {
       console.error("Error updating user:", error);
       Swal.fire({

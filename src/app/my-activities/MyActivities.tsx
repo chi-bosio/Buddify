@@ -106,7 +106,7 @@ export function MyActivities() {
       ) {
         await Swal.fire({
           title: "Límite alcanzado",
-          text: "Los usuarios no Premium solo pueden unirse a 3 actividades al mes. ¿Quieres mejorar a Premium para disfrutar de beneficios ilimitados?",
+          text: "Los usuarios no Premium solo pueden unirse a 3 actividades al mes. ¿Querés pasarte a Premium para disfrutar de beneficios ilimitados?",
           icon: "info",
           showCancelButton: true,
           confirmButtonColor: "#f97316",
