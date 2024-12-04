@@ -22,6 +22,7 @@ import { useAuthContext } from "@/contexts/authContext";
 import GetCategories from "@/components/GetCategories/GetCategories";
 import { useRouter } from "next/navigation";
 import PlansButton from "../plans/PlansButton";
+import RedirecNotLogin from "@/components/RedirecLoader/redirectNotlogin";
 
 interface FormValues {
   name: string;
@@ -160,6 +161,7 @@ export default function CreateActivityForm() {
     <div className="bg-[url('/assets/textura-fondo.avif')] min-h-screen flex items-center justify-center bg-customPalette-white">
       <div className="w-full max-w-4xl p-8 bg-customPalette-white rounded-xl shadow-lg border border-customPalette-gray">
         <PlansButton />
+        <RedirecNotLogin />
         <h1 className="text-center text-3xl font-bold mb-6 text-customPalette-blue">
           Crear Nueva Actividad
         </h1>

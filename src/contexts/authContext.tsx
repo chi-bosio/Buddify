@@ -71,6 +71,7 @@ export default function AuthContextProvider({
     typeof window !== "undefined"
       ? window.localStorage.getItem(AVATAR_KEY)
       : null;
+
   const [authTokens, setAuthTokens] = useState<AuthTokens>(
     authTokensInLocalStorage ? JSON.parse(authTokensInLocalStorage) : null
   );
@@ -131,10 +132,12 @@ export default function AuthContextProvider({
     setIsPremium(false);
     window.localStorage.setItem(ISPREMIUM_KEY, JSON.stringify(false));
   }, []);
+
   const setterAvatar = useCallback((newAvatar: string) => {
     setAvatar(newAvatar);
     window.localStorage.setItem(AVATAR_KEY, JSON.stringify(newAvatar));
   }, []);
+
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
     const token = queryParams.get("token");
@@ -155,6 +158,7 @@ export default function AuthContextProvider({
       setLoading(false);
     }
   }, [login, router]);
+
   useEffect(() => {
     if (authTokens) {
       const decodedToken: any = jwtDecode(authTokens.token);
@@ -185,7 +189,7 @@ export default function AuthContextProvider({
       avatar,
       loading,
       isPremium,
-      isAdmin
+      isAdmin,
     }),
     [
       setterAvatar,
@@ -199,7 +203,7 @@ export default function AuthContextProvider({
       avatar,
       isPremium,
       isAdmin,
-      loading
+      loading,
     ]
   );
 
