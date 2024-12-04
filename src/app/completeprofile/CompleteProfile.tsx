@@ -12,7 +12,7 @@ import InputWithLabel from "@/components/InputWithLabel/InputWithLabel";
 import { useAuthContext } from "@/contexts/authContext";
 import moment from "moment";
 
-const CompleteProfile: React.FC = () => {
+const CompleteProfile = () => {
   const router = useRouter();
   const { userId } = useAuthContext();
   const [countries, setCountries] = useState<

@@ -2,7 +2,7 @@
 import React from "react";
 import UserList from "./userList";
 
-const AdminUsersBan: React.FC<{fetchData:()=>void}> = ({fetchData}) => {
+const AdminUsersBan = ({ fetchData }: { fetchData: () => void }) => {
   return (
     <main>
       <UserList fetchData={fetchData} />

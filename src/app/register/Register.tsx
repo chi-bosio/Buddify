@@ -10,7 +10,7 @@ import ErrorMessageForm from "@/components/ErrorMessageForm/ErrorMessageForm";
 import SubmitButton from "@/components/SubmitButton/SubmitButton";
 import InputWithLabel from "@/components/InputWithLabel/InputWithLabel";
 
-const RegisterForm: React.FC = () => {
+const RegisterForm = () => {
   const router = useRouter();
   const [countries, setCountries] = useState<
     { name: string; city: string[] }[]

@@ -7,8 +7,8 @@ import { jwtDecode } from "jwt-decode";
 import { Formik, Form, Field } from "formik";
 import { useAuthContext } from "../../../contexts/authContext";
 
-const PaymentForm: React.FC = () => {
-  const {setterIsPremiumTrue}= useAuthContext();
+const PaymentForm = () => {
+  const { setterIsPremiumTrue } = useAuthContext();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [planDetails, setPlanDetails] = useState<{
@@ -88,14 +88,14 @@ const PaymentForm: React.FC = () => {
       showCancelButton: true,
       confirmButtonText: "Sí, pagar",
       cancelButtonText: "Cancelar",
-      confirmButtonColor: '#F9A03F',
-      cancelButtonColor:'#235789',
+      confirmButtonColor: "#F9A03F",
+      cancelButtonColor: "#235789",
     });
 
     if (!confirm.isConfirmed) {
       setLoading(false);
       return;
-    }else{
+    } else {
       Swal.fire({
         title: "Cargando...",
         icon: "info",
@@ -125,20 +125,20 @@ const PaymentForm: React.FC = () => {
             }),
           }
         );
-  
+
         const session = await response.json();
-  
+
         if (!session.clientSecret) {
           const timeoutId = setTimeout(() => {
             Swal.close();
           }, 500);
-      
+
           setTimeout(() => {
-            clearInterval(timeoutId); 
+            clearInterval(timeoutId);
           }, 700);
           throw new Error("No se pudo obtener la información del pago.");
         }
-  
+
         const { error: stripeError, paymentIntent } =
           await stripe.confirmCardPayment(session.clientSecret, {
             payment_method: {
@@ -148,25 +148,25 @@ const PaymentForm: React.FC = () => {
               },
             },
           });
-  
+
         if (stripeError) {
           setError(stripeError.message || "Ocurrió un error desconocido.");
           setLoading(false);
           const timeoutId = setTimeout(() => {
             Swal.close();
           }, 500);
-      
+
           setTimeout(() => {
-            clearInterval(timeoutId); 
+            clearInterval(timeoutId);
           }, 700);
           return;
         }
         const timeoutId = setTimeout(() => {
           Swal.close();
         }, 500);
-    
+
         setTimeout(() => {
-          clearInterval(timeoutId); 
+          clearInterval(timeoutId);
         }, 700);
         setTimeout(async () => {
           if (paymentIntent?.status === "succeeded") {
@@ -175,7 +175,7 @@ const PaymentForm: React.FC = () => {
               "Tu pago fue procesado correctamente.",
               "success"
             );
-    
+
             try {
               const updateResponse = await fetch(
                 `${process.env.NEXT_PUBLIC_API_URL}/users/${userInfo?.id}/premium-status`,
@@ -189,9 +189,9 @@ const PaymentForm: React.FC = () => {
                   }),
                 }
               );
-    
+
               const updateData = await updateResponse.json();
-    
+
               if (updateResponse.ok && updateData.success) {
                 Swal.fire({
                   title: "¡Éxito!",
@@ -200,7 +200,7 @@ const PaymentForm: React.FC = () => {
                   confirmButtonText: "Aceptar",
                 }).then(() => {
                   setterIsPremiumTrue();
-                  router.push('/')
+                  router.push("/");
                 });
               } else {
                 setError(

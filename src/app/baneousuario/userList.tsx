@@ -9,7 +9,7 @@ interface User {
   isBanned: boolean;
 }
 
-const UserList: React.FC<{fetchData:()=>void}> = ({fetchData}) => {
+const UserList = ({ fetchData }: { fetchData: () => void }) => {
   const [users, setUsers] = useState<User[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>(""); // Estado para búsqueda
   const [filterStatus, setFilterStatus] = useState<string>("all"); // Estado para el filtro
@@ -74,7 +74,12 @@ const UserList: React.FC<{fetchData:()=>void}> = ({fetchData}) => {
       <div className="w-full max-w-3xl">
         {filteredUsers.length > 0 ? (
           filteredUsers.map((user) => (
-            <UserRow key={user.id} user={user} onUserUpdate={loadUsers} fetchData={fetchData}/>
+            <UserRow
+              key={user.id}
+              user={user}
+              onUserUpdate={loadUsers}
+              fetchData={fetchData}
+            />
           ))
         ) : (
           <p className="text-customPalette-gray text-center">

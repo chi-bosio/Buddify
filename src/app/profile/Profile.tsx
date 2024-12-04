@@ -24,8 +24,8 @@ interface Country {
   provinces: string[];
 }
 
-const Profile: React.FC = () => {
-  const router = useRouter()
+const Profile = () => {
+  const router = useRouter();
   const { setterAvatar } = useAuthContext();
   const [avatars, setAvatars] = useState<Avatar[]>([]);
   const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null);
@@ -52,7 +52,7 @@ const Profile: React.FC = () => {
             `${process.env.NEXT_PUBLIC_API_URL}/users/${userId}`,
             {
               method: "GET",
-/*              headers: {
+              /*              headers: {
                 "Authorization": `Bearer ${authTokens?.token}`,
               },*/
             }
@@ -114,7 +114,9 @@ const Profile: React.FC = () => {
   const initialValues = {
     name: userData?.name || "",
     lastname: userData?.lastname || "",
-    birthdate: userData?.birthdate ? moment(userData?.birthdate).format("YYYY-MM-DD") : "",
+    birthdate: userData?.birthdate
+      ? moment(userData?.birthdate).format("YYYY-MM-DD")
+      : "",
     dni: userData?.dni || "",
     country: userData?.country || "",
     city: userData?.city || "",
@@ -151,7 +153,7 @@ const Profile: React.FC = () => {
             Swal.showLoading();
           },
         });
-        await updateUserProfile(userId, updatedData/*, authTokens!.token*/);
+        await updateUserProfile(userId, updatedData /*, authTokens!.token*/);
         const timeoutId = setTimeout(() => {
           Swal.close();
         }, 500);
@@ -165,14 +167,12 @@ const Profile: React.FC = () => {
           setIsEditing(false);
           setterAvatar(selectedAvatar || userData.avatar);
         }, 900);
-
       } else {
         Toast(TypeToast.Error, "No estas logeado");
         setTimeout(() => {
-          router.push('/login')
+          router.push("/login");
         }, 900);
       }
-
     } catch (error) {
       Toast(TypeToast.Error, "Error al actualizar el perfil");
     }
@@ -213,7 +213,7 @@ const Profile: React.FC = () => {
   };
 
   if (!userData) return null;
-  const eighteenYearsAgo = moment().subtract(18, 'years').format('YYYY-MM-DD');
+  const eighteenYearsAgo = moment().subtract(18, "years").format("YYYY-MM-DD");
   return (
     <div className="bg-[url('/assets/textura-fondo.avif')] min-h-screen flex items-center justify-center bg-customPalette-white">
       <div className="w-full max-w-4xl p-8 bg-customPalette-white rounded-xl shadow-lg border border-customPalette-white">
@@ -273,7 +273,9 @@ const Profile: React.FC = () => {
                 <div className="relative">
                   <label
                     htmlFor="country"
-                    className={`${!isEditing && "cursor-not-allowed opacity-80"} transition-all ease-in-out duration-300 z-10 absolute -top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1`}
+                    className={`${
+                      !isEditing && "cursor-not-allowed opacity-80"
+                    } transition-all ease-in-out duration-300 z-10 absolute -top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1`}
                   >
                     País
                   </label>
@@ -286,7 +288,11 @@ const Profile: React.FC = () => {
                       handleCountryChange(event, formik);
                     }}
                     onBlur={formik.handleBlur}
-                    className={`${!isEditing ? "cursor-not-allowed opacity-80" : "cursor-pointer"}transition-all ease-in-out duration-300  block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark  `}
+                    className={`${
+                      !isEditing
+                        ? "cursor-not-allowed opacity-80"
+                        : "cursor-pointer"
+                    }transition-all ease-in-out duration-300  block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark  `}
                     disabled={!isEditing}
                   >
                     <option value="">Seleccionar país</option>
@@ -303,7 +309,9 @@ const Profile: React.FC = () => {
                 <div className="relative">
                   <label
                     htmlFor="city"
-                    className={`${!isEditing && "cursor-not-allowed opacity-80"} transition-all ease-in-out duration-300 z-10 absolute -top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1`}
+                    className={`${
+                      !isEditing && "cursor-not-allowed opacity-80"
+                    } transition-all ease-in-out duration-300 z-10 absolute -top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1`}
                   >
                     Provincia
                   </label>
@@ -313,7 +321,11 @@ const Profile: React.FC = () => {
                     value={formik.values.city}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-                    className={`${!isEditing ? "cursor-not-allowed opacity-80" : "cursor-pointer"} transition-all ease-in-out duration-300 block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark  `}
+                    className={`${
+                      !isEditing
+                        ? "cursor-not-allowed opacity-80"
+                        : "cursor-pointer"
+                    } transition-all ease-in-out duration-300 block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark  `}
                     disabled={!isEditing || availableCities.length === 0}
                   >
                     <option value="">Seleccionar provincia</option>
@@ -325,7 +337,6 @@ const Profile: React.FC = () => {
                   </select>
                   <ErrorMessageForm formik={formik} input="city" />
                 </div>
-
               </div>
 
               {/* Avatar */}
@@ -337,8 +348,9 @@ const Profile: React.FC = () => {
                   <img
                     src={selectedAvatar || userData.avatar}
                     alt="Avatar seleccionado"
-                    className={`transition-all ease-in-out duration-300 w-32 h-32 mx-auto rounded-full border-2 border-customPalette-gray object-cover ${!isEditing && 'filter grayscale contrast-200 '
-                      }`}
+                    className={`transition-all ease-in-out duration-300 w-32 h-32 mx-auto rounded-full border-2 border-customPalette-gray object-cover ${
+                      !isEditing && "filter grayscale contrast-200 "
+                    }`}
                   />
                 </div>
                 <div className="flex flex-wrap justify-center gap-2">
@@ -347,12 +359,20 @@ const Profile: React.FC = () => {
                       key={avatar.id}
                       src={avatar.url}
                       alt={`Avatar ${avatar.id}`}
-                      onClick={!isEditing ? undefined : () => setSelectedAvatar(avatar.url)}
-                      className={`w-12 h-12 rounded-full border-2 transition-all ease-in-out duration-300 filter-${selectedAvatar === avatar.url
+                      onClick={
+                        !isEditing
+                          ? undefined
+                          : () => setSelectedAvatar(avatar.url)
+                      }
+                      className={`w-12 h-12 rounded-full border-2 transition-all ease-in-out duration-300 filter-${
+                        selectedAvatar === avatar.url
                           ? "border-customPalette-blue"
                           : "border-customPalette-gray"
-                        } ${!isEditing ? 'filter grayscale contrast-200 cursor-not-allowed' : 'cursor-pointer'
-                        }`}
+                      } ${
+                        !isEditing
+                          ? "filter grayscale contrast-200 cursor-not-allowed"
+                          : "cursor-pointer"
+                      }`}
                     />
                   ))}
                 </div>
@@ -378,11 +398,14 @@ const Profile: React.FC = () => {
                       <button
                         type="submit"
                         className={`w-full px-6 py-2 text-customPalette-white rounded-md transition-all ease-in-out duration-300
-                          ${formik.dirty || selectedAvatar !== userData.avatar ? "bg-customPalette-orange hover:bg-customPalette-orangebright cursor-pointer" : "bg-customPalette-graydark cursor-not-allowed"}`}
+                          ${
+                            formik.dirty || selectedAvatar !== userData.avatar
+                              ? "bg-customPalette-orange hover:bg-customPalette-orangebright cursor-pointer"
+                              : "bg-customPalette-graydark cursor-not-allowed"
+                          }`}
                       >
                         Guardar cambios
                       </button>
-
                     </div>
                   )}
                 </div>

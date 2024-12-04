@@ -1,13 +1,19 @@
 import React, { useEffect, useRef } from "react";
 
 interface ChatMessagesProps {
-  messages: { sender: { id: string; name: string; lastname: string; avatar: string }; text: string }[];
+  messages: {
+    sender: { id: string; name: string; lastname: string; avatar: string };
+    text: string;
+  }[];
   currentUserId: string;
   avatarurl: string;
 }
 
-const ChatMessages: React.FC<ChatMessagesProps> = ({ messages, currentUserId, avatarurl }) => {
-
+const ChatMessages = ({
+  messages,
+  currentUserId,
+  avatarurl,
+}: ChatMessagesProps) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const reversedMessages = [...messages].reverse();
@@ -23,13 +29,14 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({ messages, currentUserId, av
       {reversedMessages.map((message, index) => {
         const isCurrentUser = message.sender.id === currentUserId;
         const avatarSrc = isCurrentUser ? avatarurl : message.sender.avatar;
-  
+
         return (
           <div
             key={index}
-            className={`flex ${isCurrentUser ? "flex-row-reverse" : ""} items-start space-x-3`}
+            className={`flex ${
+              isCurrentUser ? "flex-row-reverse" : ""
+            } items-start space-x-3`}
           >
-
             <img
               src={avatarSrc}
               alt={`${message.sender.name} ${message.sender.lastname}`}
@@ -52,6 +59,5 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({ messages, currentUserId, av
       <div ref={messagesEndRef} />
     </div>
   );
-  
 };
 export default ChatMessages;
