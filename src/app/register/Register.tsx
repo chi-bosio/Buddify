@@ -37,7 +37,7 @@ const RegisterForm: React.FC = () => {
     }
   };
 
-  const handleGoogleLogin = () => { 
+  const handleGoogleLogin = () => {
     router.push(`${process.env.NEXT_PUBLIC_API_URL}/auth/google/login`);
   };
 
@@ -58,7 +58,7 @@ const RegisterForm: React.FC = () => {
     onSubmit: async (values) => {
       const result = await Swal.fire({
         title: "¿Estás seguro?",
-        text: "Controla tus datos antes de registrarte",
+        text: "Controlá tus datos antes de registrarte",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#f97316",
@@ -224,14 +224,14 @@ const RegisterForm: React.FC = () => {
             </div>
           </div>
 
-          <div className="mt-7 text-center">  
-            <button 
+          <div className="mt-7 text-center">
+            <button
               onClick={handleGoogleLogin}
               className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600"
             >
               Ingresa con Google
             </button>
-            </div>
+          </div>
 
           <SubmitButton text="Registrarse" />
 

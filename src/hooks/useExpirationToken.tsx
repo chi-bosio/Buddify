@@ -21,15 +21,15 @@ const useTokenExpiration = () => {
       if (currentTime.isAfter(expirationTime)) {
         setIsTokenExpired(true);
         Swal.fire({
-            title: "Sesión Expirada",
-            text: "Tu sesión ha expirado. Vuelve a logearte!.",
-            icon: "error",
-            confirmButtonText: "OK",
-            confirmButtonColor:"#F9A03F",
-          }).then(() => {
-            logout();
-            router.push("/login");  
-          });
+          title: "Sesión expirada",
+          text: "Tu sesión ha expirado. ¡Vuelve a loguearte!",
+          icon: "error",
+          confirmButtonText: "OK",
+          confirmButtonColor: "#F9A03F",
+        }).then(() => {
+          logout();
+          router.push("/login");
+        });
       } else {
         setIsTokenExpired(false);
       }

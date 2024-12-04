@@ -17,7 +17,7 @@ const ResetPassword = () => {
     const tokenFromURL = queryParams.get("tokenreset");
 
     if (!tokenFromURL) {
-      Swal.fire("Error", "Token no válido o inexistente", "error");
+      Swal.fire("Error", "Token inválido o inexistente", "error");
       router.push("/login");
     } else {
       setToken(tokenFromURL);
@@ -50,12 +50,11 @@ const ResetPassword = () => {
           const timeoutId = setTimeout(() => {
             Swal.close();
           }, 500);
-    
+
           setTimeout(() => {
-            clearInterval(timeoutId); 
+            clearInterval(timeoutId);
           }, 700);
           if (success.success) {
-      
             setTimeout(() => {
               router.push("/login");
             }, 900);
@@ -65,9 +64,9 @@ const ResetPassword = () => {
         const timeoutId = setTimeout(() => {
           Swal.close();
         }, 500);
-  
+
         setTimeout(() => {
-          clearInterval(timeoutId); 
+          clearInterval(timeoutId);
         }, 700);
         Swal.fire("Error", "Hubo un problema con la solicitud", "error");
       }

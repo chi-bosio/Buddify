@@ -55,7 +55,7 @@ const UserRow: React.FC<UserProps> = ({ user, onUserUpdate, fetchData }) => {
       if (response.ok) {
         Swal.close();
         Swal.fire({
-          title: `Usuario ${isAdmin ? "Despromovido" : "Promovido"}`,
+          title: `Usuario ${isAdmin ? "despromovido" : "promovido"}`,
           text: `${user.name} ${user.lastname} ha sido ${
             isAdmin ? "despromovido" : "promovido"
           } exitosamente.`,

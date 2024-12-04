@@ -15,7 +15,9 @@ import moment from "moment";
 const CompleteProfile: React.FC = () => {
   const router = useRouter();
   const { userId } = useAuthContext();
-  const [countries, setCountries] = useState<{ name: string; city: string[] }[]>([]);
+  const [countries, setCountries] = useState<
+    { name: string; city: string[] }[]
+  >([]);
   const [city, setCity] = useState<string[]>([]);
 
   useEffect(() => {
@@ -50,7 +52,7 @@ const CompleteProfile: React.FC = () => {
       try {
         const result = await Swal.fire({
           title: "¿Estás seguro?",
-          text: "Revisa los datos antes de completar tu perfil",
+          text: "Revisá los datos antes de completar tu perfil",
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#f97316",
@@ -68,14 +70,17 @@ const CompleteProfile: React.FC = () => {
               Swal.showLoading();
             },
           });
-          
-          const success = await postData({ ...values, userId: userId || undefined });
+
+          const success = await postData({
+            ...values,
+            userId: userId || undefined,
+          });
 
           const timeoutId = setTimeout(() => {
             Swal.close();
           }, 500);
           setTimeout(() => {
-            clearInterval(timeoutId); 
+            clearInterval(timeoutId);
           }, 700);
           if (success) {
             setTimeout(() => {
@@ -83,14 +88,14 @@ const CompleteProfile: React.FC = () => {
               router.push("/");
             }, 900);
           }
-        } 
+        }
       } catch (error) {
         const timeoutId = setTimeout(() => {
           Swal.close();
         }, 500);
-  
+
         setTimeout(() => {
-          clearInterval(timeoutId); 
+          clearInterval(timeoutId);
         }, 700);
         Swal.fire({
           title: "Error inesperado",
@@ -102,14 +107,17 @@ const CompleteProfile: React.FC = () => {
       }
     },
   });
-  const eighteenYearsAgo = moment().subtract(18, 'years').format('YYYY-MM-DD');
+  const eighteenYearsAgo = moment().subtract(18, "years").format("YYYY-MM-DD");
   return (
     <div className="bg-[url('/assets/textura-fondo.avif')] min-h-screen flex items-center justify-center bg-customPalette-white">
       <div className="w-full max-w-4xl p-8 bg-customPalette-white rounded-xl shadow-lg border border-customPalette-white">
         <h1 className="text-center text-3xl font-bold mb-6 text-customPalette-blue">
           Completar Perfil
         </h1>
-        <form onSubmit={formik.handleSubmit} className="flex flex-col gap-6 justify-center items-center">
+        <form
+          onSubmit={formik.handleSubmit}
+          className="flex flex-col gap-6 justify-center items-center"
+        >
           <div className="flex justify-center items-center gap-6 ">
             <div className="space-y-6">
               <div className="relative">
@@ -159,9 +167,15 @@ const CompleteProfile: React.FC = () => {
                   onBlur={formik.handleBlur}
                   className="block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark"
                 >
-                  <option value="" className="text-customPalette-graydark">Seleccionar país</option>
+                  <option value="" className="text-customPalette-graydark">
+                    Seleccionar país
+                  </option>
                   {countries.map((country, index) => (
-                    <option key={index} value={country.name} className="text-customPalette-graydark">
+                    <option
+                      key={index}
+                      value={country.name}
+                      className="text-customPalette-graydark"
+                    >
                       {country.name}
                     </option>
                   ))}
@@ -184,9 +198,15 @@ const CompleteProfile: React.FC = () => {
                   onBlur={formik.handleBlur}
                   className="block w-full p-2 border border-customPalette-gray rounded-md shadow-sm focus:ring-customPalette-blue focus:border-customPalette-blue text-customPalette-graydark"
                 >
-                  <option value="" className="text-customPalette-graydark">Seleccionar ciudad</option>
+                  <option value="" className="text-customPalette-graydark">
+                    Seleccionar ciudad
+                  </option>
                   {city.map((city, index) => (
-                    <option key={index} value={city} className="text-customPalette-graydark">
+                    <option
+                      key={index}
+                      value={city}
+                      className="text-customPalette-graydark"
+                    >
                       {city}
                     </option>
                   ))}

@@ -48,7 +48,7 @@ export default function ReportPage() {
 
       if (response.ok) {
         Swal.fire({
-          title: "Reporte Enviado",
+          title: "Reporte enviado",
           text: "Nuestros moderadores revisarán el reporte y tomarán las acciones necesarias.",
           icon: "success",
           confirmButtonText: "Aceptar",
@@ -92,7 +92,9 @@ export default function ReportPage() {
               <span className="font-semibold text-red-500">{activityId}</span>
             </p>
             <p className="mt-2 text-customPalette-black">
-              <span className="font-semibold text-customPalette-graydark">Creador:</span>{" "}
+              <span className="font-semibold text-customPalette-graydark">
+                Creador:
+              </span>{" "}
               {creatorName} {creatorLastname}
             </p>
           </div>
