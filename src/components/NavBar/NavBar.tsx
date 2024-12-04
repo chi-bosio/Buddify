@@ -29,12 +29,11 @@ export default function NavBar() {
     if(isPremium){
       setPremium(isPremium)
     }
-  },[isPremium])
+  }, [isPremium]);
   const [isClient, setIsClient] = useState(false);
   const [urlAvatar, setUrlAvatar] = useState(
     "https://res.cloudinary.com/dtlmrtzpa/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1731928071/avatar16_dsdi8v.png"
   );
-
   const links = useMemo(() => {
     if (!isClient) return [];
     return [
@@ -111,9 +110,13 @@ export default function NavBar() {
     setOpenMenu(false);
     setOpenAvatar(!openAvatar);
   };
+
   useEffect(() => {
-    const handleOutsideClick = (event) => {
-      if (openAvatar && !event.target.closest(".avatar-modal")) {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (
+        openAvatar &&
+        !(event.target as HTMLElement).closest(".avatar-modal")
+      ) {
         setOpenAvatar(false);
       }
     };

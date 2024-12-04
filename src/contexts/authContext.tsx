@@ -26,6 +26,7 @@ interface AuthContextType {
   userId: string | null;
   userName: string | null;
   avatar: string | null;
+  loading: boolean;
   isPremium: boolean;
   isAdmin: boolean;
   setterAvatar: (newAvatar: string) => void;
@@ -42,6 +43,7 @@ export const AuthContext = createContext<AuthContextType>({
   userName: null,
   avatar: null,
   isAdmin: false,
+  loading: false,
   isPremium: false,
   setterIsPremiumTrue: () => {},
   setterIsPremiumFalse: () => {},
@@ -181,6 +183,7 @@ export default function AuthContextProvider({
       userId,
       userName,
       avatar,
+      loading,
       isPremium,
       isAdmin
     }),
@@ -195,7 +198,8 @@ export default function AuthContextProvider({
       userName,
       avatar,
       isPremium,
-      isAdmin
+      isAdmin,
+      loading
     ]
   );
 
