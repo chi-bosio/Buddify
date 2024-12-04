@@ -20,7 +20,7 @@ export function CombinedFilters({setActivities}:{setActivities:(data:Activity[])
             name:"50km"
         },
         {
-            id:"50",
+            id:"100",
             name:"100km"
         },
         {
