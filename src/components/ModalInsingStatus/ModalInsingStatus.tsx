@@ -17,7 +17,7 @@ export function ModalInsingStatus({bol = false}:{bol:boolean;}){
                         <div className="bg-customPalette-white rounded-full border border-customPalette-red mr-2">
                             <BadgeX className="h-7 w-7 text-customPalette-red"/>
                         </div>
-                        <span className="text-sm text-customPalette-black w-full">La actividad esta cancelada</span>
+                        <span className="text-sm text-customPalette-black w-full">La actividad está cancelada</span>
                     </div>
                 </>
             }
@@ -25,13 +25,13 @@ export function ModalInsingStatus({bol = false}:{bol:boolean;}){
                 <div className="bg-customPalette-white rounded-full border border-customPalette-green mr-2">
                     <BadgeMinus className="h-7 w-7 text-customPalette-green"/>
                 </div>
-                <span className="text-sm text-customPalette-black w-full">La actividad tiene al menos 4 participantes y esta confirmada </span>
+                <span className="text-sm text-customPalette-black w-full">La actividad tiene al menos 4 participantes y está confirmada </span>
             </div>
             <div className="py-3 flex items-center justify-center">
                 <div className="bg-customPalette-white rounded-full border border-customPalette-graydark mr-2">
                     <BadgeHelp className="h-7 w-7 text-customPalette-graydark"/>
                 </div>
-                <span className="text-sm text-customPalette-black w-full">La actividad tiene menos de 4 integrantes y aun no esta confirmada</span>
+                <span className="text-sm text-customPalette-black w-full">La actividad tiene menos de 4 integrantes y aún no está confirmada</span>
             </div>
         </div>
     );
