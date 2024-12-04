@@ -26,7 +26,7 @@ interface Country {
 
 const Profile: React.FC = () => {
   const router = useRouter()
-  const {setterAvatar} = useAuthContext();
+  const { setterAvatar } = useAuthContext();
   const [avatars, setAvatars] = useState<Avatar[]>([]);
   const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null);
   const [countries, setCountries] = useState<Country[]>([]);
@@ -34,7 +34,7 @@ const Profile: React.FC = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [userData, setUserData] = useState<any>(null);
 
-  const { userId } = useAuthContext();
+  const { userId, authTokens } = useAuthContext();
 
   useEffect(() => {
     if (userId) {
@@ -49,19 +49,25 @@ const Profile: React.FC = () => {
             },
           });
           const response = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/users/${userId}`
+            `${process.env.NEXT_PUBLIC_API_URL}/users/${userId}`,
+            {
+              method: "GET",
+/*              headers: {
+                "Authorization": `Bearer ${authTokens?.token}`,
+              },*/
+            }
           );
           const timeoutId = setTimeout(() => {
-          Swal.close();
-        }, 500);
-  
-        setTimeout(() => {
-          clearInterval(timeoutId); 
-        }, 700);
+            Swal.close();
+          }, 500);
+
+          setTimeout(() => {
+            clearInterval(timeoutId);
+          }, 700);
           const data = await response.json();
           setUserData(data);
         } catch (error) {
-          Toast(TypeToast.Error,"Error fetching user data");
+          Toast(TypeToast.Error, "Error fetching user data");
           console.error("Error fetching user data:", error);
         }
       };
@@ -145,13 +151,13 @@ const Profile: React.FC = () => {
             Swal.showLoading();
           },
         });
-        await updateUserProfile(userId, updatedData);
+        await updateUserProfile(userId, updatedData/*, authTokens!.token*/);
         const timeoutId = setTimeout(() => {
           Swal.close();
         }, 500);
-  
+
         setTimeout(() => {
-          clearInterval(timeoutId); 
+          clearInterval(timeoutId);
         }, 700);
         setTimeout(() => {
           setUserData(updatedData);
@@ -159,12 +165,12 @@ const Profile: React.FC = () => {
           setIsEditing(false);
           setterAvatar(selectedAvatar || userData.avatar);
         }, 900);
-        
+
       } else {
         Toast(TypeToast.Error, "No estas logeado");
         setTimeout(() => {
-        router.push('/login')
-      }, 900);
+          router.push('/login')
+        }, 900);
       }
 
     } catch (error) {
@@ -331,8 +337,7 @@ const Profile: React.FC = () => {
                   <img
                     src={selectedAvatar || userData.avatar}
                     alt="Avatar seleccionado"
-                    className={`transition-all ease-in-out duration-300 w-32 h-32 mx-auto rounded-full border-2 border-customPalette-gray object-cover ${
-                        !isEditing && 'filter grayscale contrast-200 '
+                    className={`transition-all ease-in-out duration-300 w-32 h-32 mx-auto rounded-full border-2 border-customPalette-gray object-cover ${!isEditing && 'filter grayscale contrast-200 '
                       }`}
                   />
                 </div>
@@ -342,14 +347,12 @@ const Profile: React.FC = () => {
                       key={avatar.id}
                       src={avatar.url}
                       alt={`Avatar ${avatar.id}`}
-                      onClick={!isEditing ?undefined:() => setSelectedAvatar(avatar.url)}
-                      className={`w-12 h-12 rounded-full border-2 transition-all ease-in-out duration-300 filter-${
-                        selectedAvatar === avatar.url
+                      onClick={!isEditing ? undefined : () => setSelectedAvatar(avatar.url)}
+                      className={`w-12 h-12 rounded-full border-2 transition-all ease-in-out duration-300 filter-${selectedAvatar === avatar.url
                           ? "border-customPalette-blue"
                           : "border-customPalette-gray"
-                      } ${
-                        !isEditing ? 'filter grayscale contrast-200 cursor-not-allowed' : 'cursor-pointer'
-                      }`}
+                        } ${!isEditing ? 'filter grayscale contrast-200 cursor-not-allowed' : 'cursor-pointer'
+                        }`}
                     />
                   ))}
                 </div>
@@ -379,7 +382,7 @@ const Profile: React.FC = () => {
                       >
                         Guardar cambios
                       </button>
-                      
+
                     </div>
                   )}
                 </div>
