@@ -15,7 +15,7 @@ interface User {
 interface UserProps {
   user: User;
   onUserUpdate: () => void;
-  fetchData:()=>void;
+  fetchData: () => void;
 }
 
 const UserRow: React.FC<UserProps> = ({ user, onUserUpdate, fetchData }) => {
@@ -30,7 +30,9 @@ const UserRow: React.FC<UserProps> = ({ user, onUserUpdate, fetchData }) => {
   const handleBanToggle = async (isBanned: boolean) => {
     const result = await Swal.fire({
       title: "¿Estás seguro?",
-      text: `Estas a punto de ${!isBanned ? "banear" : "desbanear"} a ${user.name} ${user.lastname}!`,
+      text: `Estás a punto de ${!isBanned ? "banear" : "desbanear"} a ${
+        user.name
+      } ${user.lastname}!`,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#f97316",
@@ -38,7 +40,7 @@ const UserRow: React.FC<UserProps> = ({ user, onUserUpdate, fetchData }) => {
       cancelButtonText: "Cancelar",
       confirmButtonText: "Confirmar",
     });
-    if(!result.isConfirmed) return
+    if (!result.isConfirmed) return;
     try {
       Swal.fire({
         title: "Cargando...",
@@ -65,15 +67,16 @@ const UserRow: React.FC<UserProps> = ({ user, onUserUpdate, fetchData }) => {
         Swal.close();
         user.isBanned = true; // Sincroniza el estado local con el backend
 
-        Swal.fire({
-          title: "Usuario Baneado",
-          text: `${user.name} ${user.lastname} ha sido baneado exitosamente.`,
-          icon: "success",
-          confirmButtonText: "Ok",
-          confirmButtonColor: "#f97316",
-        }).then(()=>fetchData());;
-      }
-      onUserUpdate();},600) // Refresca la lista de usuarios
+          Swal.fire({
+            title: "Usuario baneado",
+            text: `${user.name} ${user.lastname} ha sido baneado exitosamente.`,
+            icon: "success",
+            confirmButtonText: "Ok",
+            confirmButtonColor: "#f97316",
+          }).then(() => fetchData());
+        }
+        onUserUpdate();
+      }, 600); // Refresca la lista de usuarios
     } catch (error) {
       console.error("Error updating user:", error);
       Swal.fire({

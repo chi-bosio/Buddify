@@ -28,7 +28,7 @@ export const postData = async (data: Data): Promise<LoginResponse> => {
       if (result.message && result.message.toLowerCase().includes("baneada")) {
         await Swal.fire({
           title: "Acceso denegado",
-          text: "Tu cuenta ha sido suspendida. Si crees que esto es un error, por favor contacta a nuestro equipo de soporte en buddify907@gmail.com.",
+          text: "Tu cuenta ha sido suspendida. Si creés que esto es un error, por favor contactá a nuestro equipo de soporte en buddify907@gmail.com",
           icon: "error",
           confirmButtonText: "Entendido",
         });
