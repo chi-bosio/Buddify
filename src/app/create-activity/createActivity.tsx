@@ -22,6 +22,7 @@ import { useAuthContext } from "@/contexts/authContext";
 import GetCategories from "@/components/GetCategories/GetCategories";
 import { useRouter } from "next/navigation";
 import PlansButton from "../plans/PlansButton";
+import RedirecNotLogin from "@/components/RedirecLoader/redirectNotlogin";
 
 interface FormValues {
   name: string;
@@ -40,31 +41,6 @@ export default function CreateActivityForm() {
   const [location, setLocation] = useState({ lat: 0, lng: 0 });
   const [isLimitReached, setIsLimitReached] = useState<boolean>(false);
   const [premium, setPremium] = useState<boolean>(false);
-
-  const { isLoggedIn, loading } = useAuthContext();
-  useEffect(() => {
-    if (!loading && !isLoggedIn) {
-      router.push("/login");
-    }
-  }, [isLoggedIn, loading, router]);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (!isLoggedIn) {
-    return (
-      <div className="flex flex-col items-center justify-center p-8 bg-red-100 border border-red-300 rounded-lg max-w-lg mx-auto text-center">
-        <h2 className="text-2xl font-bold text-red-700">
-          No tienes acceso a esta página
-        </h2>
-        <p className="text-lg text-red-700 mb-4">
-          Serás redirigido al inicio de sesión...
-        </p>
-        <div className="border-4 border-t-4 border-gray-200 border-t-red-700 rounded-full w-10 h-10 animate-spin"></div>
-      </div>
-    );
-  }
 
   useEffect(() => {
     if (isPremium) {
@@ -185,6 +161,7 @@ export default function CreateActivityForm() {
     <div className="bg-[url('/assets/textura-fondo.avif')] min-h-screen flex items-center justify-center bg-customPalette-white">
       <div className="w-full max-w-4xl p-8 bg-customPalette-white rounded-xl shadow-lg border border-customPalette-gray">
         <PlansButton />
+        <RedirecNotLogin />
         <h1 className="text-center text-3xl font-bold mb-6 text-customPalette-blue">
           Crear Nueva Actividad
         </h1>

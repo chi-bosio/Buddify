@@ -13,6 +13,7 @@ import { postData } from "./components/postData";
 import PlansButton from "../plans/PlansButton";
 import { CircleFadingPlus } from "lucide-react";
 import { useRouter } from "next/navigation";
+import RedirecNotLogin from "@/components/RedirecLoader/redirectNotlogin";
 
 export function MyActivities() {
   const router = useRouter();
@@ -146,6 +147,7 @@ export function MyActivities() {
 
   return (
     <section className="w-full min-h-screen relative bg-[url('/assets/textura-fondo.avif')] py-6 px-3">
+      <RedirecNotLogin />
       <section className="flex flex-col lg:flex-row">
         <ModalInsingStatus bol={true} />
         <div className="w-full">
