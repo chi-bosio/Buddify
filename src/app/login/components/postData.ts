@@ -14,7 +14,7 @@ type LoginResponse = {
 
 export const postData = async (data: Data): Promise<LoginResponse> => {
   const url = `${process.env.NEXT_PUBLIC_API_URL}/auth/signin`;
-
+  console.log(url);
   try {
     const response = await fetch(url, {
       method: "POST",

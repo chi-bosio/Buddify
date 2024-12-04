@@ -74,7 +74,7 @@ const useChat = () => {
     if (activityId && isLoggedIn) {
       const fetchMessages = async () => {
         try {
-          const response = await fetch(`http://localhost:3001/messages/${activityId}`, {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/messages/${activityId}`, {
             headers: {
               Authorization: `Bearer ${authTokens?.token}`,
             },
