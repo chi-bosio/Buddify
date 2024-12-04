@@ -23,6 +23,10 @@ export function CombinedFilters({setActivities}:{setActivities:(data:Activity[])
             id:"50",
             name:"100km"
         },
+        {
+          id:"",
+          name:"Todo el mundo"
+      },
     ];
     const fetchActivities = async (
       {
@@ -75,7 +79,6 @@ export function CombinedFilters({setActivities}:{setActivities:(data:Activity[])
             }
           }else{
             const data = await response.json();
-            console.log(data);
             if (Array.isArray(data.data)) {
               setActivities(data.data); 
             } else {

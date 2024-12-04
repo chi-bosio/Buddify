@@ -8,6 +8,7 @@ import { Formik, Form, Field } from "formik";
 import { useAuthContext } from "../../../contexts/authContext";
 
 const PaymentForm: React.FC = () => {
+  const {setterIsPremiumTrue}= useAuthContext();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [planDetails, setPlanDetails] = useState<{
@@ -26,7 +27,6 @@ const PaymentForm: React.FC = () => {
   const stripe = useStripe();
   const elements = useElements();
   const router = useRouter();
-  const { logout } = useAuthContext();
 
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
@@ -88,107 +88,138 @@ const PaymentForm: React.FC = () => {
       showCancelButton: true,
       confirmButtonText: "Sí, pagar",
       cancelButtonText: "Cancelar",
+      confirmButtonColor: '#F9A03F',
+      cancelButtonColor:'#235789',
     });
 
     if (!confirm.isConfirmed) {
-      router.push("/");
       setLoading(false);
       return;
-    }
-
-    try {
-      const date = new Date().toISOString();
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/stripe/create-payment-intent`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            planId: planDetails.id,
-            planName: planDetails.name,
-            planPrice: planDetails.price,
-            userId: userInfo?.id,
-            userName: userInfo?.name,
-            cardholderName: values.name,
-            paymentDate: date,
-            currency: "usd",
-          }),
-        }
-      );
-
-      const session = await response.json();
-
-      if (!session.clientSecret) {
-        throw new Error("No se pudo obtener la información del pago.");
-      }
-
-      const { error: stripeError, paymentIntent } =
-        await stripe.confirmCardPayment(session.clientSecret, {
-          payment_method: {
-            card: cardElement,
-            billing_details: {
-              name: values.name,
+    }else{
+      Swal.fire({
+        title: "Cargando...",
+        icon: "info",
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+      try {
+        const date = new Date().toISOString();
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/stripe/create-payment-intent`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
             },
-          },
-        });
-
-      if (stripeError) {
-        setError(stripeError.message || "Ocurrió un error desconocido.");
-        setLoading(false);
-        return;
-      }
-
-      if (paymentIntent?.status === "succeeded") {
-        Swal.fire(
-          "Pago exitoso",
-          "Tu pago fue procesado correctamente.",
-          "success"
-        );
-
-        try {
-          const updateResponse = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/users/${userInfo?.id}/premium-status`,
-            {
-              method: "PATCH",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                isPremium: true,
-              }),
-            }
-          );
-
-          const updateData = await updateResponse.json();
-
-          if (updateResponse.ok && updateData.success) {
-            Swal.fire({
-              title: "¡Éxito!",
-              text: "Ahora eres un usuario premium.",
-              icon: "success",
-              confirmButtonText: "Aceptar",
-            }).then(() => {
-              logout();
-              router.push("/login");
-            });
-          } else {
-            setError(
-              updateData.message ||
-                "Hubo un error al actualizar tu estado de premium."
-            );
+            body: JSON.stringify({
+              planId: planDetails.id,
+              planName: planDetails.name,
+              planPrice: planDetails.price,
+              userId: userInfo?.id,
+              userName: userInfo?.name,
+              cardholderName: values.name,
+              paymentDate: date,
+              currency: "usd",
+            }),
           }
-        } catch (error) {
-          setError("Hubo un error al actualizar tu estado de premium.");
+        );
+  
+        const session = await response.json();
+  
+        if (!session.clientSecret) {
+          const timeoutId = setTimeout(() => {
+            Swal.close();
+          }, 500);
+      
+          setTimeout(() => {
+            clearInterval(timeoutId); 
+          }, 700);
+          throw new Error("No se pudo obtener la información del pago.");
         }
-      } else {
-        setError("El pago no pudo ser procesado.");
+  
+        const { error: stripeError, paymentIntent } =
+          await stripe.confirmCardPayment(session.clientSecret, {
+            payment_method: {
+              card: cardElement,
+              billing_details: {
+                name: values.name,
+              },
+            },
+          });
+  
+        if (stripeError) {
+          setError(stripeError.message || "Ocurrió un error desconocido.");
+          setLoading(false);
+          const timeoutId = setTimeout(() => {
+            Swal.close();
+          }, 500);
+      
+          setTimeout(() => {
+            clearInterval(timeoutId); 
+          }, 700);
+          return;
+        }
+        const timeoutId = setTimeout(() => {
+          Swal.close();
+        }, 500);
+    
+        setTimeout(() => {
+          clearInterval(timeoutId); 
+        }, 700);
+        setTimeout(async () => {
+          if (paymentIntent?.status === "succeeded") {
+            Swal.fire(
+              "Pago exitoso",
+              "Tu pago fue procesado correctamente.",
+              "success"
+            );
+    
+            try {
+              const updateResponse = await fetch(
+                `${process.env.NEXT_PUBLIC_API_URL}/users/${userInfo?.id}/premium-status`,
+                {
+                  method: "PATCH",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    isPremium: true,
+                  }),
+                }
+              );
+    
+              const updateData = await updateResponse.json();
+    
+              if (updateResponse.ok && updateData.success) {
+                Swal.fire({
+                  title: "¡Éxito!",
+                  text: "Ahora eres un usuario premium.",
+                  icon: "success",
+                  confirmButtonText: "Aceptar",
+                }).then(() => {
+                  setterIsPremiumTrue();
+                  router.push('/')
+                });
+              } else {
+                setError(
+                  updateData.message ||
+                    "Hubo un error al actualizar tu estado de premium."
+                );
+              }
+            } catch (error) {
+              setError("Hubo un error al actualizar tu estado de premium.");
+            }
+          } else {
+            setError("El pago no pudo ser procesado.");
+            setLoading(false);
+          }
+        }, 900);
+      } catch (err) {
+        setError("Error al procesar el pago. Inténtalo de nuevo.");
         setLoading(false);
       }
-    } catch (err) {
-      setError("Error al procesar el pago. Inténtalo de nuevo.");
-      setLoading(false);
     }
   };
 

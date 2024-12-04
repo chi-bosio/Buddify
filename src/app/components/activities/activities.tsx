@@ -12,7 +12,7 @@ import PlansButton from "../../plans/PlansButton";
 import { useRouter } from "next/navigation";
 
 export function Activities() {
-  const router = useRouter()
+  const router = useRouter();
   const [activities, setActivities] = useState<Activity[]>([]);
 
   const [selectedActivity, setSelectedActivity] = useState<Activity | null>(
@@ -36,7 +36,7 @@ export function Activities() {
   ) => {
     const result = await Swal.fire({
       title: "¿Estás seguro?",
-      text: "Considera si puedes ir antes de unirte",
+      text: "Considerá si podés ir antes de unirte",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#f97316",
@@ -60,7 +60,7 @@ export function Activities() {
       }, 500);
 
       setTimeout(() => {
-        clearInterval(timeoutId); 
+        clearInterval(timeoutId);
       }, 700);
 
       if (success) {
@@ -68,7 +68,6 @@ export function Activities() {
         setTimeout(() => {
           router.push(`/my-activities`);
         }, 900);
-        
       }
     }
   };

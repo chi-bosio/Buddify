@@ -39,16 +39,16 @@ export default function PlansButton() {
       {showPlans && (
         <div className="fixed inset-0 flex justify-center items-start bg-black bg-opacity-50 z-50">
           <div className="relative w-auto h-[100vh] rounded-lg overflow-y-scroll overflow-x-hidden">
-              <div className="h-full w-full">
-                <Plans />
-              </div>
-            <button
-              onClick={handleTogglePlans}
-              className="absolute top-4 right-4 hover:bg-customPalette-bluedark text-customPalette-white text-3xl rounded-full w-9 h-9 flex justify-center items-center"
-              aria-label="Cerrar Planes"
-            >
-              &times;
-            </button>
+            <div className="relative h-full w-full flex justify-center items-center">
+              <Plans setShowPlans={setShowPlans} />
+              <button
+                onClick={handleTogglePlans}
+                className="absolute top-32 right-4 z-50 hover:bg-customPalette-bluedark text-customPalette-white text-3xl rounded-full w-9 h-9 flex justify-center items-center"
+                aria-label="Cerrar Planes"
+              >
+                &times;
+              </button>
+            </div>
           </div>
         </div>
       )}
