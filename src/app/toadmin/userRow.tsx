@@ -95,7 +95,7 @@ const UserRow: React.FC<UserProps> = ({ user, onUserUpdate, fetchData }) => {
       {({ isSubmitting }) => (
         <Form>
           <div className="flex items-center justify-between p-4 bg-white shadow-md rounded-lg mb-4">
-            <span className="text-lg font-semibold">{`${user.name} ${user.lastname}`}</span>
+            <span className="text-lg font-semibold text-customPalette-black">{`${user.name} ${user.lastname}`}</span>
 
             <Field
               as="button"

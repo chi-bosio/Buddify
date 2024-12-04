@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import UserList from "./userList";
 
-const UsersPage: React.FC = () => {
+const AdminUsersToAdmin: React.FC = () => {
   const [users, setUsers] = useState<any[]>([]);
 
   // Función que obtiene los usuarios desde la API
@@ -33,4 +33,4 @@ const UsersPage: React.FC = () => {
   );
 };
 
-export default UsersPage;
+export default AdminUsersToAdmin;

@@ -1,10 +1,11 @@
-export const banUser = async (userId: string) => {
+export const banUser = async (userId: string,token:string|null) => {
   const url = `${process.env.NEXT_PUBLIC_API_URL}/users/${userId}/ban`;
-
+  if(!token) return;
   const response = await fetch(url, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
+    'Authorization': `Bearer ${token}`
     },
   });
 
@@ -16,13 +17,14 @@ export const banUser = async (userId: string) => {
   return response.json();
 };
 
-export const unbanUser = async (userId: string) => {
+export const unbanUser = async (userId: string,token:string|null) => {
   const url = `${process.env.NEXT_PUBLIC_API_URL}/users/${userId}/unban`;
 
   const response = await fetch(url, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
+      'Authorization': `Bearer ${token}`
     },
   });
 
