@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation";
 import { Formik, Form, Field } from "formik";
 import Swal from "sweetalert2";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function Plans({
   setShowPlans,
@@ -12,6 +12,7 @@ export default function Plans({
   const router = useRouter();
   const [isMobile, setIsMobile] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const plansRef = useRef<HTMLDivElement | null>(null);
   const plans = [
     {
       id: "free",
@@ -40,6 +41,23 @@ export default function Plans({
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (
+        plansRef.current &&
+        !plansRef.current.contains(event.target as Node)
+      ) {
+        setShowPlans(false);
+      }
+    };
+
+    document.addEventListener("click", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, [setShowPlans]);
 
   const handlePrev = () => {
     setActiveIndex(
@@ -103,7 +121,10 @@ export default function Plans({
   };
 
   return (
-    <section className="py-5 relative h:20rem flex justify-center items-center z-50">
+    <section
+      className="py-5 relative h:20rem flex justify-center items-center z-50"
+      ref={plansRef}
+    >
       <div className="absolute h-full w-full top-0 bg-gradient-to-r from-customPalette-bluedark to-customPalette-bluelight -z-10"></div>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-12">
