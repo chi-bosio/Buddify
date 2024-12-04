@@ -4,55 +4,62 @@ import UserRow from "./userRow";
 import { useAuthContext } from "@/contexts/authContext";
 import { Activity } from "@/components/Interfaces/activity.interface";
 
-
-const UserList: React.FC<{fetchData:()=>void}> = ({fetchData}) => {
-  const [reports, setReports] = useState<{activityId:string;description:string;id:string;}[]>([]);
+const UserList = ({ fetchData }: { fetchData: () => void }) => {
+  const [reports, setReports] = useState<
+    { activityId: string; description: string; id: string }[]
+  >([]);
   const [activities, setActivities] = useState<Activity[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>(""); // Estado para búsqueda
   const [filterStatus, setFilterStatus] = useState<string>(""); // Estado para el filtro
-  const [token,setToken] = useState("");
-  const {authTokens} = useAuthContext()
-  useEffect(()=>{
-    if(authTokens?.token){
-      setToken(authTokens.token)
+  const [token, setToken] = useState("");
+  const { authTokens } = useAuthContext();
+  useEffect(() => {
+    if (authTokens?.token) {
+      setToken(authTokens.token);
     }
-  },[authTokens?.token])
-  const loadActivities = useCallback( async () => {
-    if(!token) return;
+  }, [authTokens?.token]);
+  const loadActivities = useCallback(async () => {
+    if (!token) return;
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/activities`,{
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          'Authorization': `Bearer ${token}`
-      },
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/activities`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       const data = await response.json();
       setActivities(data);
     } catch (error) {
       console.error("Error loading activities:", error);
     }
-  },[token]);
-  const loadReports = useCallback( async () => {
-    if(!token) return;
+  }, [token]);
+  const loadReports = useCallback(async () => {
+    if (!token) return;
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/reports`,{
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          'Authorization': `Bearer ${token}`
-      },
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/reports`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       const data = await response.json();
       setReports(data);
     } catch (error) {
       console.error("Error loading activities reported:", error);
     }
-  },[token]);
+  }, [token]);
   useEffect(() => {
     loadActivities();
     loadReports();
-  }, [loadActivities,loadReports]);
+  }, [loadActivities, loadReports]);
 
   // Función para aplicar los filtros
   const filteredActivities = activities.filter((activity) => {
@@ -60,11 +67,11 @@ const UserList: React.FC<{fetchData:()=>void}> = ({fetchData}) => {
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
     let matchesStatus = false;
-    if(filterStatus === ""){
-      matchesStatus= true
-    }else if(filterStatus === "reported"){
-      matchesStatus = reports.some((act)=> act.activityId === activity.id);
-    }else{
+    if (filterStatus === "") {
+      matchesStatus = true;
+    } else if (filterStatus === "reported") {
+      matchesStatus = reports.some((act) => act.activityId === activity.id);
+    } else {
       matchesStatus = activity.status === filterStatus;
     }
     return matchesSearch && matchesStatus;
@@ -107,12 +114,16 @@ const UserList: React.FC<{fetchData:()=>void}> = ({fetchData}) => {
       <div className="w-full max-w-3xl">
         {filteredActivities.length > 0 ? (
           filteredActivities.map((activity) => (
-            <UserRow 
-              key={activity.id} 
-              activity={activity} 
-              onAcitivities={loadActivities} 
+            <UserRow
+              key={activity.id}
+              activity={activity}
+              onAcitivities={loadActivities}
               fetchData={fetchData}
-              reports={reports.some((act)=> act.activityId === activity.id) ? reports : undefined}
+              reports={
+                reports.some((act) => act.activityId === activity.id)
+                  ? reports
+                  : undefined
+              }
             />
           ))
         ) : (

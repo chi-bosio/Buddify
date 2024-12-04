@@ -7,7 +7,7 @@ interface UserListProps {
   users: any[]; // Asegúrate de que el tipo de los datos sea correcto
 }
 
-const UserList: React.FC<UserListProps> = ({ fetchData, users }) => {
+const UserList = ({ fetchData, users }: UserListProps) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [filterRole, setFilterRole] = useState<string>("all");
 

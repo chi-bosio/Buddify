@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { validateImage } from './validationImage'; 
+import React, { useState } from "react";
+import { validateImage } from "./validationImage";
 interface DragAndDropImageProps {
   onImageUpload: (file: File | null) => void;
 }
-const DragAndDropImage: React.FC<DragAndDropImageProps> = ({ onImageUpload} ) => {
+const DragAndDropImage = ({ onImageUpload }: DragAndDropImageProps) => {
   const [isDragging, setIsDragging] = useState(false);
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
@@ -21,7 +21,7 @@ const DragAndDropImage: React.FC<DragAndDropImageProps> = ({ onImageUpload} ) =>
     const file = e.dataTransfer.files[0];
 
     if (file && validateImage(file)) {
-      onImageUpload(file); 
+      onImageUpload(file);
     }
   };
 
@@ -29,7 +29,7 @@ const DragAndDropImage: React.FC<DragAndDropImageProps> = ({ onImageUpload} ) =>
     const file = e.target.files?.[0] || null;
 
     if (file && validateImage(file)) {
-      onImageUpload(file); 
+      onImageUpload(file);
     }
   };
 
@@ -39,7 +39,7 @@ const DragAndDropImage: React.FC<DragAndDropImageProps> = ({ onImageUpload} ) =>
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
       className={`border-2 border-dashed p-4 text-center rounded-md ${
-        isDragging ? 'border-blue-500 bg-blue-100' : 'border-[#D9D9D9]'
+        isDragging ? "border-blue-500 bg-blue-100" : "border-[#D9D9D9]"
       } w-full mt-2`}
     >
       <p className="text-gray-500 mb-2">
@@ -52,18 +52,16 @@ const DragAndDropImage: React.FC<DragAndDropImageProps> = ({ onImageUpload} ) =>
       >
         Cargar Imagen
       </label>
-      
+
       <input
         id="image-upload"
         type="file"
         accept="image/*"
         onChange={handleInputChange}
-        className="hidden" 
+        className="hidden"
       />
-      
     </div>
   );
 };
 
 export default DragAndDropImage;
-
