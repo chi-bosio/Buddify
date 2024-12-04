@@ -206,7 +206,6 @@ export default function CreateActivityForm() {
               <ErrorMessageForm formik={formik} input="description" />
             </div>
 
-            {/* Resto del formulario */}
             <div className="relative w-full">
               <label
                 htmlFor="image-upload"
@@ -264,11 +263,11 @@ export default function CreateActivityForm() {
                 htmlFor="place"
                 className="-top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1"
               >
-                Ubicacion
+                Ubicación
               </label>
               <MapForm onLocationSelect={handleLocationSelect} />
               <div className="text-customPalette-red h-0.5 mt-1 mb-10">
-                Si no cambias este campo, se tomara tu dirección actual
+                Si no cambias este campo, se tomará tu dirección actual
               </div>
             </div>
             <div className="flex-1 mt-5">
