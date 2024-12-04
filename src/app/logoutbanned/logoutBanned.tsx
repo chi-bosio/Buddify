@@ -1,3 +1,4 @@
+"use client";
 import { useAuthContext } from "@/contexts/authContext";
 
 function LogoutBanned() {

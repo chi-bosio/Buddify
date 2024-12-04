@@ -2,7 +2,7 @@
 import React from "react";
 import UserList from "./userList";
 
-const AdminActivities: React.FC<{fetchData:()=>void}> = ({fetchData}) => {
+const AdminActivities = ({ fetchData }: { fetchData: () => void }) => {
   return (
     <main>
       <UserList fetchData={fetchData} />

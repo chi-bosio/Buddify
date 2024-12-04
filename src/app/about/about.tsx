@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 
-const About: React.FC = () => {
+const About = () => {
   return (
     <div className="bg-gray-900 text-white min-h-screen flex flex-col items-center py-12 px-6">
       {/* Título principal */}

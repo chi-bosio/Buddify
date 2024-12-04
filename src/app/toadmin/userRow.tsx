@@ -15,7 +15,7 @@ interface UserProps {
   fetchData: () => void; // Asegúrate de que fetchData esté correctamente tipada
 }
 
-const UserRow: React.FC<UserProps> = ({ user, onUserUpdate, fetchData }) => {
+const UserRow = ({ user, onUserUpdate, fetchData }: UserProps) => {
   const handlePromoteDemote = async (isAdmin: boolean) => {
     const action = isAdmin ? "despromover" : "promover";
     const result = await Swal.fire({

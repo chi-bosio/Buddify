@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { stripePromise } from "../../../utils/stripe-client";
 
-const CheckoutButton: React.FC = () => {
+const CheckoutButton = () => {
   const [loading, setLoading] = useState(false);
 
   const handleCheckout = async () => {
