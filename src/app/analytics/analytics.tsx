@@ -85,10 +85,6 @@ export function Analytics() {
     }
   }, [token, fetchData]);
 
-  if (earnings.length === 0) {
-    return <div>No hay ganancias aún...</div>;
-  }
-
   return (
     <section className="bg-[url('/assets/textura-fondo.avif')] min-h-screen bg-customPalette-white p-4 ">
         <section className="flex items-start justify-evenly lg:flex-row flex-col h-auto w-full p-8 bg-customPalette-white rounded-xl shadow-lg border border-customPalette-white mb-4">
