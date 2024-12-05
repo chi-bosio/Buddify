@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { Formik, Form, Field } from "formik";
 import Swal from "sweetalert2";
 import { useEffect, useRef, useState } from "react";
+import RedirecNotLogin from "@/components/RedirecLoader/redirectNotlogin";
 
 export default function Plans({
   setShowPlans,
@@ -18,7 +19,7 @@ export default function Plans({
       id: "free",
       name: "Plan Gratuito",
       price: 0,
-      features: ["Hasta 3 actividades por mes"],
+      features: ["Crear 3 actividades por mes", "Unirse 3 actividades por mes"],
     },
     {
       id: "full-access",
@@ -125,6 +126,7 @@ export default function Plans({
       className="py-5 relative h:20rem flex justify-center items-center z-50"
       ref={plansRef}
     >
+      <RedirecNotLogin />
       <div className="absolute h-full w-full top-0 bg-gradient-to-r from-customPalette-bluedark to-customPalette-bluelight -z-10"></div>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-12">

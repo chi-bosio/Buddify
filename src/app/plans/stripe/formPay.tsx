@@ -6,8 +6,11 @@ import { useRouter } from "next/navigation";
 import { jwtDecode } from "jwt-decode";
 import { Formik, Form, Field } from "formik";
 import { useAuthContext } from "../../../contexts/authContext";
+import useTokenExpiration from "@/hooks/useExpirationToken";
+import RedirecNotLogin from "@/components/RedirecLoader/redirectNotlogin";
 
 const PaymentForm = () => {
+  useTokenExpiration();
   const { setterIsPremiumTrue } = useAuthContext();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -105,6 +108,31 @@ const PaymentForm = () => {
         },
       });
       try {
+        const url = `${process.env.NEXT_PUBLIC_API_URL}/stripe/is-premium-right/${userInfo?.id}`
+        const isPremium = await fetch(url);
+        if(isPremium){
+          const confirmIsPremium = await Swal.fire({
+            title: "Ya eres premium, ¿deseas continuar de todas maneras?",
+            text: `Si continuas, tu suscripcion expirara en 30 dias apartir del dia de la fecha. Los 30 dias no son acumulativos`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sí, pagar",
+            cancelButtonText: "Cancelar",
+            confirmButtonColor: "#F9A03F",
+            cancelButtonColor: "#235789",
+          });
+          if(!confirmIsPremium.isConfirmed) {
+            const timeoutId = setTimeout(() => {
+              Swal.close();
+            }, 500);
+  
+            setTimeout(() => {
+              clearInterval(timeoutId);
+            }, 700);
+            setLoading(false);
+            return};
+        }
+        //
         const date = new Date().toISOString();
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/stripe/create-payment-intent`,
@@ -225,6 +253,7 @@ const PaymentForm = () => {
 
   return (
     <section className="pt-10 relative flex justify-center items-center min-h-[85vh]">
+      <RedirecNotLogin />
       <div className="absolute h-full w-full top-0 bg-gradient-to-r from-customPalette-bluedark to-customPalette-bluelight -z-10 rounded-2xl"></div>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8">

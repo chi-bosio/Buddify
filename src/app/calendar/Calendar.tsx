@@ -6,8 +6,11 @@ import { useAuthContext } from "@/contexts/authContext";
 import Swal from "sweetalert2";
 import BigCalendar from "./components/BigCalendar";
 import PlansButton from "@/app/plans/PlansButton";
+import useTokenExpiration from "@/hooks/useExpirationToken";
+import RedirecNotLogin from "@/components/RedirecLoader/redirectNotlogin";
 
 export function Calendar() {
+  useTokenExpiration();
   const [activitiesCreated, setActivitiesCreated] = useState<Activity[]>([]);
   const [activitiesJoined, setActivitiesJoined] = useState<Activity[]>([]);
   const { userId } = useAuthContext();
@@ -32,7 +35,7 @@ export function Calendar() {
     }, 500);
 
     setTimeout(() => {
-      clearInterval(timeoutId); 
+      clearInterval(timeoutId);
     }, 700);
   }, [userId]);
   useEffect(() => {
@@ -43,6 +46,7 @@ export function Calendar() {
   return (
     <section className="min-h-screen py-6 relative bg-[url('/assets/textura-fondo.avif')] bg-customPalette-graydark flex lg:flex-row lg:px-5  w-full">
       <PlansButton />
+      <RedirecNotLogin />
       <div className="flex items-center justify-start w-full flex-col lg:flex-row-reverse lg:h-full">
         <div className="flex justify-around items-center w-full flex-col my-6 px-6 lg:w-1/4">
           <h3 className="font-semibold text-lg text-customPalette-blue mb-2">

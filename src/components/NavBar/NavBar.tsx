@@ -48,9 +48,9 @@ export default function NavBar() {
       ...(isLoggedIn
         ? [
             { title: "Crear actividad", href: "/create-activity" },
-            { title: "Datos personales", href: "/profile" },
             { title: "Mis actividades", href: "/my-activities" },
             { title: "Tu calendario", href: "/calendar" },
+            { title: "Datos personales", href: "/profile" },
           ]
         : [
             { title: "Nosotros", href: "/about" },

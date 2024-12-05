@@ -11,8 +11,11 @@ import SubmitButton from "@/components/SubmitButton/SubmitButton";
 import InputWithLabel from "@/components/InputWithLabel/InputWithLabel";
 import { useAuthContext } from "@/contexts/authContext";
 import moment from "moment";
+import useTokenExpiration from "@/hooks/useExpirationToken";
+import RedirecNotLogin from "@/components/RedirecLoader/redirectNotlogin";
 
 const CompleteProfile = () => {
+  useTokenExpiration();
   const router = useRouter();
   const { userId } = useAuthContext();
   const [countries, setCountries] = useState<
@@ -111,6 +114,7 @@ const CompleteProfile = () => {
   return (
     <div className="bg-[url('/assets/textura-fondo.avif')] min-h-screen flex items-center justify-center bg-customPalette-white">
       <div className="w-full max-w-4xl p-8 bg-customPalette-white rounded-xl shadow-lg border border-customPalette-white">
+        <RedirecNotLogin />
         <h1 className="text-center text-3xl font-bold mb-6 text-customPalette-blue">
           Completar Perfil
         </h1>

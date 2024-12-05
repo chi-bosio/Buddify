@@ -13,6 +13,8 @@ import Toast, { TypeToast } from "@/components/Toast/Toast";
 import PlansButton from "@/app/plans/PlansButton";
 import { useRouter } from "next/navigation";
 import moment from "moment";
+import useTokenExpiration from "@/hooks/useExpirationToken";
+import RedirecNotLogin from "@/components/RedirecLoader/redirectNotlogin";
 
 interface Avatar {
   id: number;
@@ -25,6 +27,7 @@ interface Country {
 }
 
 const Profile = () => {
+  useTokenExpiration();
   const router = useRouter();
   const { setterAvatar } = useAuthContext();
   const [avatars, setAvatars] = useState<Avatar[]>([]);
@@ -34,7 +37,7 @@ const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [userData, setUserData] = useState<any>(null);
 
-  const { userId, authTokens } = useAuthContext();
+  const { userId, setterUsername} = useAuthContext();
 
   useEffect(() => {
     if (userId) {
@@ -166,6 +169,7 @@ const Profile = () => {
           Toast(TypeToast.Success, "Perfil actualizado con exito");
           setIsEditing(false);
           setterAvatar(selectedAvatar || userData.avatar);
+          setterUsername(updatedData.name);
         }, 900);
       } else {
         Toast(TypeToast.Error, "No estas logeado");
@@ -212,10 +216,11 @@ const Profile = () => {
     formik.setFieldValue("city", "");
   };
 
-  if (!userData) return null;
+  if (!userData) return <RedirecNotLogin />;
   const eighteenYearsAgo = moment().subtract(18, "years").format("YYYY-MM-DD");
   return (
     <div className="bg-[url('/assets/textura-fondo.avif')] min-h-screen flex items-center justify-center bg-customPalette-white">
+        <RedirecNotLogin />
       <div className="w-full max-w-4xl p-8 bg-customPalette-white rounded-xl shadow-lg border border-customPalette-white">
         <h1 className="text-center text-3xl font-bold mb-6 text-customPalette-blue">
           Perfil
