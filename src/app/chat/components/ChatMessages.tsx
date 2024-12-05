@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useRef } from "react";
 
 interface ChatMessagesProps {
@@ -19,10 +20,13 @@ const ChatMessages = ({
   const reversedMessages = [...messages].reverse();
 
   useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    const newestMessage = messages[0];
+    if (newestMessage && newestMessage.sender.id === currentUserId) {
+      if (messagesEndRef.current) {
+        messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+      }
     }
-  }, [messages]);
+  }, [messages, currentUserId]);
 
   return (
     <div className="h-full overflow-auto space-y-4 p-4">
