@@ -10,7 +10,6 @@ const AdminUsersToAdmin = () => {
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users`);
       const data = await response.json();
-      console.log("Datos recibidos de la API:", data);
       if (Array.isArray(data)) {
         setUsers(data);
       } else {
