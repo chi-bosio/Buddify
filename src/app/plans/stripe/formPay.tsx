@@ -114,7 +114,7 @@ const PaymentForm = () => {
         if(responsep){
           const confirmIsPremium = await Swal.fire({
             title: "Ya eres premium, ¿deseas continuar de todas maneras?",
-            text: `Si continuas, tu suscripcion expirara en 30 dias apartir del dia de la fecha. Los 30 dias no son acumulativos`,
+            text: `Si continuas, tu suscripción expirará en 30 días apartir del día de la fecha. Los 30 días no son acumulativos`,
             icon: "warning",
             showCancelButton: true,
             confirmButtonText: "Sí, pagar",

@@ -51,19 +51,19 @@ return (
 
             <div className="flex items-center mr-6 mb-3">
                 <CalendarDays size={24} className="mr-2 text-customPalette-graydark" />
-                <span className="font-bold">El día: </span>&nbsp;
-                {new Date(activityDetails.date).toLocaleDateString()}
+                <span className="font-bold text-customPalette-graydark">{new Date(activityDetails.date).toLocaleDateString()}</span>&nbsp;
+                
             </div>
 
             <div className="flex items-center mr-6 mb-3">
                 <Clock4 size={24} className="mr-2 text-customPalette-graydark" />
-                <span className="font-bold">A las: </span>&nbsp;
-                {activityDetails.time}
+                <span className="font-bold text-customPalette-graydark">{activityDetails.time}</span>&nbsp;
+                
             </div>
 
             <div className="flex items-center mb-3">
                 <MapPin size={24} className="mr-2 text-customPalette-graydark" />
-                <span className="font-bold">{activityDetails.place}</span>
+                <span className="font-bold text-customPalette-graydark">{activityDetails.place}</span>
             </div>
         </div>
           </>
