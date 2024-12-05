@@ -6,8 +6,10 @@ import { useRouter } from "next/navigation";
 import { jwtDecode } from "jwt-decode";
 import { Formik, Form, Field } from "formik";
 import { useAuthContext } from "../../../contexts/authContext";
+import useTokenExpiration from "@/hooks/useExpirationToken";
 
 const PaymentForm = () => {
+  useTokenExpiration();
   const { setterIsPremiumTrue } = useAuthContext();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

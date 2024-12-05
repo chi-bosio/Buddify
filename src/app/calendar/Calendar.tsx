@@ -6,8 +6,10 @@ import { useAuthContext } from "@/contexts/authContext";
 import Swal from "sweetalert2";
 import BigCalendar from "./components/BigCalendar";
 import PlansButton from "@/app/plans/PlansButton";
+import useTokenExpiration from "@/hooks/useExpirationToken";
 
 export function Calendar() {
+  useTokenExpiration();
   const [activitiesCreated, setActivitiesCreated] = useState<Activity[]>([]);
   const [activitiesJoined, setActivitiesJoined] = useState<Activity[]>([]);
   const { userId } = useAuthContext();

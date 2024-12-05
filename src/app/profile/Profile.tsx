@@ -13,6 +13,7 @@ import Toast, { TypeToast } from "@/components/Toast/Toast";
 import PlansButton from "@/app/plans/PlansButton";
 import { useRouter } from "next/navigation";
 import moment from "moment";
+import useTokenExpiration from "@/hooks/useExpirationToken";
 
 interface Avatar {
   id: number;
@@ -25,6 +26,7 @@ interface Country {
 }
 
 const Profile = () => {
+  useTokenExpiration();
   const router = useRouter();
   const { setterAvatar } = useAuthContext();
   const [avatars, setAvatars] = useState<Avatar[]>([]);

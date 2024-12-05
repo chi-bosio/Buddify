@@ -6,8 +6,10 @@ import ChatMessages from "./components/ChatMessages";
 import MessageInput from "./components/MessageInput";
 import { jwtDecode } from "jwt-decode";
 import { CalendarDays, Clock4, MapPin } from "lucide-react";
+import useTokenExpiration from "@/hooks/useExpirationToken";
 
 const Chat = () => {
+  useTokenExpiration();
   const router = useRouter();
 
   const {

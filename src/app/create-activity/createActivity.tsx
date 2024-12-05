@@ -22,6 +22,7 @@ import { useAuthContext } from "@/contexts/authContext";
 import GetCategories from "@/components/GetCategories/GetCategories";
 import { useRouter } from "next/navigation";
 import PlansButton from "../plans/PlansButton";
+import useTokenExpiration from "@/hooks/useExpirationToken";
 
 interface FormValues {
   name: string;
@@ -34,6 +35,7 @@ interface FormValues {
 }
 
 export default function CreateActivityForm() {
+  useTokenExpiration();
   const router = useRouter();
   const { userId, isPremium } = useAuthContext();
   const [imagePreview, setImagePreview] = useState<string | null>(null);

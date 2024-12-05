@@ -11,8 +11,10 @@ import SubmitButton from "@/components/SubmitButton/SubmitButton";
 import InputWithLabel from "@/components/InputWithLabel/InputWithLabel";
 import { useAuthContext } from "@/contexts/authContext";
 import moment from "moment";
+import useTokenExpiration from "@/hooks/useExpirationToken";
 
 const CompleteProfile = () => {
+  useTokenExpiration();
   const router = useRouter();
   const { userId } = useAuthContext();
   const [countries, setCountries] = useState<

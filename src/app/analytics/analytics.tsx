@@ -21,8 +21,10 @@ import getDataActivitiesConfirmed from "./components/getDataActivitiesConfirmed"
 import getDataActivitiesCancelled from "./components/getDataActivitiesCancelled";
 import AdminUsersToAdmin from "../toadmin/manegements";
 import AdminActivities from "../adminactivities/managements";
+import useTokenExpiration from "@/hooks/useExpirationToken";
 
 export function Analytics() {
+  useTokenExpiration();
   const { authTokens } = useAuthContext();
   const [token, setToken] = useState<string | null>(""); 
   //users
