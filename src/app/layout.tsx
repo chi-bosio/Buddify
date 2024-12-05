@@ -10,7 +10,7 @@ import AuthContextProvider from "../contexts/authContext";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="es">
       <body>
         <AuthContextProvider>
           <header>
