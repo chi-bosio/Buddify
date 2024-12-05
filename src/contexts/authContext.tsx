@@ -19,6 +19,7 @@ type AuthTokens = {
 const AUTH_TOKENS_KEY = "NEXT_JS_AUTH";
 const ISPREMIUM_KEY = "ISPREMIUM_KEY";
 const AVATAR_KEY = "AVATAR_KEY";
+const USERNAME_KEY = "USERNAME_KEY";
 
 interface AuthContextType {
   login: (authTokens: AuthTokens) => void;
@@ -27,6 +28,7 @@ interface AuthContextType {
   authTokens: AuthTokens;
   userId: string | null;
   userName: string | null;
+  setterUsername:(name:string) => void;
   avatar: string | null;
   loading: boolean;
   isPremium: boolean;
@@ -52,6 +54,9 @@ export const AuthContext = createContext<AuthContextType>({
   setterAvatar: (newAvatar: string) => {
     if (false) console.log(newAvatar);
   },
+  setterUsername: (newAvatar: string) => {
+    if (false) console.log(newAvatar);
+  },
 });
 
 export default function AuthContextProvider({
@@ -73,6 +78,10 @@ export default function AuthContextProvider({
     typeof window !== "undefined"
       ? window.localStorage.getItem(AVATAR_KEY)
       : null;
+  const UsernameInLocalStorage =
+    typeof window !== "undefined"
+      ? window.localStorage.getItem(USERNAME_KEY)
+      : null;
 
   const [authTokens, setAuthTokens] = useState<AuthTokens>(
     authTokensInLocalStorage ? JSON.parse(authTokensInLocalStorage) : null
@@ -86,10 +95,13 @@ export default function AuthContextProvider({
     AvatarInLocalStorage ? JSON.parse(AvatarInLocalStorage) : null
   );
 
+  const [userName, setUserName] = useState<string | null>(
+    UsernameInLocalStorage ? JSON.parse(UsernameInLocalStorage) : null
+  );;
+
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
   const [userId, setUserId] = useState<string | null>(null);
-  const [userName, setUserName] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   const login = useCallback((token: AuthTokens) => {
@@ -101,6 +113,7 @@ export default function AuthContextProvider({
     const decodedToken: any = jwtDecode(token.token);
     setUserId(decodedToken.sub || null);
     setUserName(decodedToken.name || null);
+    window.localStorage.setItem(USERNAME_KEY, JSON.stringify(decodedToken.name || null));
     const avatarValue = decodedToken.avatar || null;
     window.localStorage.setItem(AVATAR_KEY, JSON.stringify(avatarValue));
     setAvatar(avatarValue);
@@ -116,6 +129,7 @@ export default function AuthContextProvider({
     window.localStorage.removeItem(AUTH_TOKENS_KEY);
     window.localStorage.removeItem(ISPREMIUM_KEY);
     window.localStorage.removeItem(AVATAR_KEY);
+    window.localStorage.removeItem(USERNAME_KEY);
     setAuthTokens(null);
     setUserId(null);
     setUserName(null);
@@ -138,6 +152,11 @@ export default function AuthContextProvider({
   const setterAvatar = useCallback((newAvatar: string) => {
     setAvatar(newAvatar);
     window.localStorage.setItem(AVATAR_KEY, JSON.stringify(newAvatar));
+  }, []);
+
+  const setterUsername = useCallback((newUsername: string) => {
+    setUserName(newUsername);
+    window.localStorage.setItem(USERNAME_KEY, JSON.stringify(newUsername));
   }, []);
 
   useEffect(() => {
@@ -165,14 +184,6 @@ export default function AuthContextProvider({
     if (authTokens) {
       const decodedToken: any = jwtDecode(authTokens.token);
       setUserId(decodedToken.sub || null);
-      setUserName(decodedToken.name || null);
-      setIsAdmin(decodedToken.isAdmin === true);
-      const isPremiumValue = decodedToken.isPremium === true;
-      window.localStorage.setItem(
-        ISPREMIUM_KEY,
-        JSON.stringify(isPremiumValue)
-      );
-      setIsPremium(isPremiumValue);
       setLoading(false);
     }
   }, [authTokens, isPremium, logout, router]);
@@ -192,6 +203,7 @@ export default function AuthContextProvider({
       loading,
       isPremium,
       isAdmin,
+      setterUsername,
     }),
     [
       setterAvatar,
@@ -206,6 +218,7 @@ export default function AuthContextProvider({
       isPremium,
       isAdmin,
       loading,
+      setterUsername,
     ]
   );
 

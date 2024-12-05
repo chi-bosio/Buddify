@@ -15,7 +15,7 @@ export const RedirecNotLogin = () => {
   },[isLoggedIn])
 
   useEffect(() => {
-    if (!loggedIn) {
+    if (!isLoggedIn) {
       Swal.fire({
         title: "No estás logueado",
         text: "Por favor inicia sesión para continuar.",
@@ -27,7 +27,7 @@ export const RedirecNotLogin = () => {
       });
     }
   }, [isLoggedIn, router,loggedIn]);
-
+  if(isLoggedIn) return null;
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">
       <div className="flex flex-col items-center">

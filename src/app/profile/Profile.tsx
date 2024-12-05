@@ -37,7 +37,7 @@ const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [userData, setUserData] = useState<any>(null);
 
-  const { userId, authTokens } = useAuthContext();
+  const { userId, setterUsername} = useAuthContext();
 
   useEffect(() => {
     if (userId) {
@@ -169,6 +169,7 @@ const Profile = () => {
           Toast(TypeToast.Success, "Perfil actualizado con exito");
           setIsEditing(false);
           setterAvatar(selectedAvatar || userData.avatar);
+          setterUsername(updatedData.name);
         }, 900);
       } else {
         Toast(TypeToast.Error, "No estas logeado");
