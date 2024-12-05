@@ -26,7 +26,7 @@ export function GetCategories({formik}:{formik:any}){
                 htmlFor="categoryId"
                 className="absolute -top-3 left-2 bg-customPalette-white px-1 text-sm font-medium text-customPalette-blue mt-1"
             >
-                Catergoria
+                Categoria
             </label>
             <select
                 id="categoryId"
