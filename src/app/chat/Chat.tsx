@@ -45,24 +45,24 @@ return (
       <h2 className="text-2xl md:text-3xl lg:text-4xl text-customPalette-black font-semibold text-center mb-6">
         {activityDetails ? (
           <>
-            <div className="mb-3">Chat para: {activityDetails.name}</div>
+            <div className="mb-3 text-customPalette-orange">Chat para: {activityDetails.name}</div>
 
             <div className="flex flex-wrap justify-center text-base md:text-lg lg:text-xl font-medium text-customPalette-graydark mb-6">
 
             <div className="flex items-center mr-6 mb-3">
-                <CalendarDays size={24} className="mr-2 text-customPalette-graydark" />
+                <CalendarDays size={24} className="mr-2 text-customPalette-orange" />
                 <span className="font-bold text-customPalette-graydark">{new Date(activityDetails.date).toLocaleDateString()}</span>&nbsp;
                 
             </div>
 
             <div className="flex items-center mr-6 mb-3">
-                <Clock4 size={24} className="mr-2 text-customPalette-graydark" />
+                <Clock4 size={24} className="mr-2 text-customPalette-orange" />
                 <span className="font-bold text-customPalette-graydark">{activityDetails.time}</span>&nbsp;
                 
             </div>
 
             <div className="flex items-center mb-3">
-                <MapPin size={24} className="mr-2 text-customPalette-graydark" />
+                <MapPin size={24} className="mr-2 text-customPalette-orange" />
                 <span className="font-bold text-customPalette-graydark">{activityDetails.place}</span>
             </div>
         </div>

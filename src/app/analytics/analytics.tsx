@@ -193,7 +193,7 @@ export function Analytics() {
               </h2>
               <h2 className="text-center text-lg text-customPalette-blue font-semibold">
                 {" "}
-                Actividades candeladas{" "}
+                Actividades canceladas{" "}
               </h2>
             </div>
             <div className="flex flex-col items-start justify-start">
