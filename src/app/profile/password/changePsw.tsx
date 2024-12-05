@@ -7,10 +7,13 @@ import postData from "./components/postData";
 import SubmitButton from "@/components/SubmitButton/SubmitButton";
 import { useAuthContext } from "@/contexts/authContext";
 import { useRouter } from "next/navigation";
+import RedirecNotLogin from "@/components/RedirecLoader/redirectNotlogin";
 
 const ChangePsw = () => {
   const { logout } = useAuthContext();
+
   const router = useRouter();
+
   const formik = useFormik({
     initialValues: {
       currentPassword: "",
@@ -81,6 +84,7 @@ const ChangePsw = () => {
   return (
     <div className="bg-[url('/assets/textura-fondo.avif')] min-h-screen flex items-center justify-center bg-customPalette-white">
       <div className="w-full max-w-4xl p-8 bg-customPalette-white rounded-xl shadow-lg border border-customPalette-white">
+        <RedirecNotLogin />
         <h1 className="text-center text-3xl font-bold mb-6 text-customPalette-blue">
           Cambiar contraseña
         </h1>

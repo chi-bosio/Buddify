@@ -7,6 +7,7 @@ import { jwtDecode } from "jwt-decode";
 import { Formik, Form, Field } from "formik";
 import { useAuthContext } from "../../../contexts/authContext";
 import useTokenExpiration from "@/hooks/useExpirationToken";
+import RedirecNotLogin from "@/components/RedirecLoader/redirectNotlogin";
 
 const PaymentForm = () => {
   useTokenExpiration();
@@ -252,6 +253,7 @@ const PaymentForm = () => {
 
   return (
     <section className="pt-10 relative flex justify-center items-center min-h-[85vh]">
+      <RedirecNotLogin />
       <div className="absolute h-full w-full top-0 bg-gradient-to-r from-customPalette-bluedark to-customPalette-bluelight -z-10 rounded-2xl"></div>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8">

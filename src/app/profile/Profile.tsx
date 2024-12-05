@@ -14,6 +14,7 @@ import PlansButton from "@/app/plans/PlansButton";
 import { useRouter } from "next/navigation";
 import moment from "moment";
 import useTokenExpiration from "@/hooks/useExpirationToken";
+import RedirecNotLogin from "@/components/RedirecLoader/redirectNotlogin";
 
 interface Avatar {
   id: number;
@@ -224,6 +225,7 @@ const Profile = () => {
         </h1>
 
         <PlansButton />
+        <RedirecNotLogin />
 
         <Formik
           initialValues={initialValues}
