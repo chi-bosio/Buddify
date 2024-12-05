@@ -160,7 +160,7 @@ export function MyActivities() {
             {activitiesCreated ? (
               activitiesCreated.length === 0 && (
                 <div className="text-customPalette-orange">
-                  No creastes ninguna actividad aun{" "}
+                  No creaste ninguna actividad aun{" "}
                   <Link
                     href="/create-activity"
                     className="underline text-customPalette-bluelightst cursor-pointer"
@@ -171,7 +171,7 @@ export function MyActivities() {
               )
             ) : (
               <div className="text-customPalette-orange">
-                No creastes ninguna actividad aun{" "}
+                No creaste ninguna actividad aun{" "}
                 <Link
                   href="/create-activity"
                   className="underline text-customPalette-bluelightst cursor-pointer"
@@ -208,12 +208,12 @@ export function MyActivities() {
           </section>
           <section className="relative  mb-6 rounded flex flex-col items-start justify-center px-4 py-2 bg-customPalette-white shadow-lg border border-customPalette-white">
             <h1 className="mb-3 font-bold text-lg text-customPalette-blue">
-              Eventos a los que asistire
+              Eventos a los que asistiré
             </h1>
             {activitiesJoined ? (
               activitiesJoined.length === 0 && (
                 <div className="text-customPalette-orange">
-                  No te uniste ninguna actividad aun{" "}
+                  No te uniste a ninguna actividad aun{" "}
                   <Link
                     href="/"
                     className="underline text-customPalette-bluelightst cursor-pointer"
@@ -224,7 +224,7 @@ export function MyActivities() {
               )
             ) : (
               <div className="text-customPalette-orange">
-                No te uniste ninguna actividad aun{" "}
+                No te uniste a ninguna actividad aun{" "}
                 <Link
                   href="/"
                   className="underline text-customPalette-bluelightst cursor-pointer"

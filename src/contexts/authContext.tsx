@@ -185,6 +185,7 @@ export default function AuthContextProvider({
       const decodedToken: any = jwtDecode(authTokens.token);
       setUserId(decodedToken.sub || null);
       setLoading(false);
+      setIsAdmin(decodedToken.isAdmin || null);
     }
   }, [authTokens, isPremium, logout, router]);
 
