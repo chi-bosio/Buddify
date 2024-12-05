@@ -21,10 +21,14 @@ import getDataActivitiesConfirmed from "./components/getDataActivitiesConfirmed"
 import getDataActivitiesCancelled from "./components/getDataActivitiesCancelled";
 import AdminUsersToAdmin from "../toadmin/manegements";
 import AdminActivities from "../adminactivities/managements";
-import RedirecNotAdmin from "@/components/RedirectNotAdmin/redirectNotAdmin";
+import useTokenExpiration from "@/hooks/useExpirationToken";
+import { useRouter } from "next/navigation";
 
 export function Analytics() {
-  const { authTokens } = useAuthContext();
+  const router = useRouter();
+  const { authTokens , isAdmin, logout} = useAuthContext();
+  
+  useTokenExpiration();
   const [token, setToken] = useState<string | null>("");
   //users
   const [usersBannedTotal, setUsersBannedTotal] = useState<number>(0);
@@ -59,7 +63,7 @@ export function Analytics() {
   >([]);
 
   const fetchData = useCallback(async () => {
-    if (token) {
+    if (token && isAdmin) {
       Swal.fire({
         title: "Cargando...",
         icon: "info",
@@ -86,7 +90,7 @@ export function Analytics() {
       setCoutActivitiesCountries(await getDataCountActivitiesCountries(token));
       Swal.close();
     }
-  }, [token]);
+  }, [token,isAdmin]);
 
   useEffect(() => {
     if (authTokens?.token) {
@@ -95,18 +99,36 @@ export function Analytics() {
   }, [authTokens?.token]);
 
   useEffect(() => {
-    if (token) {
+    if (isAdmin === null) return;
+    if (token&& isAdmin) {
       fetchData();
     }
-  }, [token, fetchData]);
-
-  if (earnings.length === 0) {
-    return <div>No hay ganancias aún...</div>;
-  }
-
+  }, [token, fetchData, isAdmin]);
+  const redirect = useCallback(async ()=>{
+    const success = await Swal.fire({
+      title: "No tienes permiso de Administrador",
+      text: "Por favor inicia sesión como administrador",
+      icon: "warning",
+      confirmButtonText: "OK",
+      allowOutsideClick: false,
+    })
+    if(success.isConfirmed){
+        router.push("/");
+    }
+  },[router])
+  useEffect(() => {
+    if (!isAdmin) {
+      redirect()
+    }
+  }, [router, isAdmin, logout, redirect]);
+  if(!isAdmin) return <div className="flex justify-center items-center h-screen bg-gray-100">
+  <div className="flex flex-col items-center">
+    <div className="w-12 h-12 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
+    <p className="mt-4 text-lg text-gray-700">Cargando...</p>
+  </div>
+</div>;
   return (
     <section className="bg-[url('/assets/textura-fondo.avif')] min-h-screen bg-customPalette-white p-4 ">
-      <RedirecNotAdmin />
       <section className="flex items-start justify-evenly lg:flex-row flex-col h-auto w-full p-8 bg-customPalette-white rounded-xl shadow-lg border border-customPalette-white mb-4">
         <section className="flex items-start justify-evenly gap-4 mb-4 lg:mb-0">
           <div className="flex flex-col items-start justify-start">

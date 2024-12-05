@@ -7,8 +7,10 @@ import postData from "./components/postData";
 import validationSchema from "./components/validationSchema";
 import InputWithLabel from "@/components/InputWithLabel/InputWithLabel";
 import SubmitButton from "@/components/SubmitButton/SubmitButton";
+import useTokenExpiration from "@/hooks/useExpirationToken";
 
 const ResetPassword = () => {
+  useTokenExpiration();
   const router = useRouter();
   const [token, setToken] = useState<string | null>(null);
 

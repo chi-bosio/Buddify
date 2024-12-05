@@ -19,7 +19,7 @@ export default function Plans({
       id: "free",
       name: "Plan Gratuito",
       price: 0,
-      features: ["Hasta 3 actividades por mes"],
+      features: ["Crear 3 actividades por mes", "Unirse 3 actividades por mes"],
     },
     {
       id: "full-access",

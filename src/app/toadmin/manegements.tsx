@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import UserList from "./userList";
 
-const AdminUsersToAdmin: React.FC = () => {
+const AdminUsersToAdmin = () => {
   const [users, setUsers] = useState<any[]>([]);
 
   // Función que obtiene los usuarios desde la API

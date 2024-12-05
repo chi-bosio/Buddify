@@ -1,11 +1,18 @@
+"use client";
 import { useAuthContext } from "@/contexts/authContext";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
-export const RedirecNotLogin: React.FC = () => {
+export const RedirecNotLogin = () => {
   const router = useRouter();
   const { isLoggedIn } = useAuthContext();
+  const [loggedIn, setLoggedIn] = useState(false);
+  useEffect(()=>{
+    if(isLoggedIn){
+      setLoggedIn(isLoggedIn)
+    }
+  },[isLoggedIn])
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -14,12 +21,13 @@ export const RedirecNotLogin: React.FC = () => {
         text: "Por favor inicia sesión para continuar.",
         icon: "warning",
         confirmButtonText: "OK",
+        allowOutsideClick: false,
       }).then(() => {
         router.push("/login");
       });
     }
-  }, [isLoggedIn, router]);
-
+  }, [isLoggedIn, router,loggedIn]);
+  if(isLoggedIn) return null;
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">
       <div className="flex flex-col items-center">

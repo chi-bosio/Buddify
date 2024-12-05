@@ -6,8 +6,10 @@ import { useState, useEffect } from "react";
 import validationSchema from "./components/validationSchema";
 import Swal from "sweetalert2";
 import { useAuthContext } from "@/contexts/authContext";
+import useTokenExpiration from "@/hooks/useExpirationToken";
 
 export default function ReportPage() {
+  useTokenExpiration();
   const { activityId } = useParams() || {};
   const { userId } = useAuthContext();
 

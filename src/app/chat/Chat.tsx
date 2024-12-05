@@ -6,8 +6,11 @@ import ChatMessages from "./components/ChatMessages";
 import MessageInput from "./components/MessageInput";
 import { jwtDecode } from "jwt-decode";
 import { CalendarDays, Clock4, MapPin } from "lucide-react";
+import useTokenExpiration from "@/hooks/useExpirationToken";
+import RedirecNotLogin from "@/components/RedirecLoader/redirectNotlogin";
 
 const Chat = () => {
+  useTokenExpiration();
   const router = useRouter();
 
   const {
@@ -37,6 +40,7 @@ const Chat = () => {
 
 return (
   <div className="h-screen bg-[url('/assets/textura-fondo2.jpg')] bg-cover bg-center">
+    <RedirecNotLogin />
     <div className="grid grid-rows-[10%_70%_10%] h-screen max-w-3xl mx-auto p-4">
       <h2 className="text-2xl md:text-3xl lg:text-4xl text-customPalette-black font-semibold text-center mb-6">
         {activityDetails ? (

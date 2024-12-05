@@ -5,8 +5,10 @@ import Swal from "sweetalert2";
 import InputWithLabel from "@/components/InputWithLabel/InputWithLabel";
 import SubmitButton from "@/components/SubmitButton/SubmitButton";
 import validationSchema from "./components/validationSchema";
+import useTokenExpiration from "@/hooks/useExpirationToken";
 
 const RequestPasswordReset = () => {
+  useTokenExpiration();
   const formik = useFormik({
     initialValues: {
       email: "",

@@ -13,9 +13,11 @@ import { postData } from "./components/postData";
 import PlansButton from "../plans/PlansButton";
 import { CircleFadingPlus } from "lucide-react";
 import { useRouter } from "next/navigation";
+import useTokenExpiration from "@/hooks/useExpirationToken";
 import RedirecNotLogin from "@/components/RedirecLoader/redirectNotlogin";
 
 export function MyActivities() {
+  useTokenExpiration();
   const router = useRouter();
   const { userId } = useAuthContext();
   const [activitiesCreated, setActivitiesCreated] = useState<Activity[]>([]);
