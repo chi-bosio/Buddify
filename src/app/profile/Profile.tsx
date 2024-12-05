@@ -215,17 +215,17 @@ const Profile = () => {
     formik.setFieldValue("city", "");
   };
 
-  if (!userData) return null;
+  if (!userData) return <RedirecNotLogin />;
   const eighteenYearsAgo = moment().subtract(18, "years").format("YYYY-MM-DD");
   return (
     <div className="bg-[url('/assets/textura-fondo.avif')] min-h-screen flex items-center justify-center bg-customPalette-white">
+        <RedirecNotLogin />
       <div className="w-full max-w-4xl p-8 bg-customPalette-white rounded-xl shadow-lg border border-customPalette-white">
         <h1 className="text-center text-3xl font-bold mb-6 text-customPalette-blue">
           Perfil
         </h1>
 
         <PlansButton />
-        <RedirecNotLogin />
 
         <Formik
           initialValues={initialValues}

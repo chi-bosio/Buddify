@@ -1,25 +1,32 @@
+"use client";
 import { useAuthContext } from "@/contexts/authContext";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
-export const RedirecNotAdmin: React.FC = () => {
+export const RedirecNotAdmin = () => {
   const router = useRouter();
   const { isAdmin, logout } = useAuthContext();
-
+  const [admin, setAdmin] = useState<boolean|null>(null);
+  useEffect(()=>{
+    if (isAdmin === null) return;
+    if(isAdmin){
+      setAdmin(isAdmin)
+    }
+  },[isAdmin])
   useEffect(() => {
-    if (!isAdmin) {
+    if (!admin) {
       Swal.fire({
         title: "No tienes permiso de Administrador",
         text: "Por favor inicia sesión como administrador",
         icon: "warning",
         confirmButtonText: "OK",
+        allowOutsideClick: false,
       }).then(() => {
-        logout();
-        router.push("/login");
+        router.push("/");
       });
     }
-  }, [isAdmin, router]);
+  }, [router, admin, logout]);
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">
